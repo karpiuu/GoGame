@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import Exception.UnknownUserIdException;
 
 public class UserConnection extends Thread {
@@ -96,8 +98,9 @@ public class UserConnection extends Thread {
 
         if(line.charAt(0) == 'R') {
             String users = "U ";
+            ArrayList<UserConnection> list = server.getConnections();
 
-            for(UserConnection user : server.getConnections()) {
+            for( UserConnection user : list ) {
                 synchronized (this) {
                     if (user != null) {
                         users += (user.userName + ";");
