@@ -23,7 +23,7 @@ public class ButtonlogButtonAdapter implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-        client.out.println("C " + logField.getText());
+        client.out.println("SetName;" + logField.getText() + ";");
 
         String name;
 

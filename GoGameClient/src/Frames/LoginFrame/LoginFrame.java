@@ -20,26 +20,29 @@ public class LoginFrame extends JFrame {
         client = newClient;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300,300);
-        setLocation(50,50);
-        setLayout(new GridLayout(4,1));
+        setResizable(false);
 
-        JLabel logLabel= new JLabel("Write your nick",JLabel.CENTER);
-        add(logLabel);
+        setSize(400,300);
+        setLocation(50, 50);
+        setLayout(new BorderLayout());
 
         logField = new JTextField("");
-        add(logField);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add( new JLabel("Set you name"), BorderLayout.NORTH );
+        mainPanel.add( logField, BorderLayout.CENTER );
+
+        add(mainPanel, BorderLayout.CENTER);
 
         JButton logButton = new JButton("Log");
         logButton.addActionListener(new ButtonlogButtonAdapter(client,logField));
-        add(logButton);
+        add(logButton, BorderLayout.SOUTH);
 
-        JButton cancelButton = new JButton("Cancel");
-        add(cancelButton);
+//      JButton cancelButton = new JButton("Cancel");
+//      add(cancelButton);
 
         setResizable(false);
         setVisible(true);
-
-
     }
 }

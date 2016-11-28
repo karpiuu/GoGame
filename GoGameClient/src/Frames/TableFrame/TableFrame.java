@@ -49,7 +49,7 @@ public class TableFrame extends JFrame {
         setVisible(true);
 
     }
-
+/*
     public ArrayList<String> partUserName(String line) throws PartUserNameException {
         ArrayList<String> ArrayOfUserName = new ArrayList<>();
 
@@ -63,7 +63,7 @@ public class TableFrame extends JFrame {
                 do
                 {
                     end = line.indexOf(';', start);
-                    ArrayOfUserName.add(line.substring(start, end ));
+                    ArrayOfUserName.add(line.substring(start, end));
                     start = end + 1;
                 }
                 while (start < line.length() || end == -1);
@@ -77,24 +77,39 @@ public class TableFrame extends JFrame {
         }
         else
             throw new PartUserNameException();
+    }
+*/
+    private ArrayList<String> parseString(String line) {
 
+        if( line.length() > 0 ) {
+            ArrayList<String> argv = new ArrayList<>();
+
+            int start = line.indexOf(';',0);
+            int end = 1;
+
+            while (start < line.length() || end == -1) {
+                end = line.indexOf(';', start);
+                if( end != -1 ) {
+                    argv.add(line.substring(start, end));
+                    start = end + 1;
+                }
+
+            }
+            return argv;
+        }
+        return null;
     }
 
     public void refreshUserList(String line) {
 
-        ArrayList<String> userArray;
-
-        try {
-            userArray = partUserName(line);
-        } catch (PartUserNameException e) {
-            e.printStackTrace();
-            return;
-        }
+        ArrayList<String> userArray = parseString(line);
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
 
-        for( String i : userArray){
-            listModel.addElement(i);
+        if( line.substring(0, line.indexOf(';')).equals("Users") ) {
+            for (String i : userArray) {
+                listModel.addElement(i);
+            }
         }
 
         userList.setModel(listModel);

@@ -7,11 +7,11 @@ public class SocketServer {
 
     private ServerSocket server = null;
 
-    public SocketServer()
+    public SocketServer(Integer port)
     {
-        try { server = new ServerSocket(4444); }
+        try { server = new ServerSocket(port); }
         catch (IOException e) {
-            System.out.println("Could not listen on port 4444");
+            System.out.println("Could not listen on port " + port.toString());
             System.exit(-1);
         }
     }
