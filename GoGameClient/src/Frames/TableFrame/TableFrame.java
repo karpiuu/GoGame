@@ -1,5 +1,6 @@
 package Frames.TableFrame;
 
+import Connection.SocketClient;
 import Frames.LoginFrame.ButtonlogButtonAdapter;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.omg.PortableInterceptor.USER_EXCEPTION;
@@ -19,9 +20,16 @@ import static com.sun.glass.ui.Cursor.setVisible;
  */
 public class TableFrame extends JFrame {
 
-    public TableFrame() {
+    JButton refreshButton;
+    SocketClient client;
+    JList<String> userList;
+
+    public TableFrame(SocketClient newclient) {
 
         super("TableFrame");
+
+        client =  newclient;
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 300);
@@ -31,12 +39,10 @@ public class TableFrame extends JFrame {
         JLabel userLabel = new JLabel("USER", JLabel.CENTER);
         add(userLabel);
 
-
-        JList<String> userList = new JList<String>();
+        userList = new JList<String>();
         add(userList);
 
-        JButton refreshButton = new JButton("Refresh");
-        refreshButton.addActionListener(new ButtonRefreshAdapter());
+        refreshButton = new JButton("Refresh");
         add(refreshButton);
 
         setResizable(false);
@@ -57,7 +63,7 @@ public class TableFrame extends JFrame {
                 do
                 {
                     end = line.indexOf(';', start);
-                    ArrayOfUserName.add(line.substring(start, end - 1));
+                    ArrayOfUserName.add(line.substring(start, end ));
                     start = end + 1;
                 }
                 while (start < line.length() || end == -1);
@@ -74,11 +80,34 @@ public class TableFrame extends JFrame {
 
     }
 
-    public void refreshUserList() {
+    public void refreshUserList(String line) {
+
+        ArrayList<String> userArray;
+
+        try {
+            userArray = partUserName(line);
+        } catch (PartUserNameException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+
+        for( String i : userArray){
+            listModel.addElement(i);
+        }
+
+        userList.setModel(listModel);
 
     }
 
     public void refreshTableList() {
+
+    }
+
+    public void init(){
+
+        refreshButton.addActionListener(new ButtonRefreshAdapter(this, client));
 
     }
 }

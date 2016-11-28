@@ -35,7 +35,8 @@ public class ButtonlogButtonAdapter implements ActionListener {
         }
 
         if (name.equals("OK")) {
-            TableFrame tableFrame = new TableFrame();
+            TableFrame tableFrame = new TableFrame(client);
+            tableFrame.init();
         } else {
             System.out.println(name);
         }
