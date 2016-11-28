@@ -6,6 +6,10 @@ import java.net.Socket;
 
 public class UserConnection extends Thread {
 
+    private Integer userId;
+    private Server server;
+    private String userName;
+
     private Socket client = null;
     private BufferedReader in = null;
     private PrintWriter out = null;
@@ -13,8 +17,10 @@ public class UserConnection extends Thread {
 
     private Socket socket = null;
 
-    public UserConnection(Socket socket) {
+    public UserConnection(Server newServer, Socket socket, Integer id) {
+        server = newServer;
         client = socket;
+        userId = id;
     }
 
     public void run(){
@@ -36,7 +42,7 @@ public class UserConnection extends Thread {
             try
             {
                 line = in.readLine();
-                System.out.println(line);
+                executeLine(line);
             }
             catch (IOException e)
             {
@@ -44,6 +50,24 @@ public class UserConnection extends Thread {
                 System.exit(-1);
             }
 
+        }
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void executeLine(String line) {
+        if(line.charAt(0) == 'C') {
+            String name = line.substring( 2, line.length()-1 );
+
+            if(server.checkValidName(name)) {
+                userName = name;
+                out.println("OK");
+            }
+            else {
+                out.print("NameU");
+            }
         }
     }
 }
