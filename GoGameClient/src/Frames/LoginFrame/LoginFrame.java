@@ -1,5 +1,7 @@
 package Frames.LoginFrame;
 
+import Connection.SocketClient;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,9 +10,14 @@ import java.awt.*;
  */
 public class LoginFrame extends JFrame {
 
-    public LoginFrame(){
+    SocketClient client;
+    JTextField logField;
 
-        super("Frames.LoginFrame.LoginFrame");
+    public LoginFrame(SocketClient newClient){
+
+        super("LoginFrame");
+
+        client = newClient;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300,300);
@@ -20,10 +27,11 @@ public class LoginFrame extends JFrame {
         JLabel logLabel= new JLabel("Write your nick",JLabel.CENTER);
         add(logLabel);
 
-        JTextField logField = new JTextField("");
+        logField = new JTextField("");
         add(logField);
 
         JButton logButton = new JButton("Log");
+        logButton.addActionListener(new ButtonlogButtonAdapter(client,logField));
         add(logButton);
 
         JButton cancelButton = new JButton("Cancel");
