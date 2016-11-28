@@ -60,4 +60,8 @@ public class Server {
         connections.set(userId, null);
         newUsersId.add(userId);
     }
+
+    public ArrayList<UserConnection> getConnections() {
+        return connections;
+    }
 }

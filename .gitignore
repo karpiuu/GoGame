@@ -2,3 +2,5 @@
 *.xml
 
 GoGameServer/.idea/description.html
+
+*.class

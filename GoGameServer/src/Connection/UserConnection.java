@@ -72,13 +72,13 @@ public class UserConnection extends Thread {
      */
     public void executeLine(String line) {
 
-        System.out.print("User " + userId.toString() + " - [" + line + "]");
+        System.out.println("User " + userId.toString() + " - [" + line + "]");
 
         if(line.charAt(0) == 'C') {
             String name;
 
             if( line.length() > 2 ) {
-                name = line.substring(2, line.length() - 1);
+                name = line.substring(2, line.length());
             }
             else {
                 return;
@@ -87,10 +87,26 @@ public class UserConnection extends Thread {
             if(server.checkValidName(name)) {
                 userName = name;
                 out.println("OK");
+                System.out.println("User " + userId.toString() + " - Set name to [" + userName + "]");
             }
             else {
-                out.print("Name is already in use");
+                out.println("Name is already in use");
             }
+        }
+
+        if(line.charAt(0) == 'R') {
+            String users = "U ";
+
+            for(UserConnection user : server.getConnections()) {
+                synchronized (this) {
+                    if (user != null) {
+                        users += (user.userName + ";");
+                    }
+                }
+            }
+
+            out.println(users);
+            System.out.println("(" + users + ")");
         }
     }
 }
