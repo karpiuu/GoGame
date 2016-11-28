@@ -1,3 +1,5 @@
+package Connection;
+
 import Exception.FullTableException;
 import Exception.WrongUserNumberException;
 import Exception.UnknownUserIdException;

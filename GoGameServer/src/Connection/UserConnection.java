@@ -1,8 +1,11 @@
+package Connection;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import Exception.UnknownUserIdException;
 
 public class UserConnection extends Thread {
 
@@ -23,8 +26,11 @@ public class UserConnection extends Thread {
         userId = id;
     }
 
+    /**
+     * Main function of thread, have basic I/O operations.
+     */
     public void run(){
-        System.out.println("Reading");
+        System.out.println("Reading [" + userId.toString() + "]");
 
         try
         {
@@ -39,34 +45,51 @@ public class UserConnection extends Thread {
 
         while(line != null)
         {
-            try
-            {
-                line = in.readLine();
-                executeLine(line);
-            }
-            catch (IOException e)
-            {
-                System.out.println("Read failed");
-                System.exit(-1);
+            try { line = in.readLine(); }
+            catch (IOException e) {
+                break;
             }
 
+            if( line != null ) executeLine(line);
         }
+
+        try { server.deleteUser(userId); }
+        catch (UnknownUserIdException e1) {
+            System.out.println("Can't delete user [" + userId.toString() + "] - UnknownUserIdException");
+        }
+        System.out.println("Stop [" + userId.toString() + "]");
+        stop();
     }
 
     public Integer getUserId() {
         return userId;
     }
 
+    /**
+     * Function which operate on user input,
+     * create user name, sends information to opponent.
+     * @param line which user sends
+     */
     public void executeLine(String line) {
+
+        System.out.print("User " + userId.toString() + " - [" + line + "]");
+
         if(line.charAt(0) == 'C') {
-            String name = line.substring( 2, line.length()-1 );
+            String name;
+
+            if( line.length() > 2 ) {
+                name = line.substring(2, line.length() - 1);
+            }
+            else {
+                return;
+            }
 
             if(server.checkValidName(name)) {
                 userName = name;
                 out.println("OK");
             }
             else {
-                out.print("NameU");
+                out.print("Name is already in use");
             }
         }
     }
