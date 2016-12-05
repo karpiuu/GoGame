@@ -8,7 +8,6 @@ import Manager.UserManager;
 public class RefreshSignal extends Signal {
 
     private int id;
-    private UserManager userManager;
 
     public RefreshSignal(Server server, int newId) {
         setUserManager(server.getUserManager());

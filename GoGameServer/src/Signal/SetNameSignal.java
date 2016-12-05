@@ -9,7 +9,6 @@ public class SetNameSignal extends Signal {
 
     private int id;
     private String name;
-    private UserManager userManager;
 
     public SetNameSignal(Server server, int newId, String newName) {
         setUserManager(server.getUserManager());
