@@ -23,7 +23,7 @@ public class ButtonRefreshAdapter implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-        client.out.println("R");
+        client.out.println("Refresh;");
 
         String line;
 

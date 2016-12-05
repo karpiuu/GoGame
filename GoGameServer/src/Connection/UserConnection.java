@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import Exception.UnknownUserIdException;
 
 public class UserConnection extends Thread {
@@ -18,8 +20,6 @@ public class UserConnection extends Thread {
     private PrintWriter out = null;
     private String line = "";
 
-    private Socket socket = null;
-
     public UserConnection(Server newServer, Socket socket, Integer id) {
         server = newServer;
         client = socket;
@@ -30,7 +30,7 @@ public class UserConnection extends Thread {
      * Main function of thread, have basic I/O operations.
      */
     public void run(){
-        System.out.println("Reading [" + userId.toString() + "]");
+        System.out.println("USER " + userId.toString() + " is created");
 
         try
         {
@@ -39,74 +39,53 @@ public class UserConnection extends Thread {
         }
         catch (IOException e)
         {
-            System.out.println("Accept failed: 4444");
-            System.exit(-1);
+            System.out.println("Accept failed");
+            shutDown();
+            return;
         }
 
         while(line != null)
         {
             try { line = in.readLine(); }
             catch (IOException e) {
-                break;
-            }
-
-            if( line != null ) executeLine(line);
-        }
-
-        try { server.deleteUser(userId); }
-        catch (UnknownUserIdException e1) {
-            System.out.println("Can't delete user [" + userId.toString() + "] - UnknownUserIdException");
-        }
-        System.out.println("Stop [" + userId.toString() + "]");
-        stop();
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    /**
-     * Function which operate on user input,
-     * create user name, sends information to opponent.
-     * @param line which user sends
-     */
-    public void executeLine(String line) {
-
-        System.out.println("User " + userId.toString() + " - [" + line + "]");
-
-        if(line.charAt(0) == 'C') {
-            String name;
-
-            if( line.length() > 2 ) {
-                name = line.substring(2, line.length());
-            }
-            else {
+                shutDown();
                 return;
             }
 
-            if(server.checkValidName(name)) {
-                userName = name;
-                out.println("OK");
-                System.out.println("User " + userId.toString() + " - Set name to [" + userName + "]");
-            }
-            else {
-                out.println("Name is already in use");
+            if( line != null ) {
+                server.getSignalManager().executeCommand(line, userId);
             }
         }
 
-        if(line.charAt(0) == 'R') {
-            String users = "U ";
+        try { server.getUserManager().deleteUser(userId); }
+        catch (UnknownUserIdException e1) { System.out.println("USER " + userId.toString() + " can't delete this user"); }
 
-            for(UserConnection user : server.getConnections()) {
-                synchronized (this) {
-                    if (user != null) {
-                        users += (user.userName + ";");
-                    }
-                }
-            }
+        shutDown();
+    }
 
-            out.println(users);
-            System.out.println("(" + users + ")");
-        }
+    /**
+     * Sends message to user
+     * @param line message
+     */
+    public void sendMessageToUser(String line) {
+        System.out.println("SERVER TO USER " + userId.toString() + " [" + line + "]");
+        out.println(line);
+    }
+
+    /**
+     *
+     * @return selected user name
+     */
+    public String getUserName() { return userName; }
+
+    /**
+     * Sets user name to new
+     * @param newName new name
+     */
+    public void setUserName(String newName) { userName = newName; }
+
+    private void shutDown() {
+        System.out.println("USER " + userId.toString() + " is dropped");
+        stop();
     }
 }
