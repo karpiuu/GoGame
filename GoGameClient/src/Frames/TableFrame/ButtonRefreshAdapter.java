@@ -35,7 +35,7 @@ public class ButtonRefreshAdapter implements ActionListener {
         }
 
         frame.refreshUserList(line);
-        
+
     }
 
 }

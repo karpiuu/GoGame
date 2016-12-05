@@ -17,7 +17,7 @@ public class SocketClient
     {
         try
         {
-            socket = new Socket("192.168.0.11", 4444);
+            socket = new Socket("172.20.10.3", 4444);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         }
