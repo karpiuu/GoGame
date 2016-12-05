@@ -3,11 +3,13 @@ package Signal;
 import Connection.UserConnection;
 import Exception.*;
 import Connection.Server;
+import Manager.UserManager;
 
 public class SetNameSignal extends Signal {
 
     private int id;
     private String name;
+    private UserManager userManager;
 
     public SetNameSignal(Server server, int newId, String newName) {
         setUserManager(server.getUserManager());
@@ -17,22 +19,22 @@ public class SetNameSignal extends Signal {
 
     @Override
     public void execute() {
-        UserConnection user;
-        try { user = userManager.getUser(id); }
+        UserConnection owner;
+        try { owner = userManager.getUser(id); }
         catch (UnknownUserIdException e) {
             return;
         }
 
         if(userManager.checkValidUserName(name)) {
 
-            user.setUserName(name);
+            owner.setUserName(name);
             System.out.println("USER " + Integer.toString(id) + " set name to " + name);
-            user.sendMessageToUser("OK");
+            owner.sendMessageToUser("OK");
         }
         else {
             System.out.println("USER " + Integer.toString(id) + " fail to change name");
 
-            user.sendMessageToUser("Name is taken");
+            owner.sendMessageToUser("Name is taken");
         }
     }
 }

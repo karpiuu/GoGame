@@ -13,11 +13,6 @@ public class SignalManager {
         server = newServer;
     }
 
-    /**
-     *
-     * @param line
-     * @param id
-     */
     public void executeCommand(String line, int id) {
         ArrayList<String> argv = parseString(line);
 
@@ -27,16 +22,33 @@ public class SignalManager {
 
                 System.out.println("USER " + Integer.toString(id) + " try to change name to " + argv.get(1));
                 signal = new SetNameSignal(server, id, argv.get(1));
-                signal.execute();
-
-            } else if (argv.get(0).equals("Refresh")) {
+                synchronized (UserConnection.class) {
+                    signal.execute();
+                }
+            }
+            else if (argv.get(0).equals("Refresh")) {
 
                 System.out.println("USER " + Integer.toString(id) + " refresh view ");
                 signal = new RefreshSignal(server, id);
                 synchronized (UserConnection.class) {
                     signal.execute();
                 }
+            }
+            else if (argv.get(0).equals("CreateTable")) {
 
+                System.out.println("USER " + Integer.toString(id) + " is creating table.");
+                signal = new CreateTableSignal(server, id);
+                synchronized (UserConnection.class) {
+                    signal.execute();
+                }
+            }
+            else if (argv.get(0).equals("SitDown")) {
+
+                System.out.println("USER " + Integer.toString(id) + " is sit down in table " + argv.get(1));
+                signal = new SitDownSignal(server, id, Integer.parseInt( argv.get(1) ));
+                synchronized (UserConnection.class) {
+                    signal.execute();
+                }
             }
         }
     }

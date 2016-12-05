@@ -46,6 +46,7 @@ public class Server {
     public UserManager getUserManager() {
         return userManager;
     }
+    public TableManager getTableManager() { return tableManager; }
 
     public SignalManager getSignalManager() {
         return signalManager;

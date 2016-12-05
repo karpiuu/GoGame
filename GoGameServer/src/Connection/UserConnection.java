@@ -48,8 +48,7 @@ public class UserConnection extends Thread {
         {
             try { line = in.readLine(); }
             catch (IOException e) {
-                shutDown();
-                return;
+                break;
             }
 
             if( line != null ) {

@@ -3,10 +3,12 @@ package Signal;
 import Connection.Server;
 import Connection.UserConnection;
 import Exception.*;
+import Manager.UserManager;
 
 public class RefreshSignal extends Signal {
 
-    int id;
+    private int id;
+    private UserManager userManager;
 
     public RefreshSignal(Server server, int newId) {
         setUserManager(server.getUserManager());

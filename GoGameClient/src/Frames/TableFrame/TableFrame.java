@@ -49,36 +49,7 @@ public class TableFrame extends JFrame {
         setVisible(true);
 
     }
-/*
-    public ArrayList<String> partUserName(String line) throws PartUserNameException {
-        ArrayList<String> ArrayOfUserName = new ArrayList<>();
 
-        if (line.charAt(0) == 'U')
-        {
-            if (line.length() > 2)
-            {
-                int start = 2;
-                int end;
-
-                do
-                {
-                    end = line.indexOf(';', start);
-                    ArrayOfUserName.add(line.substring(start, end));
-                    start = end + 1;
-                }
-                while (start < line.length() || end == -1);
-
-                return ArrayOfUserName;
-            }
-            else
-            {
-                throw new PartUserNameException();
-            }
-        }
-        else
-            throw new PartUserNameException();
-    }
-*/
     private ArrayList<String> parseString(String line) {
 
         if( line.length() > 0 ) {
