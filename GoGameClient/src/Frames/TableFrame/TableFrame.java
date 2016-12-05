@@ -23,6 +23,7 @@ public class TableFrame extends JFrame {
     JButton refreshButton;
     SocketClient client;
     JList<String> userList;
+    JList<String> tableList;
 
     public TableFrame(SocketClient newclient) {
 
@@ -30,23 +31,72 @@ public class TableFrame extends JFrame {
 
         client =  newclient;
 
+        /* USER */
 
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(new GridBagLayout());
+
+        JLabel tableLabel = new JLabel("TABLE", JLabel.LEFT);
+        userPanel.add(tableLabel);
+
+        setTitle("Table");
+        setBackground(Color.gray);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 300);
         setLocation(50, 50);
-        setLayout(new GridLayout(4, 1));
-
-        JLabel userLabel = new JLabel("USER", JLabel.CENTER);
-        add(userLabel);
-
-        userList = new JList<String>();
-        add(userList);
-
-        refreshButton = new JButton("Refresh");
-        add(refreshButton);
-
+        //setLayout(new GridLayout(3, 2));
         setResizable(false);
         setVisible(true);
+
+//        JPanel topPanel = new JPanel();
+//        JPanel btnPanel = new JPanel();
+//
+//        topPanel.setLayout(new BorderLayout());
+//        getContentPane().add(topPanel, BorderLayout.CENTER);
+//        getContentPane().add(btnPanel, BorderLayout.SOUTH);
+//        JScrollPane scrollPane = new JScrollPane();
+//        topPanel.add(scrollPane,BorderLayout.CENTER);
+//        JButton addButton = new JButton("ADD");
+//        JButton delButton = new JButton("DELETE");
+//        JButton saveButton = new JButton("SAVE");
+//
+//        btnPanel.add(addButton);
+//        btnPanel.add(delButton);
+
+        /* USER */
+
+//        JPanel usersPanel = new JPanel();
+//        JPanel tablePanel = new JPanel();
+//        JPanel buttonsPanel = new JPanel();
+
+//        JPanel container = new JPanel();
+//        container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+//
+//        JPanel panel1 = new JPanel();
+//        JPanel panel2 = new JPanel();
+//
+////panel1.set[Preferred/Maximum/Minimum]Size()
+//
+//        container.add(panel1);
+//        container.add(panel2);
+//
+//        JLabel userLabel = new JLabel("USER", JLabel.CENTER);
+//        panel1.add(userLabel);
+//
+//        userList = new JList<String>();
+//        usersPanel.add(userList);
+//
+
+//
+
+//
+//        tableList = new JList<String>();
+//        add(tableLabel);
+//
+//        refreshButton = new JButton("Refresh");
+//        add(refreshButton);
+
+
 
     }
 
