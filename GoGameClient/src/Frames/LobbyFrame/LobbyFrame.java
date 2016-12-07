@@ -61,12 +61,12 @@ public class LobbyFrame extends JFrame {
         });
     }
 
-    private ArrayList<String> parseString(String line) {
+    public ArrayList<String> parseString(String line) {
 
         if( line.length() > 0 ) {
             ArrayList<String> argv = new ArrayList<>();
 
-            int start = line.indexOf(';',0);
+            int start = line.indexOf(';',0)+1;
             int end = 1;
 
             while (start < line.length() && end != -1) {
@@ -101,10 +101,21 @@ public class LobbyFrame extends JFrame {
         ArrayList<String> tableArray = parseString(line);
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
+        String text = "";
 
-        if( line.substring(0, line.indexOf(';')).equals("Tables") ) {
-            for (String i : tableArray) {
-                listModel.addElement(i);
+        if( line.substring(0, line.indexOf(';')).equals("Tables") && tableArray.size() > 3) {
+            for(int i = 0; i < tableArray.size(); i += 3) {
+                text = tableArray.get(i);
+
+                if(!tableArray.get(i+1).equals("")) {
+                    text += " " + tableArray.get(i+1);
+                }
+
+                if(!tableArray.get(i+2).equals("")) {
+                    text += " " + tableArray.get(i+2);
+                }
+
+                listModel.addElement( text );
             }
         }
 

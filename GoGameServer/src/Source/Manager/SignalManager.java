@@ -44,11 +44,16 @@ public class SignalManager {
             }
             else if (argv.get(0).equals("SitDown")) {
 
-                System.out.println("USER " + Integer.toString(id) + " is sit down in table " + argv.get(1));
+                System.out.println("USER " + Integer.toString(id) + " is siting down in table " + argv.get(1));
                 signal = new SitDownSignal(server, id, Integer.parseInt( argv.get(1) ));
                 synchronized (UserConnection.class) {
                     signal.execute();
                 }
+            }
+            else {
+                System.out.println("USER " + Integer.toString(id) + "send signal [" + line + "]" );
+                signal = new UnknownSignal(server, id);
+                signal.execute();
             }
         }
     }

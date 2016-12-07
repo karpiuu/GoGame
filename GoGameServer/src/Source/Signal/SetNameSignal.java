@@ -6,22 +6,18 @@ import Source.Connection.Server;
 
 public class SetNameSignal extends Signal {
 
-    private int id;
     private String name;
 
     public SetNameSignal(Server server, int newId, String newName) {
         setUserManager(server.getUserManager());
         id = newId;
         name = newName;
+
+        setOwner();
     }
 
     @Override
     public void execute() {
-        UserConnection owner;
-        try { owner = userManager.getUser(id); }
-        catch (UnknownUserIdException e) {
-            return;
-        }
 
         if(userManager.checkValidUserName(name)) {
 
