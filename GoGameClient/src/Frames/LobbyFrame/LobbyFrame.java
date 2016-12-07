@@ -1,8 +1,12 @@
 package Frames.LobbyFrame;
 
 import Connection.SocketClient;
+import Frames.GameFrame.GameFrame;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LobbyFrame extends JFrame {
@@ -29,6 +33,32 @@ public class LobbyFrame extends JFrame {
         createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client) );
 
         setVisible(true);
+
+        tableList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if (e.getClickCount() == 2)
+                {
+                    client.out.println("JoinToTable;");
+
+                    String line;
+
+                    try {
+                        line = client.in.readLine();
+                    } catch (IOException e2) {
+                        e2.printStackTrace();
+                        return;
+                    }
+
+                    if(line.equals("OK")) {
+                        GameFrame gameFrame = new GameFrame(client);
+                    }
+
+                }
+            }
+        });
     }
 
     private ArrayList<String> parseString(String line) {
