@@ -33,7 +33,7 @@ public class ButtonCreateTableAdapter implements ActionListener {
 
         if(line.equals("OK")) {
             GameFrame gameFrame = new GameFrame(client, lobbyFrame );
-            System.out.println("lemiesz");
+            lobbyFrame.setVisible(false);
         }
     }
 }

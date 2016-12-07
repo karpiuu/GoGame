@@ -27,7 +27,8 @@ public class LobbyFrame extends JFrame {
 
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 500);
+        setSize(400, 300);
+        setLocationRelativeTo(null);
         setResizable(false);
 
         createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client,this) );

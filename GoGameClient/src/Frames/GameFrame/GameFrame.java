@@ -27,20 +27,15 @@ public class GameFrame extends JFrame {
         setContentPane(panel1);
 
         //user1.setText( );
-<<<<<<< HEAD
 
         addWindowListener(new GameFrameClosingAdapter(client, lobbyFrame));
-=======
->>>>>>> origin/master
-
 
         pack();
         //setDefaultCloseOperation();
-        setSize(800,800);
+        setSize(400,400);
+        setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-
-
 
     }
 }
