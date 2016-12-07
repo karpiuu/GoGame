@@ -62,13 +62,12 @@ public class TableManager {
      * @param id id of table
      * @throws UnknownTableIdException throw Source.Exception when given ID is out of bounds
      */
-    public void deleteUser(int id) throws UnknownTableIdException {
+    public void deleteTable(int id) {
         if(id < table.size() ) {
-            table.set(id, null);
-            freeTableId.add(id);
-        }
-        else {
-            throw new UnknownTableIdException(id);
+            if(table.get(id) != null) {
+                table.set(id, null);
+                freeTableId.add(id);
+            }
         }
     }
 }

@@ -27,8 +27,11 @@ public class GameFrame extends JFrame {
         setContentPane(panel1);
 
         //user1.setText( );
+<<<<<<< HEAD
 
         addWindowListener(new GameFrameClosingAdapter(client, lobbyFrame));
+=======
+>>>>>>> origin/master
 
 
         pack();

@@ -47,7 +47,7 @@ public class RefreshSignal extends Signal {
         for(Table table : tableManager.getAllTables() ) {
 
             if(table != null) {
-                idTable = table.getId();
+                idTable = table.getId().toString();
                 if(idTable != null) {
                     tables += ("#" + idTable.toString() + ";");
 
