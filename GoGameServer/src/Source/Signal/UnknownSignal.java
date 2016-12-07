@@ -7,6 +7,9 @@ import Source.Exception.UnknownTableIdException;
 import Source.Exception.UnknownUserIdException;
 import Source.Manager.TableManager;
 
+/**
+ * UnknownSignal from user
+ */
 public class UnknownSignal extends Signal {
 
     public UnknownSignal(Server server, int newId) {
@@ -17,6 +20,6 @@ public class UnknownSignal extends Signal {
 
     @Override
     public void execute() {
-        owner.sendMessageToUser("OK");
+        owner.sendMessageToUser("UnknownSignal");
     }
 }

@@ -54,7 +54,7 @@ public class UserManager {
      * @throws UnknownUserIdException throw Source.Exception when given ID is out of bounds
      */
     public UserConnection getUser(int id) throws UnknownUserIdException {
-        if(id < user.size()) {
+        if(id < user.size() && id >= 0) {
             return user.get(id);
         }
         else {
@@ -91,6 +91,10 @@ public class UserManager {
      * @return True - name is free, False - name already taken
      */
     public boolean checkValidUserName(String name) {
-        return name.indexOf(';') == -1;
+
+        if( name.indexOf(';') != -1 ) return false;
+        if( name.equals("") ) return false;
+
+        return true;
     }
 }

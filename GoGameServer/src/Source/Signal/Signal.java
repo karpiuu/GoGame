@@ -24,7 +24,7 @@ public abstract class Signal {
         try { owner = userManager.getUser(id); }
         catch (UnknownUserIdException e) {
             // This user might be deleted
-            System.out.println("User " + id + " don't exists anymore");
+            System.out.println("[ERROR] User " + id + " don't exists anymore");
         }
     }
 }

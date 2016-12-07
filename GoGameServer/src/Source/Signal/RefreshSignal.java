@@ -41,7 +41,9 @@ public class RefreshSignal extends Signal {
 
         try { owner = userManager.getUser(id); }
         catch (UnknownUserIdException e) {
-            System.out.println("USER " + Integer.toString(id) + " dont exists");
+            // User which run command might be deleted??
+            System.out.println("[ERROR] USER " + Integer.toString(id) + " dont exists");
+            return;
         }
 
         String tables = "Tables;";
@@ -51,29 +53,29 @@ public class RefreshSignal extends Signal {
 
             if(table != null) {
                 idTable = table.getId().toString();
-                if(idTable != null) {
-                    tables += ("#" + idTable.toString() + ";");
 
-                    if(table.getIdUserBlack() != -1 ) {
-                        try { tables += (userManager.getUser(table.getIdUserBlack()).getUserName() + ";"); }
-                        catch (UnknownUserIdException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else {
+                tables += ("#" + idTable + ";");
+
+                if(table.getIdUserBlack() != -1 ) {
+                    try { tables += (userManager.getUser(table.getIdUserBlack()).getUserName() + ";"); }
+                    catch (UnknownUserIdException e) {
+                        System.out.println("[ERROR] USER " + Integer.toString(id) + " dont exists");
                         tables += ";";
                     }
+                }
+                else {
+                    tables += ";";
+                }
 
-                    if(table.getIdUserWhite() != -1 ) {
-                        try { tables += (userManager.getUser(table.getIdUserWhite()).getUserName() + ";"); }
-                        catch (UnknownUserIdException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else {
+                if(table.getIdUserWhite() != -1 ) {
+                    try { tables += (userManager.getUser(table.getIdUserWhite()).getUserName() + ";"); }
+                    catch (UnknownUserIdException e) {
+                        System.out.println("[ERROR] USER " + Integer.toString(id) + " dont exists");
                         tables += ";";
                     }
-
+                }
+                else {
+                    tables += ";";
                 }
             }
         }

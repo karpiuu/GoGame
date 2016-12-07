@@ -33,7 +33,7 @@ public class Server {
         while(true) {
             try { clientSocket = socketServer.getServer().accept(); }
             catch (IOException e) {
-                System.out.print("Fail to read user.");
+                System.out.print("[ERROR] Fail to read user.");
                 continue;
             }
             userManager.addUser(this, clientSocket);

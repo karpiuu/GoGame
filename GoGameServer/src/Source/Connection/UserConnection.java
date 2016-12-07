@@ -41,7 +41,7 @@ public class UserConnection extends Thread {
         }
         catch (IOException e)
         {
-            System.out.println("Accept failed");
+            System.out.println("[ERROR] Accept failed");
             shutDown();
             return;
         }
@@ -60,7 +60,7 @@ public class UserConnection extends Thread {
                 }
                 catch (WrongSignalException e) {
                     // Signal send by user is incorrect
-                    System.out.println("Incorrect Signal");
+                    System.out.println("[ERROR] Incorrect Signal");
 
                     // User might wait for response???
                     sendMessageToUser("Incorrect Signal");
@@ -77,6 +77,14 @@ public class UserConnection extends Thread {
      */
     public void sitDown(Integer id) {
         tableId = id;
+    }
+
+
+    /**
+     * Stand up from table
+     */
+    public void standUp() {
+        tableId = null;
     }
 
     /**
@@ -117,13 +125,13 @@ public class UserConnection extends Thread {
         try { server.getSignalManager().executeCommand("StandUp;",userId); }
         catch (WrongSignalException e) {
             //This shouldn't be incorrect, "StandUp;" commend is correct
-            System.out.println("StandUp signal error");
+            System.out.println("[ERROR] StandUp signal error");
         }
 
         // USER DELETE
         try { server.getUserManager().deleteUser(userId); }
         catch (UnknownUserIdException e1) {
-            System.out.println("USER " + userId.toString() + " can't delete this user");
+            System.out.println("[ERROR] USER " + userId.toString() + " can't delete this user");
         }
 
         System.out.println("USER " + userId.toString() + " dropped");

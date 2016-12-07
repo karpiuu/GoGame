@@ -4,6 +4,9 @@ import Source.Connection.UserConnection;
 import Source.Exception.*;
 import Source.Connection.Server;
 
+/**
+ * Signal for setting user name
+ */
 public class SetNameSignal extends Signal {
 
     private String name;
@@ -26,9 +29,9 @@ public class SetNameSignal extends Signal {
             owner.sendMessageToUser("OK");
         }
         else {
-            System.out.println("USER " + Integer.toString(id) + " fail to change name");
 
-            owner.sendMessageToUser("Name is taken");
+            System.out.println("USER " + Integer.toString(id) + " fail to change name");
+            owner.sendMessageToUser("Name is incorrect, change name.");
         }
     }
 }
