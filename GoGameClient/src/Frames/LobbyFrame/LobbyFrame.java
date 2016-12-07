@@ -39,9 +39,11 @@ public class LobbyFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                if (e.getClickCount() == 2)
+                if (e.getClickCount() == 2 )
                 {
-                    client.out.println("JoinToTable;");
+                    int index = tableList.locationToIndex(e.getPoint());
+
+                    client.out.println("SitDown;"+index);
 
                     String line;
 
