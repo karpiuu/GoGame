@@ -31,15 +31,30 @@ public class Table {
     }
 
     public void standUp(Integer userId) throws UnknownUserIdException {
-        if(idUserBlack == userId) {
-            idUserBlack = null;
+        if(idUserBlack != null) {
+            if(idUserBlack.equals(userId)) {
+                idUserBlack = null;
+                return;
+            }
         }
 
-        else if( idUserWhite == userId) {
-            idUserWhite = null;
+        if(idUserWhite != null) {
+            if(idUserWhite.equals(userId)) {
+                idUserWhite = null;
+                return;
+            }
         }
 
         throw new UnknownUserIdException(userId);
+    }
+
+    public int getUserCount() {
+        int count = 0;
+
+        if( idUserWhite != null ) count++;
+        if( idUserBlack != null ) count++;
+
+        return count;
     }
 
     public int getIdUserBlack() {
@@ -51,7 +66,7 @@ public class Table {
         return idUserWhite;
     }
 
-    public String getId() {
-        return id.toString();
+    public Integer getId() {
+        return id;
     }
 }

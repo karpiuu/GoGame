@@ -21,7 +21,7 @@ public class GameFrame extends JFrame {
 
         setContentPane(panel1);
 
-        user1.setText( );
+        //user1.setText( );
 
 
         pack();

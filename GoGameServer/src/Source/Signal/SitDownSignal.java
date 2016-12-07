@@ -23,6 +23,7 @@ public class SitDownSignal extends Signal {
 
         try {
             tableManager.getTable( tableId ).sitDown(id);
+            owner.sitDown(tableId);
         } catch (FullTableException e) {
             owner.sendMessageToUser("Table is full");
             return;

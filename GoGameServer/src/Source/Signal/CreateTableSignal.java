@@ -21,13 +21,19 @@ public class CreateTableSignal extends Signal {
     public void execute() {
 
         try {
-            tableManager.getTable( tableManager.addTable() ).sitDown(id);
+            int index = tableManager.addTable();
+            tableManager.getTable( index ).sitDown(id);
+            userManager.getUser(id).sitDown( index );
+
         } catch (FullTableException e) {
             owner.sendMessageToUser("Table is full");
             return;
         } catch (UnknownTableIdException e) {
             owner.sendMessageToUser("Table don't exists");
             return;
+        } catch (UnknownUserIdException e) {
+            //User dont exists???
+            owner.sendMessageToUser("User don't exist in server");
         }
 
         owner.sendMessageToUser("OK");

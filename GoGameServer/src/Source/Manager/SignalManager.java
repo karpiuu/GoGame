@@ -63,15 +63,22 @@ public class SignalManager {
                     throw new WrongSignalException(line);
                 }
             }
+            else if (argv.get(0).equals("StandUp")) {
+                System.out.println("USER " + Integer.toString(id) + " is standing up from table.");
+                signal = new StandUpSignal(server, id);
+                synchronized (UserConnection.class) {
+                    signal.execute();
+                }
+            }
             else {
-                System.out.println("USER " + Integer.toString(id) + "send signal [" + line + "]" );
+                System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );
                 signal = new UnknownSignal(server, id);
                 signal.execute();
             }
         }
     }
 
-    private ArrayList<String> parseString(String line) {
+    public ArrayList<String> parseString(String line) {
 
         if( line.length() > 0 ) {
             ArrayList<String> argv = new ArrayList<>();

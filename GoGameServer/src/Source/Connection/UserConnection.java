@@ -8,12 +8,14 @@ import java.net.Socket;
 
 import Source.Exception.UnknownUserIdException;
 import Source.Exception.WrongSignalException;
+import Source.Game.Table;
 
 public class UserConnection extends Thread {
 
     private Integer userId;
     private Server server;
     private String userName;
+    private Integer tableId;
 
     private Socket client = null;
     private BufferedReader in = null;
@@ -24,6 +26,7 @@ public class UserConnection extends Thread {
         server = newServer;
         client = socket;
         userId = id;
+        tableId = null;
     }
 
     public void run() {
@@ -58,10 +61,11 @@ public class UserConnection extends Thread {
             }
         }
 
-        try { server.getUserManager().deleteUser(userId); }
-        catch (UnknownUserIdException e1) { System.out.println("USER " + userId.toString() + " can't delete this user"); }
-
         shutDown();
+    }
+
+    public void sitDown(Integer id) {
+        tableId = id;
     }
 
     /**
@@ -74,10 +78,18 @@ public class UserConnection extends Thread {
     }
 
     /**
-     *
-     * @return selected user name
+     * Get name of user
+     * @return user name
      */
     public String getUserName() { return userName; }
+
+    /**
+     * Return table id in with user sits
+     * @return table id
+     */
+    public Integer getTableId() {
+        return tableId;
+    }
 
     /**
      * Sets user name to new
@@ -85,8 +97,23 @@ public class UserConnection extends Thread {
      */
     public void setUserName(String newName) { userName = newName; }
 
+    /**
+     * Delete user and clear his tables
+     */
     private void shutDown() {
-        System.out.println("USER " + userId.toString() + " is dropped");
+
+        // USER STAND UP FROM HIS TABLE
+        try { server.getSignalManager().executeCommand("StandUp;",userId); }
+        catch (WrongSignalException e) {
+            e.printStackTrace();
+        }
+
+        // USER DELETE
+        try { server.getUserManager().deleteUser(userId); }
+        catch (UnknownUserIdException e1) { System.out.println("USER " + userId.toString() + " can't delete this user"); }
+
+        System.out.println("USER " + userId.toString() + " dropped");
+
         stop();
     }
 }
