@@ -1,4 +1,4 @@
-package Frames.TableFrame;
+package Frames.LobbyFrame;
 
 import Connection.SocketClient;
 
@@ -6,19 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import Exception.PartUserNameException;
 
 /**
  * Created by SZYMON on 28.11.2016.
  */
 public class ButtonRefreshAdapter implements ActionListener {
 
-    TableFrame frame;
-    SocketClient client;
+    private LobbyFrame frame;
+    private SocketClient client;
 
-    public ButtonRefreshAdapter( TableFrame newframe, SocketClient newclient) {
-        frame=newframe;
-        client=newclient;
+    public ButtonRefreshAdapter(SocketClient newclient, LobbyFrame newFrame) {
+        frame = newFrame;
+        client = newclient;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -35,7 +34,6 @@ public class ButtonRefreshAdapter implements ActionListener {
         }
 
         frame.refreshUserList(line);
-
     }
 
 }

@@ -1,29 +1,26 @@
 package Frames.LoginFrame;
 
 import Connection.SocketClient;
-import Frames.TableFrame.TableFrame;
+import Frames.LobbyFrame.LobbyFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-/**
- * Created by SZYMON on 28.11.2016.
- */
-public class ButtonlogButtonAdapter implements ActionListener {
+public class LoginButtonAdapter implements ActionListener {
 
     SocketClient client;
-    JTextField logField;
+    JTextField logTextField;
 
-    public ButtonlogButtonAdapter(SocketClient newClient, JTextField newlogField) {
+    public LoginButtonAdapter(SocketClient newClient, JTextField newTextField) {
         client = newClient;
-        logField = newlogField;
+        logTextField = newTextField;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-
-        client.out.println("SetName;" + logField.getText() + ";");
+        client.out.println("SetName;" + logTextField.getText() + ";");
 
         String name;
 
@@ -35,8 +32,8 @@ public class ButtonlogButtonAdapter implements ActionListener {
         }
 
         if (name.equals("OK")) {
-            TableFrame tableFrame = new TableFrame(client);
-            tableFrame.init();
+            LobbyFrame lobbyFrame = new LobbyFrame(client);
+            lobbyFrame.init();
         } else {
             System.out.println(name);
         }

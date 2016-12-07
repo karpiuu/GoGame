@@ -3,46 +3,31 @@ package Frames.LoginFrame;
 import Connection.SocketClient;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
-/**
- * Created by SZYMON on 28.11.2016.
- */
 public class LoginFrame extends JFrame {
+    private JPanel panel1;
+    private JTextField logTextField;
+    private JButton logInButton;
 
     SocketClient client;
-    JTextField logField;
 
-    public LoginFrame(SocketClient newClient){
-
-        super("LoginFrame");
+    public LoginFrame(SocketClient newClient) {
+        super("Login window");
 
         client = newClient;
 
+        setContentPane(panel1);
+
+        pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-
-        setSize(400,300);
-        setLocation(50, 50);
-        setLayout(new BorderLayout());
-
-        logField = new JTextField("");
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add( new JLabel("Set you name"), BorderLayout.NORTH );
-        mainPanel.add( logField, BorderLayout.CENTER );
-
-        add(mainPanel, BorderLayout.CENTER);
-
-        JButton logButton = new JButton("Log");
-        logButton.addActionListener(new ButtonlogButtonAdapter(client,logField));
-        add(logButton, BorderLayout.SOUTH);
-
-//      JButton cancelButton = new JButton("Cancel");
-//      add(cancelButton);
 
         setResizable(false);
+
+        logInButton.addActionListener( new LoginButtonAdapter(client, logTextField) );
+
         setVisible(true);
     }
 }

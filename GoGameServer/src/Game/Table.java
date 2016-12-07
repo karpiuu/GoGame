@@ -19,10 +19,12 @@ public class Table {
     public void sitDown(Integer userId) throws FullTableException {
         if(idUserBlack == null) {
             idUserBlack = userId;
+            return;
         }
 
         else if(idUserWhite == null) {
             idUserWhite = userId;
+            return;
         }
 
         throw new FullTableException();
@@ -51,7 +53,7 @@ public class Table {
         return text;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 }
