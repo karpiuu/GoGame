@@ -6,6 +6,10 @@ import Source.Exception.WrongSignalException;
 import Source.Signal.*;
 import java.util.ArrayList;
 
+/**
+ * Main class which connects signals with line send by user
+ * Works like factory (fits signal with command)
+ */
 public class SignalManager {
 
     private Server server;
@@ -14,6 +18,12 @@ public class SignalManager {
         server = newServer;
     }
 
+    /**
+     * Function execute command from user, choose between list of signals
+     * @param line command to execute
+     * @param id id of user with send signal
+     * @throws WrongSignalException throw exception when command is incorrect
+     */
     public void executeCommand(String line, int id) throws WrongSignalException {
         ArrayList<String> argv = parseString(line);
 
@@ -78,7 +88,7 @@ public class SignalManager {
         }
     }
 
-    public ArrayList<String> parseString(String line) {
+    private ArrayList<String> parseString(String line) {
 
         if( line.length() > 0 ) {
             ArrayList<String> argv = new ArrayList<>();

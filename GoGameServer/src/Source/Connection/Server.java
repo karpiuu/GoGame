@@ -6,6 +6,9 @@ import Source.Manager.UserManager;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Main class, holds every manager and server socket
+ */
 public class Server {
 
     private UserManager userManager;
@@ -37,11 +40,20 @@ public class Server {
         }
     }
 
+    /**
+     * @return User manager object
+     */
     public UserManager getUserManager() {
         return userManager;
     }
 
+    /**
+     * @return Table manager object
+     */
     public TableManager getTableManager() { return tableManager; }
 
+    /**
+     * @return Signal manager object
+     */
     public SignalManager getSignalManager() { return signalManager; }
 }

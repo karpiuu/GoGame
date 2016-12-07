@@ -6,6 +6,9 @@ import Source.Exception.*;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
+/**
+ * Signal for refreshing user view
+ */
 public class RefreshSignal extends Signal {
 
     private TableManager tableManager;

@@ -5,6 +5,9 @@ import Source.Connection.UserConnection;
 import Source.Manager.TableManager;
 import Source.Exception.*;
 
+/**
+ * Signal for Table creation
+ */
 public class CreateTableSignal extends Signal {
 
     private TableManager tableManager;
@@ -25,15 +28,18 @@ public class CreateTableSignal extends Signal {
             tableManager.getTable( index ).sitDown(id);
             userManager.getUser(id).sitDown( index );
 
-        } catch (FullTableException e) {
+        }
+        catch (FullTableException e) {
             owner.sendMessageToUser("Table is full");
             return;
-        } catch (UnknownTableIdException e) {
+        }
+        catch (UnknownTableIdException e) {
             owner.sendMessageToUser("Table don't exists");
             return;
-        } catch (UnknownUserIdException e) {
-            //User dont exists???
-            owner.sendMessageToUser("User don't exist in server");
+        }
+        catch (UnknownUserIdException e) {
+            //User don't exists???
+            owner.sendMessageToUser("You don't exist in server");
         }
 
         owner.sendMessageToUser("OK");

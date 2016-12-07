@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import Source.Game.Table;
 import Source.Exception.*;
 
+/**
+ * Manage all tables, add tables, delete and return them
+ */
 public class TableManager {
 
     private ArrayList<Table> table;        // Hold every table
@@ -17,7 +20,7 @@ public class TableManager {
     }
 
     /**
-     * Adding new table
+     * Adding new table to ArrayList
      */
     public int addTable() {
         int index;
@@ -40,9 +43,11 @@ public class TableManager {
     }
 
     /**
+     *
      * Returns tabe on given Id
      * @param id table id
      * @return table
+     * @throws UnknownTableIdException If table id is incorrect
      */
     public Table getTable(int id) throws UnknownTableIdException {
         if(id < table.size()) {
@@ -53,6 +58,10 @@ public class TableManager {
         }
     }
 
+    /**
+     * Returns ArrayList of tables
+     * @return ArrayList
+     */
     public ArrayList<Table> getAllTables() {
         return table;
     }

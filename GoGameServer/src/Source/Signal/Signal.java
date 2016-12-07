@@ -4,10 +4,13 @@ import Source.Connection.UserConnection;
 import Source.Exception.UnknownUserIdException;
 import Source.Manager.UserManager;
 
+/**
+ * Base for every signal
+ */
 public abstract class Signal {
 
-    protected UserManager userManager;
     protected Integer id;
+    protected UserManager userManager;
     protected UserConnection owner;
 
     protected void setUserManager(UserManager manager) {
@@ -20,7 +23,8 @@ public abstract class Signal {
 
         try { owner = userManager.getUser(id); }
         catch (UnknownUserIdException e) {
-            return;
+            // This user might be deleted
+            System.out.println("User " + id + " don't exists anymore");
         }
     }
 }

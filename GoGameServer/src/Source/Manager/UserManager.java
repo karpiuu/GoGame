@@ -7,6 +7,11 @@ import Source.Connection.UserConnection;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Read signals from User I/O,
+ * Add users and delete
+ * Checks if name is valid in server
+ */
 public class UserManager {
 
     private ArrayList<UserConnection> user;     // Hold every user Thread
@@ -57,6 +62,10 @@ public class UserManager {
         }
     }
 
+    /**
+     * Return ArrayList of Users
+     * @return all users
+     */
     public ArrayList<UserConnection> getAllUsers() {
         return user;
     }
@@ -82,6 +91,6 @@ public class UserManager {
      * @return True - name is free, False - name already taken
      */
     public boolean checkValidUserName(String name) {
-        return true;
+        return name.indexOf(';') == -1;
     }
 }

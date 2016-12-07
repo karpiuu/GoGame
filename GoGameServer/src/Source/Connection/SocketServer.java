@@ -3,6 +3,9 @@ package Source.Connection;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * Server socket allows user connection
+ */
 public class SocketServer {
 
     private ServerSocket server = null;
