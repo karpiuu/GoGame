@@ -43,7 +43,7 @@ public class LobbyFrame extends JFrame {
                 {
                     int index = tableList.locationToIndex(e.getPoint());
 
-                    client.out.println("SitDown;"+index);
+                    client.out.println("SitDown;" + index + ";");
 
                     String line;
 

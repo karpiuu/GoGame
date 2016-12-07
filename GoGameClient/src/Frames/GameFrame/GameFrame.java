@@ -11,6 +11,8 @@ public class GameFrame extends JFrame {
     private JButton passButton;
     private JButton concedeButton;
     private JTable table1;
+    private JLabel user1;
+    private JLabel user2;
 
     public GameFrame(SocketClient newClient) {
         super("Go game");
@@ -18,6 +20,9 @@ public class GameFrame extends JFrame {
         client = newClient;
 
         setContentPane(panel1);
+
+        user1.setText( );
+
 
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
