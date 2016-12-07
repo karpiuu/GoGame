@@ -23,8 +23,10 @@ public class LoginFrame extends JFrame {
 
         setResizable(false);
 
-        logInButton.addActionListener( new LoginButtonAdapter(client, logTextField) );
-
         setVisible(true);
+    }
+
+    public void init(){
+        logInButton.addActionListener( new LoginButtonAdapter(client, logTextField, this) );
     }
 }

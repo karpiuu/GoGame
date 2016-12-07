@@ -30,37 +30,12 @@ public class LobbyFrame extends JFrame {
         setSize(600, 500);
         setResizable(false);
 
-        createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client) );
+        createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client,this) );
+        tableList.addMouseListener(new ListJoinToTableAdapter(client, this, tableList));
 
         setVisible(true);
 
-        tableList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
 
-                if (e.getClickCount() == 2 )
-                {
-                    int index = tableList.locationToIndex(e.getPoint());
-
-                    client.out.println("SitDown;" + index + ";");
-
-                    String line;
-
-                    try {
-                        line = client.in.readLine();
-                    } catch (IOException e2) {
-                        e2.printStackTrace();
-                        return;
-                    }
-
-                    if(line.equals("OK")) {
-                        GameFrame gameFrame = new GameFrame(client);
-                    }
-
-                }
-            }
-        });
     }
 
     public ArrayList<String> parseString(String line) {

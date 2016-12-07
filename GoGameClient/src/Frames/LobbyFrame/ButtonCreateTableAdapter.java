@@ -10,9 +10,12 @@ import java.io.IOException;
 public class ButtonCreateTableAdapter implements ActionListener {
 
     SocketClient client;
+    LobbyFrame lobbyFrame;
 
-    public ButtonCreateTableAdapter(SocketClient newClient) {
+    public ButtonCreateTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame) {
         client = newClient;
+        lobbyFrame = newlobbyFrame;
+
     }
 
     @Override
@@ -29,7 +32,8 @@ public class ButtonCreateTableAdapter implements ActionListener {
         }
 
         if(line.equals("OK")) {
-            GameFrame gameFrame = new GameFrame(client);
+            GameFrame gameFrame = new GameFrame(client, lobbyFrame );
+            System.out.println("lemiesz");
         }
     }
 }

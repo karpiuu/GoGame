@@ -12,10 +12,12 @@ public class LoginButtonAdapter implements ActionListener {
 
     SocketClient client;
     JTextField logTextField;
+    JFrame loginFrame;
 
-    public LoginButtonAdapter(SocketClient newClient, JTextField newTextField) {
+    public LoginButtonAdapter(SocketClient newClient, JTextField newTextField, JFrame newloginFrame) {
         client = newClient;
         logTextField = newTextField;
+        loginFrame = newloginFrame;
     }
 
     @Override
@@ -32,8 +34,10 @@ public class LoginButtonAdapter implements ActionListener {
         }
 
         if (name.equals("OK")) {
+            loginFrame.setVisible(false);
             LobbyFrame lobbyFrame = new LobbyFrame(client);
             lobbyFrame.init();
+
         } else {
             System.out.println(name);
         }
