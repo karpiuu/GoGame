@@ -7,7 +7,6 @@ import Source.Exception.*;
 
 public class SitDownSignal extends Signal {
 
-    private int id;
     private int tableId;
     private TableManager tableManager;
 
@@ -16,15 +15,11 @@ public class SitDownSignal extends Signal {
         tableManager = server.getTableManager();
         id = newId;
         tableId = newTableId;
+        setOwner();
     }
 
     @Override
     public void execute() {
-        UserConnection owner;
-        try { owner = userManager.getUser(id); }
-        catch (UnknownUserIdException e) {
-            return;
-        }
 
         try {
             tableManager.getTable( tableId ).sitDown(id);
