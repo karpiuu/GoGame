@@ -3,9 +3,6 @@ package Frames.LoginFrame;
 import Connection.SocketClient;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class LoginFrame extends JFrame {
     private JPanel panel1;

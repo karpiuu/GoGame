@@ -29,11 +29,20 @@ public class ButtonRefreshAdapter implements ActionListener {
         try {
             line = client.in.readLine();
         } catch (IOException e2) {
-            e2.printStackTrace();
+            System.out.print("Can't read line from server");
             return;
         }
 
         frame.refreshUserList(line);
+
+        try {
+            line = client.in.readLine();
+        } catch (IOException e2) {
+            System.out.print("Can't read line from server");
+            return;
+        }
+
+        frame.refreshTableList(line);
     }
 
 }

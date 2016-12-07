@@ -39,10 +39,10 @@ public class LobbyFrame extends JFrame {
             int start = line.indexOf(';',0);
             int end = 1;
 
-            while (start < line.length() || end == -1) {
-                end = line.indexOf(';', start+1);
+            while (start < line.length() && end != -1) {
+                end = line.indexOf(';', start);
                 if( end != -1 ) {
-                    argv.add(line.substring(start+1, end));
+                    argv.add(line.substring(start, end));
                     start = end + 1;
                 }
             }
