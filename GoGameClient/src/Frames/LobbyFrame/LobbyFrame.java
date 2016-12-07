@@ -105,7 +105,7 @@ public class LobbyFrame extends JFrame {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         String text = "";
 
-        if( line.substring(0, line.indexOf(';')).equals("Tables") && tableArray.size() > 3) {
+        if( line.substring(0, line.indexOf(';')).equals("Tables") && tableArray.size() >= 3) {
             for(int i = 0; i < tableArray.size(); i += 3) {
                 text = tableArray.get(i);
 

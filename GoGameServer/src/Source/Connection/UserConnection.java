@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import Source.Exception.UnknownUserIdException;
+import Source.Exception.WrongSignalException;
 
 public class UserConnection extends Thread {
 
@@ -48,7 +49,12 @@ public class UserConnection extends Thread {
             }
 
             if( line != null ) {
-                server.getSignalManager().executeCommand(line, userId);
+                try {
+                    server.getSignalManager().executeCommand(line, userId);
+                }
+                catch (WrongSignalException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

@@ -2,6 +2,7 @@ package Source.Manager;
 
 import Source.Connection.Server;
 import Source.Connection.UserConnection;
+import Source.Exception.WrongSignalException;
 import Source.Signal.*;
 import java.util.ArrayList;
 
@@ -13,17 +14,23 @@ public class SignalManager {
         server = newServer;
     }
 
-    public void executeCommand(String line, int id) {
+    public void executeCommand(String line, int id) throws WrongSignalException {
         ArrayList<String> argv = parseString(line);
 
         Signal signal;
         if(argv != null) {
             if (argv.get(0).equals("SetName")) {
 
-                System.out.println("USER " + Integer.toString(id) + " try to change name to " + argv.get(1));
-                signal = new SetNameSignal(server, id, argv.get(1));
-                synchronized (UserConnection.class) {
-                    signal.execute();
+                if(argv.size() >= 2) {
+
+                    System.out.println("USER " + Integer.toString(id) + " try to change name to " + argv.get(1));
+                    signal = new SetNameSignal(server, id, argv.get(1));
+                    synchronized (UserConnection.class) {
+                        signal.execute();
+                    }
+                }
+                else {
+                    throw new WrongSignalException(line);
                 }
             }
             else if (argv.get(0).equals("Refresh")) {
@@ -44,10 +51,16 @@ public class SignalManager {
             }
             else if (argv.get(0).equals("SitDown")) {
 
-                System.out.println("USER " + Integer.toString(id) + " is siting down in table " + argv.get(1));
-                signal = new SitDownSignal(server, id, Integer.parseInt( argv.get(1) ));
-                synchronized (UserConnection.class) {
-                    signal.execute();
+                if(argv.size() >= 2) {
+
+                    System.out.println("USER " + Integer.toString(id) + " is siting down in table " + argv.get(1));
+                    signal = new SitDownSignal(server, id, Integer.parseInt(argv.get(1)));
+                    synchronized (UserConnection.class) {
+                        signal.execute();
+                    }
+                }
+                else {
+                    throw new WrongSignalException(line);
                 }
             }
             else {
