@@ -27,8 +27,13 @@ public class ButtonCreateTableAdapter implements ActionListener {
         line = client.readFromInput();
 
         if(line.equals("OK")) {
+<<<<<<< HEAD
             GameFrame gameFrame = new GameFrame(client, lobbyFrame );
             gameFrame.init();
+=======
+                GameFrame gameFrame = new GameFrame(client, lobbyFrame );
+
+>>>>>>> origin/master
             lobbyFrame.setVisible(false);
         }
     }
