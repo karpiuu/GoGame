@@ -80,6 +80,13 @@ public class SignalManager {
                     signal.execute();
                 }
             }
+            else if (argv.get(0).equals("StartGame")) {
+                System.out.println("USER " + Integer.toString(id) + " try to start game.");
+                signal = new StartGameSignal(server, id);
+                synchronized (UserConnection.class) {
+                    signal.execute();
+                }
+            }
             else {
                 System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );
                 signal = new UnknownSignal(server, id);

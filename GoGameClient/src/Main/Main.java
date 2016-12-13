@@ -11,6 +11,7 @@ public class Main {
 
         SocketClient client = new SocketClient();
         client.listenSocket();
+        client.start();
 
         LoginFrame loginFrame = new LoginFrame(client);
         loginFrame.init();

@@ -20,19 +20,15 @@ public class ButtonCreateTableAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        client.out.println("CreateTable;");
+        client.sendMessage("CreateTable;");
 
         String line;
 
-        try {
-            line = client.in.readLine();
-        } catch (IOException e2) {
-            e2.printStackTrace();
-            return;
-        }
+        line = client.readFromInput();
 
         if(line.equals("OK")) {
             GameFrame gameFrame = new GameFrame(client, lobbyFrame );
+            gameFrame.init();
             lobbyFrame.setVisible(false);
         }
     }

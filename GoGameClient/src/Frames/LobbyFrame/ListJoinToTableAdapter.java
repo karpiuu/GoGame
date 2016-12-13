@@ -30,19 +30,15 @@ public class ListJoinToTableAdapter implements MouseListener {
         {
             int index = tableList.locationToIndex(e.getPoint());
 
-            client.out.println("SitDown;" + index + ";");
+            client.sendMessage("SitDown;" + index + ";");
 
             String line;
 
-            try {
-                line = client.in.readLine();
-            } catch (IOException e2) {
-                e2.printStackTrace();
-                return;
-            }
+            line = client.readFromInput();
 
             if(line.equals("OK")) {
                 GameFrame gameFrame = new GameFrame(client, lobbyFrame);
+                gameFrame.init();
                 lobbyFrame.setVisible(false);
             }
 

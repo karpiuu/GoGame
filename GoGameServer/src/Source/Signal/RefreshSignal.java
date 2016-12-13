@@ -37,8 +37,6 @@ public class RefreshSignal extends Signal {
             }
         }
 
-        owner.sendMessageToUser(names);
-
         try { owner = userManager.getUser(id); }
         catch (UnknownUserIdException e) {
             // User which run command might be deleted??
@@ -80,6 +78,6 @@ public class RefreshSignal extends Signal {
             }
         }
 
-        owner.sendMessageToUser(tables);
+        owner.sendMessageToUser(names + tables);
     }
 }

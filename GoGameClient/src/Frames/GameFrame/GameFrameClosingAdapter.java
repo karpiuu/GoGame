@@ -28,7 +28,7 @@ public class GameFrameClosingAdapter implements WindowListener
     @Override
     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 
-        client.out.println("StandUp" + ";");
+        client.sendMessage("StandUp;");
         lobbyFrame.setVisible(true);
 
 //        if (JOptionPane.showConfirmDialog(frame,

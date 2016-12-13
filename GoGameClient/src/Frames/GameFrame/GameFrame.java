@@ -1,41 +1,59 @@
 package Frames.GameFrame;
 
 import Connection.SocketClient;
-import Frames.LobbyFrame.ListJoinToTableAdapter;
 import Frames.LobbyFrame.LobbyFrame;
-import Frames.LoginFrame.LoginFrame;
+import GameEngine.GameEngine;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import GameEngine.Stone;
 
 public class GameFrame extends JFrame {
     private SocketClient client;
 
     private JPanel panel1;
+    private JButton startButton;
+    private JButton surrenderButton;
     private JButton passButton;
-    private JButton concedeButton;
-    private JTable table1;
-    private JLabel user1;
-    private JLabel user2;
     private LobbyFrame lobbyFrame;
-
+    private GameViewPanel gameViewPanel;
+    private GameEngine gameEngine;
     public GameFrame(SocketClient newClient, LobbyFrame newlobbyFrame) {
         super("Go game");
 
         client = newClient;
         lobbyFrame = newlobbyFrame;
 
-        setContentPane(panel1);
+        gameEngine = new GameEngine(19);
+        gameEngine.place( 10, 10, Stone.BLACK );
+        gameEngine.place( 5, 10, Stone.BLACK );
+        gameEngine.place( 12, 10, Stone.WHITE );
+        gameEngine.place( 15, 7, Stone.BLACK );
+        gameEngine.place( 10, 2, Stone.WHITE );
+        gameEngine.place( 1, 6, Stone.WHITE );
+        gameEngine.place( 10, 11, Stone.BLACK );
+        gameEngine.place( 11, 12, Stone.WHITE );
+        gameEngine.place( 13, 13, Stone.WHITE );
 
-        //user1.setText( );
+        setContentPane(panel1);
 
         addWindowListener(new GameFrameClosingAdapter(client, lobbyFrame));
 
         pack();
-        //setDefaultCloseOperation();
-        setSize(400,400);
+
+        setSize(800,800);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+    }
 
+    public void init() {
+        gameViewPanel = new GameViewPanel(800,750, gameEngine);
+        panel1.add( gameViewPanel, BorderLayout.CENTER );
+
+        startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton, passButton) );
     }
 }

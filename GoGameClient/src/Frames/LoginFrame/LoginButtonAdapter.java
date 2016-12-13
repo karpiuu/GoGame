@@ -22,16 +22,11 @@ public class LoginButtonAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        client.out.println("SetName;" + logTextField.getText() + ";");
+        client.sendMessage("SetName;" + logTextField.getText() + ";");
 
         String name;
 
-        try {
-            name = client.in.readLine();
-        } catch (IOException e2) {
-            e2.printStackTrace();
-            return;
-        }
+        name = client.readFromInput();
 
         if (name.equals("OK")) {
             loginFrame.setVisible(false);
