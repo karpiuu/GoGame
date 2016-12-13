@@ -76,9 +76,7 @@ public class SignalManager {
             else if (argv.get(0).equals("StandUp")) {
                 System.out.println("USER " + Integer.toString(id) + " is standing up from table.");
                 signal = new StandUpSignal(server, id);
-                synchronized (UserConnection.class) {
-                    signal.execute();
-                }
+                signal.execute();
             }
             else if (argv.get(0).equals("StartGame")) {
                 System.out.println("USER " + Integer.toString(id) + " try to start game.");
@@ -86,6 +84,11 @@ public class SignalManager {
                 synchronized (UserConnection.class) {
                     signal.execute();
                 }
+            }
+            else if (argv.get(0).equals("Stone")) {
+                System.out.println("USER " + Integer.toString(id) + " try to put stone " + argv.get(1) + " at " + argv.get(2) );
+                signal = new StoneSignal(server, id, argv.get(1), argv.get(2));
+                signal.execute();
             }
             else {
                 System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );

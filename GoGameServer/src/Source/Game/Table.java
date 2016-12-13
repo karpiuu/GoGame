@@ -9,6 +9,8 @@ public class Table {
     private Integer idUserBlack;    // Id of user playing Black
     private Integer idUserWhite;    // Id of user playing While
     private Integer id;             // Id of table
+    private Integer activePlayer;   // Id of current player making move
+    private boolean gameStart;
 
     private GameEngine gameEngine;  // Checks if move is correct, or give stones to delete, holds game table
 
@@ -16,6 +18,7 @@ public class Table {
         idUserBlack = null;
         idUserWhite = null;
         id = index;
+        gameStart = false;
     }
 
     /**
@@ -61,6 +64,39 @@ public class Table {
     }
 
     /**
+     *
+     * @return
+     */
+    public boolean startGame() {
+        if( getUserCount() >= 2 ) {
+            activePlayer = idUserBlack;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean getGameStart() {
+        return gameStart;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Integer getActivePlayer() {
+        return activePlayer;
+    }
+
+    public Integer getUnactivePlayer() {
+        if( !idUserWhite.equals(activePlayer) ) return idUserWhite;
+        else return idUserBlack;
+    }
+
+    /**
      * @return Number of users in table
      */
     public int getUserCount() {
@@ -93,5 +129,12 @@ public class Table {
      */
     public Integer getId() {
         return id;
+    }
+
+    /**
+     * @return gameEngine of this table
+     */
+    public GameEngine getGameEngine() {
+        return gameEngine;
     }
 }

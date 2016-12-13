@@ -1,0 +1,24 @@
+package Connection;
+
+import Frames.GameFrame.GameFrame;
+
+public class OpponentSignalObserver {
+
+    GameFrame gameFrame;
+
+    public OpponentSignalObserver() {
+
+    }
+
+    public boolean checkLine(String line) {
+        if(line.contains("Stone")) {
+            gameFrame.notifyGame(line);
+            return true;
+        }
+        return false;
+    }
+
+    public void setObserver(GameFrame frame) {
+        gameFrame = frame;
+    }
+}

@@ -1,5 +1,6 @@
 package Frames.LoginFrame;
 
+import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 
 import javax.swing.*;
@@ -9,10 +10,13 @@ public class LoginFrame extends JFrame {
     private JTextField logTextField;
     private JButton logInButton;
 
-    SocketClient client;
+    private SocketClient client;
+    private OpponentSignalObserver opponentObserver;
 
-    public LoginFrame(SocketClient newClient) {
+    public LoginFrame(SocketClient newClient, OpponentSignalObserver opponentObserver) {
         super("Login window");
+
+        this.opponentObserver = opponentObserver;
 
         client = newClient;
 
@@ -26,6 +30,6 @@ public class LoginFrame extends JFrame {
     }
 
     public void init(){
-        logInButton.addActionListener( new LoginButtonAdapter(client, logTextField, this) );
+        logInButton.addActionListener( new LoginButtonAdapter(client, logTextField, this, opponentObserver) );
     }
 }

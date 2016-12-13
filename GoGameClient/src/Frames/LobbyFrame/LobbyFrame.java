@@ -1,7 +1,9 @@
 package Frames.LobbyFrame;
 
+import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.GameFrame.GameFrame;
+import GameEngine.SignalOperation;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -17,9 +19,12 @@ public class LobbyFrame extends JFrame {
     private JList userList;
     private JButton createNewTableButton;
     private JButton refreshButton;
+    private OpponentSignalObserver opponentObserver;
 
-    public LobbyFrame(SocketClient newClient) {
+    public LobbyFrame(SocketClient newClient, OpponentSignalObserver opponentObserver) {
         super("Lobby window");
+
+        this.opponentObserver = opponentObserver;
 
         client = newClient;
 
@@ -31,37 +36,17 @@ public class LobbyFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client,this) );
-        tableList.addMouseListener(new ListJoinToTableAdapter(client, this, tableList));
+        createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client,this, opponentObserver) );
+        tableList.addMouseListener(new ListJoinToTableAdapter(client, this, tableList, opponentObserver));
 
         setVisible(true);
 
 
     }
 
-    public ArrayList<String> parseString(String line) {
-
-        if( line.length() > 0 ) {
-            ArrayList<String> argv = new ArrayList<>();
-
-            int start = line.indexOf(';',0)+1;
-            int end = 1;
-
-            while (start < line.length() && end != -1) {
-                end = line.indexOf(';', start);
-                if( end != -1 ) {
-                    argv.add(line.substring(start, end));
-                    start = end + 1;
-                }
-            }
-            return argv;
-        }
-        return null;
-    }
-
     public void refreshUserList(String line) {
 
-        ArrayList<String> userArray = parseString(line);
+        ArrayList<String> userArray = SignalOperation.parseString(line);
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
 
@@ -76,7 +61,7 @@ public class LobbyFrame extends JFrame {
     }
 
     public void refreshTableList(String line) {
-        ArrayList<String> tableArray = parseString(line);
+        ArrayList<String> tableArray = SignalOperation.parseString(line);
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
         String text = "";

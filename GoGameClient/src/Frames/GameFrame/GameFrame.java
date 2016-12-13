@@ -1,5 +1,6 @@
 package Frames.GameFrame;
 
+import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
 import GameEngine.GameEngine;
@@ -21,6 +22,7 @@ public class GameFrame extends JFrame {
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
+
     public GameFrame(SocketClient newClient, LobbyFrame newlobbyFrame) {
         super("Go game");
 
@@ -51,9 +53,13 @@ public class GameFrame extends JFrame {
     }
 
     public void init() {
-        gameViewPanel = new GameViewPanel(800,750, gameEngine);
+        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine);
         panel1.add( gameViewPanel, BorderLayout.CENTER );
 
         startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton, passButton) );
+    }
+
+    public void notifyGame(String line) {
+        gameViewPanel.getGameEngine().place(line);
     }
 }

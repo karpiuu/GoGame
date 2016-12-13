@@ -40,10 +40,10 @@ public class StartButtonAdapter implements ActionListener {
 
             if(line.equals("White")) {
                 gameEngine.setPlayerStone( Stone.WHITE );
-                gameEngine.changeTurn();
             }
             else {
                 gameEngine.setPlayerStone( Stone.BLACK );
+                gameEngine.changeTurn();
             }
         }
         else {

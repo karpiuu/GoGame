@@ -9,9 +9,6 @@ public class SocketClientTest {
     @Test
     public void readFromInput() throws Exception {
 
-        SocketClient client = new SocketClient();
-        String line = client.readFromInput();
-        assertEquals("",line);
     }
 
 }

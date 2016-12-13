@@ -1,5 +1,6 @@
 package Frames.LoginFrame;
 
+import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
 
@@ -10,14 +11,16 @@ import java.io.IOException;
 
 public class LoginButtonAdapter implements ActionListener {
 
-    SocketClient client;
-    JTextField logTextField;
-    JFrame loginFrame;
+    private SocketClient client;
+    private JTextField logTextField;
+    private JFrame loginFrame;
+    private OpponentSignalObserver opponentObserver;
 
-    public LoginButtonAdapter(SocketClient newClient, JTextField newTextField, JFrame newloginFrame) {
+    public LoginButtonAdapter(SocketClient newClient, JTextField newTextField, JFrame newloginFrame, OpponentSignalObserver opponentObserver) {
         client = newClient;
         logTextField = newTextField;
         loginFrame = newloginFrame;
+        this.opponentObserver = opponentObserver;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class LoginButtonAdapter implements ActionListener {
 
         if (name.equals("OK")) {
             loginFrame.setVisible(false);
-            LobbyFrame lobbyFrame = new LobbyFrame(client);
+            LobbyFrame lobbyFrame = new LobbyFrame(client, opponentObserver);
             lobbyFrame.init();
 
         } else {

@@ -29,8 +29,10 @@ public class StartGameSignal extends Signal {
                 return;
             }
 
-            if( table.getUserCount() >= 2 ) {
+            if( table.startGame() ) {
                 owner.sendMessageToUser( "OK" );
+
+                table.startGame();
 
                 if (table.getIdUserWhite() == id) {
                     owner.sendMessageToUser("White");

@@ -1,5 +1,6 @@
 package Frames.LobbyFrame;
 
+import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.GameFrame.GameFrame;
 
@@ -13,14 +14,16 @@ import java.io.IOException;
  */
 public class ListJoinToTableAdapter implements MouseListener {
 
-    SocketClient client;
-    LobbyFrame lobbyFrame;
-    JList tableList;
+    private SocketClient client;
+    private LobbyFrame lobbyFrame;
+    private JList tableList;
+    private OpponentSignalObserver opponentObserver;
 
-    public ListJoinToTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame, JList newtableList){
+    public ListJoinToTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame, JList newtableList, OpponentSignalObserver opponentObserver){
         client = newClient;
         lobbyFrame = newlobbyFrame;
         tableList = newtableList;
+        this.opponentObserver = opponentObserver;
     }
 
     @Override
@@ -39,6 +42,8 @@ public class ListJoinToTableAdapter implements MouseListener {
             if(line.equals("OK")) {
                 GameFrame gameFrame = new GameFrame(client, lobbyFrame);
                 gameFrame.init();
+
+                opponentObserver.setObserver(gameFrame);
                 lobbyFrame.setVisible(false);
             }
 

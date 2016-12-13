@@ -1,5 +1,7 @@
 package GameEngine;
 
+import java.util.ArrayList;
+
 public class GameEngine {
     private Stone gameTab[][];
     private int size;
@@ -29,6 +31,17 @@ public class GameEngine {
             return true;
         }
         return false;
+    }
+
+    public void place(String line) {
+        ArrayList<String> list = SignalOperation.parseString(line);
+        int move[];
+
+        for(int i = 0; i < list.size(); i += 2) {
+
+            move = convertMove( Integer.parseInt(list.get(i+1)) );
+            place( move[0], move[1], Stone.getTypeFromString( list.get(i) ) );
+        }
     }
 
     public Stone getStone(int x, int y) {
@@ -62,5 +75,14 @@ public class GameEngine {
 
     public boolean getYourTurn() {
         return yourTurn;
+    }
+
+    private int[] convertMove(int value) {
+        int move[] = new int[2];
+
+        move[0] = value % size;
+        move[1] = value / size;
+
+        return move;
     }
 }

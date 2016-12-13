@@ -1,5 +1,6 @@
 package Frames.LobbyFrame;
 
+import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.GameFrame.GameFrame;
 
@@ -9,13 +10,14 @@ import java.io.IOException;
 
 public class ButtonCreateTableAdapter implements ActionListener {
 
-    SocketClient client;
-    LobbyFrame lobbyFrame;
+    private SocketClient client;
+    private LobbyFrame lobbyFrame;
+    private OpponentSignalObserver opponentObserver;
 
-    public ButtonCreateTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame) {
+    public ButtonCreateTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame, OpponentSignalObserver opponentObserver) {
         client = newClient;
         lobbyFrame = newlobbyFrame;
-
+        this.opponentObserver = opponentObserver;
     }
 
     @Override
@@ -27,8 +29,11 @@ public class ButtonCreateTableAdapter implements ActionListener {
         line = client.readFromInput();
 
         if(line.equals("OK")) {
+
             GameFrame gameFrame = new GameFrame(client, lobbyFrame );
             gameFrame.init();
+
+            opponentObserver.setObserver(gameFrame);
 
             lobbyFrame.setVisible(false);
         }

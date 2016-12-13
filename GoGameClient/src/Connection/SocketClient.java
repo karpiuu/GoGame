@@ -6,21 +6,20 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class SocketClient extends Thread  {
 
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private OpponentSignalObserver opponentObserver;
 
-    private static LinkedList<String> inputList;
+    private volatile LinkedList<String> inputList;
 
-    public SocketClient() {
+    public SocketClient(OpponentSignalObserver opponentObserver) {
         inputList = new LinkedList<>();
+        this.opponentObserver = opponentObserver;
     }
 
     public void listenSocket()
@@ -28,6 +27,7 @@ public class SocketClient extends Thread  {
         try
         {
             socket = new Socket("localhost", 4444);
+            //socket = new Socket("192.168.0.11", 4444);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         }
@@ -56,7 +56,10 @@ public class SocketClient extends Thread  {
             }
 
             if( line != null ) {
-                inputList.offer( line );
+
+                if( !opponentObserver.checkLine( line ) ) {
+                    inputList.offer(line);
+                }
             }
         }
     }

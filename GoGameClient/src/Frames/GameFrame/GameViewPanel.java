@@ -1,5 +1,6 @@
 package Frames.GameFrame;
 
+import Connection.SocketClient;
 import GameEngine.GameEngine;
 import GameEngine.Stone;
 
@@ -19,9 +20,11 @@ public class GameViewPanel extends JPanel {
     private int rowNumber;
 
     private JLabel buttonList[][];
+    private SocketClient client;
 
-    public GameViewPanel(int w, int h, GameEngine gameEngine) {
+    public GameViewPanel(SocketClient newClient, int w, int h, GameEngine gameEngine) {
         this.gameEngine = gameEngine;
+        client = newClient;
 
         width = w;
         height = h;
@@ -58,6 +61,10 @@ public class GameViewPanel extends JPanel {
 
         super.paintComponent(g);
         doDrawing(g);
+    }
+
+    public GameEngine getGameEngine() {
+        return gameEngine;
     }
 
     private void drawBaseGamePlane(Graphics2D g2d, int rowNumber) {
@@ -108,7 +115,7 @@ public class GameViewPanel extends JPanel {
                 //buttonList[i][j].setOpaque(true);
                 //buttonList[i][j].setBackground( Color.cyan );
                 buttonList[i][j].setBounds( offX + (size * i), offY + (size * j), size, size );
-                buttonList[i][j].addMouseListener( new FieldClickAdapter(i,j, gameEngine, this) );
+                buttonList[i][j].addMouseListener( new FieldClickAdapter(client, i,j, gameEngine, this) );
 
                 add( buttonList[i][j] );
             }

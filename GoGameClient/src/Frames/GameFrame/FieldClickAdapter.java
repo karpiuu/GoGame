@@ -1,5 +1,6 @@
 package Frames.GameFrame;
 
+import Connection.SocketClient;
 import GameEngine.GameEngine;
 
 import javax.swing.*;
@@ -15,8 +16,10 @@ public class FieldClickAdapter implements MouseListener {
     private Integer y;
     private GameEngine gameEngine;
     private JPanel gamePanel;
+    SocketClient client;
 
-    public FieldClickAdapter(int x, int y, GameEngine gameEngine, GameViewPanel gameViewPanel) {
+    public FieldClickAdapter(SocketClient newClient, int x, int y, GameEngine gameEngine, GameViewPanel gameViewPanel) {
+        client = newClient;
         this.x = x;
         this.y = y;
         this.gameEngine = gameEngine;
@@ -37,8 +40,17 @@ public class FieldClickAdapter implements MouseListener {
     public void mouseReleased(MouseEvent e) {
 
         if( gameEngine.getYourTurn() ) {
-            gameEngine.place(x, y, gameEngine.getPlayerStone());
-            gamePanel.repaint();
+            client.sendMessage( "Stone;" + gameEngine.getPlayerStone().toString() + ";" + Integer.toString(getMove()) + ";");
+
+            String line = client.readFromInput();
+
+            if(line.equals("OK")) {
+                gameEngine.place(x, y, gameEngine.getPlayerStone());
+                gamePanel.repaint();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, line);
+            }
         }
         //JOptionPane.showMessageDialog(null, "You click on x: " + x.toString() + " y: " + y.toString());
     }
@@ -51,5 +63,14 @@ public class FieldClickAdapter implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    private int getMove() {
+        int value = 0;
+
+        value += x;
+        value += 19*y;
+
+        return value;
     }
 }

@@ -17,7 +17,16 @@ public class GameEngine {
         }
     }
 
-    public boolean checkMove(int x, int y) {
+    public boolean checkMove(int x, int y, Stone type) {
         return true;
+    }
+
+    public int[] convertMove(int value) {
+        int move[] = new int[2];
+
+        move[0] = value % size;
+        move[1] = value / size;
+
+        return move;
     }
 }
