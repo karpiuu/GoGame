@@ -3,11 +3,7 @@ package Frames.GameFrame;
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
 import GameEngine.GameEngine;
-<<<<<<< HEAD
 import Game.Field;
-=======
-
->>>>>>> origin/master
 import javax.swing.*;
 import java.awt.*;
 import GameEngine.Stone;
@@ -23,7 +19,6 @@ public class GameFrame extends JFrame {
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
     public GameFrame(SocketClient newClient, LobbyFrame newlobbyFrame) {
-<<<<<<< HEAD
     private JButton concedeButton;
     private JLabel user1;
     private JLabel user2;
@@ -31,8 +26,6 @@ public class GameFrame extends JFrame {
     private LobbyFrame lobbyFrame;
 
     public GameFrame(SocketClient newClient, LobbyFrame newlobbyFrame){
->>>>>>> origin/master
-=======
 >>>>>>> origin/master
         super("Go game");
 
@@ -54,6 +47,13 @@ public class GameFrame extends JFrame {
 
         addWindowListener(new GameFrameClosingAdapter(client, lobbyFrame));
 
+        Icon icon = new ImageIcon("img/board.png");
+        JLabel newLabel = new JLabel( "", icon, JLabel.CENTER );
+        panel1.add(newLabel);
+
+
+        //drawBoard();
+
         pack();
 
         setSize(800,800);
@@ -67,5 +67,19 @@ public class GameFrame extends JFrame {
         panel1.add( gameViewPanel, BorderLayout.CENTER );
 
         startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton, passButton) );
+    }
+
+    public void drawBoard(){
+
+        Field[][] field = new Field[19][19];
+
+        for(int i=0; i<19; i++)
+            for(int j=0; j<19; j++)
+                field[i][j] = new Field();
+
+        for(int i=0; i<19; i++)
+            for(int j=0; j<19; j++)
+                board.add(field[i][j].image);
+
     }
 }
