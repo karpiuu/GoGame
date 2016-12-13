@@ -17,12 +17,10 @@ public class SocketClient extends Thread  {
     private PrintWriter out;
     private BufferedReader in;
 
-    private LinkedList<String> inputList;
-    private boolean readable;
+    private static LinkedList<String> inputList;
 
     public SocketClient() {
         inputList = new LinkedList<>();
-        readable = false;
     }
 
     public void listenSocket()
@@ -59,7 +57,6 @@ public class SocketClient extends Thread  {
 
             if( line != null ) {
                 inputList.offer( line );
-                readable = true;
             }
         }
     }
@@ -69,7 +66,7 @@ public class SocketClient extends Thread  {
 
         do {
             line = inputList.poll();
-        }while (line == null);
+        } while (line == null);
 
         return line;
     }
