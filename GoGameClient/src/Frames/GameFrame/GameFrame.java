@@ -61,5 +61,7 @@ public class GameFrame extends JFrame {
 
     public void notifyGame(String line) {
         gameViewPanel.getGameEngine().place(line);
+        gameEngine.changeTurn();
+        gameViewPanel.repaint();
     }
 }

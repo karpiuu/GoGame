@@ -10,8 +10,8 @@ import Source.Manager.TableManager;
 public class StoneSignal extends Signal {
 
     private TableManager tableManager;
-    int move;
-    Stone type;
+    private int move;
+    private Stone type;
 
     public StoneSignal(Server server, int newId, String type, String move) {
         setUserManager(server.getUserManager());
@@ -46,7 +46,7 @@ public class StoneSignal extends Signal {
                     owner.sendMessageToUser("OK");
 
                     try {
-                        userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( "Stone;" + type.toString() + ";" + Integer.toString(move) );
+                        userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( "Stone;" + type.toString() + ";" + Integer.toString(move) + ";" );
                     } catch (UnknownUserIdException e) {
                         // This user might be deleted
                         System.out.println("[ERROR] User " + id + " don't exists anymore");

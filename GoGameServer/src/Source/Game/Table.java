@@ -19,6 +19,7 @@ public class Table {
         idUserWhite = null;
         id = index;
         gameStart = false;
+        gameEngine = new GameEngine(19);
     }
 
     /**
@@ -70,6 +71,7 @@ public class Table {
     public boolean startGame() {
         if( getUserCount() >= 2 ) {
             activePlayer = idUserBlack;
+            gameStart = true;
             return true;
         }
         return false;
