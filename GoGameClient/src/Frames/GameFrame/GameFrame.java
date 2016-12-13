@@ -2,23 +2,39 @@ package Frames.GameFrame;
 
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
+<<<<<<< HEAD
 import GameEngine.GameEngine;
+=======
 import Game.Field;
+>>>>>>> origin/master
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+<<<<<<< HEAD
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import GameEngine.Stone;
+=======
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+>>>>>>> origin/master
 
 public class GameFrame extends JFrame {
-
     private SocketClient client;
+
     private JPanel panel1;
     private JButton startButton;
     private JButton surrenderButton;
     private JButton passButton;
+<<<<<<< HEAD
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
     public GameFrame(SocketClient newClient, LobbyFrame newlobbyFrame) {
+=======
     private JButton concedeButton;
     private JLabel user1;
     private JLabel user2;
