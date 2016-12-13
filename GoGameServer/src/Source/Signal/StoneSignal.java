@@ -52,6 +52,8 @@ public class StoneSignal extends Signal {
                         System.out.println("[ERROR] User " + id + " don't exists anymore");
                     }
 
+                    table.setActivePlayer( table.getUnactivePlayer() );
+
                 } else {
                     owner.sendMessageToUser("Invalid move.");
                 }

@@ -30,16 +30,6 @@ public class GameFrame extends JFrame {
         lobbyFrame = newlobbyFrame;
 
         gameEngine = new GameEngine(19);
-        gameEngine.place( 10, 10, Stone.BLACK );
-        gameEngine.place( 5, 10, Stone.BLACK );
-        gameEngine.place( 12, 10, Stone.WHITE );
-        gameEngine.place( 15, 7, Stone.BLACK );
-        gameEngine.place( 10, 2, Stone.WHITE );
-        gameEngine.place( 1, 6, Stone.WHITE );
-        gameEngine.place( 10, 11, Stone.BLACK );
-        gameEngine.place( 11, 12, Stone.WHITE );
-        gameEngine.place( 13, 13, Stone.WHITE );
-
         setContentPane(panel1);
 
         addWindowListener(new GameFrameClosingAdapter(client, lobbyFrame));

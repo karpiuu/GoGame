@@ -45,6 +45,7 @@ public class FieldClickAdapter implements MouseListener {
             String line = client.readFromInput();
 
             if(line.equals("OK")) {
+                gameEngine.changeTurn();
                 gameEngine.place(x, y, gameEngine.getPlayerStone());
                 gamePanel.repaint();
             }
