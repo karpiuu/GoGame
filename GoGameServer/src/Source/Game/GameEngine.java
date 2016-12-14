@@ -71,7 +71,7 @@ public class GameEngine {
 
         if( x >= 0 && x < size && y >= 0 && y < size ) {
 
-            if (gameField[x][y].getStoneType().equals(StoneType.EMPTY)) return false;
+            if (!gameField[x][y].getStoneType().equals(type)) return false;
 
             clearTest();
             boolean isKilled = ifAreaIsFull(x, y, 1, type);
