@@ -53,7 +53,10 @@ public class StartButtonAdapter implements ActionListener {
         }
 
         surrenderButton.setVisible(true);
+        surrenderButton.setEnabled(true);
         passButton.setVisible(true);
+        passButton.setEnabled(true);
         startButton.setVisible(false);
+
     }
 }

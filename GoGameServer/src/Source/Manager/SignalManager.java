@@ -90,6 +90,13 @@ public class SignalManager {
                 signal = new StoneSignal(server, id, argv.get(1), argv.get(2));
                 signal.execute();
             }
+            else if (argv.get(0).equals("Pass")) {
+                System.out.println("USER " + Integer.toString(id) + " wants to pass.");
+                signal = new PassSignal(server, id);
+                synchronized (UserConnection.class) {
+                    signal.execute();
+                }
+            }
             else {
                 System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );
                 signal = new UnknownSignal(server, id);

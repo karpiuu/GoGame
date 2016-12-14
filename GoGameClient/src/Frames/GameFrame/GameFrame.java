@@ -37,12 +37,8 @@ public class GameFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-        surrenderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        // surrenderButton.addActionListener(new ButtonSurenderAdapter(client));
+        passButton.addActionListener(new ButtonPassAdapter(client,gameEngine));
     }
 
     public void init() {
@@ -53,8 +49,13 @@ public class GameFrame extends JFrame {
     }
 
     public void notifyGame(String line) {
-        gameViewPanel.getGameEngine().place(line);
-        gameEngine.changeTurn();
-        gameViewPanel.repaint();
+        if( line.contains("Pass")) {
+            gameEngine.changeTurn();
+        }
+        if( line.contains("Stone")) {
+            gameViewPanel.getGameEngine().place(line);
+            gameEngine.changeTurn();
+            gameViewPanel.repaint();
+        }
     }
 }
