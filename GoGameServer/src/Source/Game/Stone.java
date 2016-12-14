@@ -1,24 +1,29 @@
 package Source.Game;
 
-public enum Stone {
-    EMPTY, BLACK, WHITE;
+public class Stone {
 
-    public static Stone getTypeFromString(String type) {
-        switch (type) {
-            case "E" : return EMPTY;
-            case "W" : return WHITE;
-            case "B" : return BLACK;
-            default: return EMPTY;
-        }
+    private StoneType stoneType;
+    private int testType;
+
+    public Stone() {
+        stoneType = StoneType.EMPTY;
+        testType = 0;
     }
 
-    @Override
-    public String toString() {
-        switch (this) {
-            case EMPTY: return "E";
-            case BLACK: return "B";
-            case WHITE: return "W";
-            default: return "E";
-        }
+
+    public StoneType getStoneType() {
+        return stoneType;
+    }
+
+    public void setStoneType(StoneType stoneType) {
+        this.stoneType = stoneType;
+    }
+
+    public int getTestType() {
+        return testType;
+    }
+
+    public void setTestType(int testType) {
+        this.testType = testType;
     }
 }

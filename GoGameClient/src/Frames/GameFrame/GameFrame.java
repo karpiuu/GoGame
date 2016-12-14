@@ -1,16 +1,11 @@
 package Frames.GameFrame;
 
-import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
 import GameEngine.GameEngine;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import GameEngine.Stone;
 
 public class GameFrame extends JFrame {
     private SocketClient client;

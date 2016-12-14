@@ -4,6 +4,7 @@ import Source.Connection.Server;
 import Source.Exception.UnknownTableIdException;
 import Source.Exception.UnknownUserIdException;
 import Source.Game.Stone;
+import Source.Game.StoneType;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
@@ -11,14 +12,14 @@ public class StoneSignal extends Signal {
 
     private TableManager tableManager;
     private int move;
-    private Stone type;
+    private StoneType type;
 
     public StoneSignal(Server server, int newId, String type, String move) {
         setUserManager(server.getUserManager());
         tableManager = server.getTableManager();
         id = newId;
 
-        this.type = Stone.getTypeFromString( type );
+        this.type = StoneType.getTypeFromString( type );
         this.move = Integer.parseInt( move );
 
         setOwner();
@@ -43,6 +44,7 @@ public class StoneSignal extends Signal {
                 int moveXY[] = table.getGameEngine().convertMove(move);
 
                 if (table.getGameEngine().checkMove(moveXY[0], moveXY[1], type)) {
+
                     owner.sendMessageToUser("OK");
 
                     try {
