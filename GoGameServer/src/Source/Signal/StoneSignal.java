@@ -41,9 +41,7 @@ public class StoneSignal extends Signal {
 
             if( table.getActivePlayer().equals(id) ) {
 
-                int moveXY[] = table.getGameEngine().convertMove(move);
-
-                if (table.getGameEngine().checkMove(moveXY[0], moveXY[1], type)) {
+                if ( table.getGameEngine().checkMove(move, type).indexOf("Stone") == 0) {
 
                     owner.sendMessageToUser("OK");
 

@@ -4,6 +4,7 @@ public class GameEngine {
 
     private Stone gameField[][];    // Actual state of the game
     private int size;
+    private String stoneMove;
 
     public GameEngine(int size) {
         gameField = new Stone[size][size];
@@ -17,7 +18,33 @@ public class GameEngine {
         }
     }
 
-    public int[] convertMove(int value) {
+    public String checkMove(int value, StoneType type) {
+        int move[] = convertMove(value);
+
+        if( place(move[0], move[1], type) ) {
+            if ( checkFullArea(move[0], move[1], type) ) return "This move is suicide";        // Sprawdza sam siebie
+        }
+        else {
+            return "This field is already taken";
+        }
+
+        stoneMove = "Stone;" + type.toString() + ";" + Integer.toString(value);
+
+        StoneType opponentType = ( type.equals(StoneType.BLACK) ? StoneType.WHITE : StoneType.BLACK );
+
+        checkFullArea( move[0]-1, move[1]-1, opponentType );
+        checkFullArea( move[0],   move[1]-1, opponentType );
+        checkFullArea( move[0]+1, move[1]-1, opponentType );
+        checkFullArea( move[0]+1,   move[1], opponentType );
+        checkFullArea( move[0]+1, move[1]+1, opponentType );
+        checkFullArea(   move[0], move[1]+1, opponentType );
+        checkFullArea( move[0]-1, move[1]+1, opponentType );
+        checkFullArea( move[0]-1,   move[1], opponentType );
+
+        return stoneMove;
+    }
+
+    private int[] convertMove(int value) {
         int move[] = new int[2];
 
         move[0] = value % size;
@@ -26,7 +53,7 @@ public class GameEngine {
         return move;
     }
 
-    public boolean place(int x, int y, StoneType type) {
+    private boolean place(int x, int y, StoneType type) {
         if( gameField[x][y].getStoneType().equals( StoneType.EMPTY ) ) {    // Check if field is empty
             gameField[x][y].setStoneType(type);
             return true;
@@ -36,33 +63,16 @@ public class GameEngine {
         }
     }
 
-    public boolean checkMove(int x, int y, StoneType type) {
-        if( place(x,y,type) ) {
-            if ( checkFullArea(x, y, type) ) return false;        // Sprawdza sam siebie
-        }
-        else {
-            return false;
-        }
-
-        return true;
-
-//        checkFullArea( x-1, y-1, type );
-//        checkFullArea(   x, y-1, type );
-//        checkFullArea( x+1, y-1, type );
-//        checkFullArea( x+1,   y, type );
-//        checkFullArea( x+1, y+1, type );
-//        checkFullArea(   x, y+1, type );
-//        checkFullArea( x-1, y+1, type );
-//        checkFullArea( x-1,   y, type );
-    }
-
     private boolean checkFullArea(int x, int y, StoneType type) {
 
-        boolean isKilled = ifAreaIsFull(x, y, 1, type);
+        if( gameField[x][y].getStoneType().equals())
+
         clearTest();
+        boolean isKilled = ifAreaIsFull(x, y, 1, type);
 
         if (isKilled) {
             System.out.print("ELEMENT ZABITY: X: " + Integer.toString(x) + " Y: " + Integer.toString(y) + "\n");
+            deleteArea(x,y);
         }
         return isKilled;
     }
@@ -85,6 +95,22 @@ public class GameEngine {
         if( !ifAreaIsFull(x-1,   y, number+1, type) )  return false;
 
         return true;
+    }
+
+    private void deleteArea(int x, int y) {
+        if( x < 0 || x >= 19 || y < 0 || y >= 19 ) {
+            if( gameField[x][y].getTestType() > 0 ) {
+                gameField[x][y].setTestType(0);
+                gameField[x][y].setStoneType( StoneType.EMPTY );
+
+                stoneMove += "E;" + Integer.toString( x + (y*19) );
+            }
+
+            deleteArea(x-1, y);
+            deleteArea(x+1, y);
+            deleteArea(x, y-1);
+            deleteArea(x, y+1);
+        }
     }
 
     public void clearTest() {
