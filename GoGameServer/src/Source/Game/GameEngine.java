@@ -19,27 +19,31 @@ public class GameEngine {
     }
 
     public String checkMove(int value, StoneType type) {
+
+        boolean killed = false;
+
         int move[] = convertMove(value);
 
         if( place(move[0], move[1], type) ) {
-            if ( checkFullArea(move[0], move[1], type) ) return "This move is suicide";        // Sprawdza sam siebie
+
+            stoneMove = "YourMove;" + type.toString() + ";" + Integer.toString(value) + ";";
+
+            StoneType opponentType = ( type.equals(StoneType.BLACK) ? StoneType.WHITE : StoneType.BLACK );
+
+            if( checkFullArea( move[0]-1, move[1]-1, opponentType ) ) killed = true;
+            if( checkFullArea( move[0],   move[1]-1, opponentType ) ) killed = true;
+            if( checkFullArea( move[0]+1, move[1]-1, opponentType ) ) killed = true;
+            if( checkFullArea( move[0]+1,   move[1], opponentType ) ) killed = true;
+            if( checkFullArea( move[0]+1, move[1]+1, opponentType ) ) killed = true;
+            if( checkFullArea(   move[0], move[1]+1, opponentType ) ) killed = true;
+            if( checkFullArea( move[0]-1, move[1]+1, opponentType ) ) killed = true;
+            if( checkFullArea( move[0]-1,   move[1], opponentType ) ) killed = true;
+
+            if ( !killed && checkFullArea(move[0], move[1], type) ) return "This move is suicide";        // Sprawdza sam siebie
         }
         else {
             return "This field is already taken";
         }
-
-        stoneMove = "Stone;" + type.toString() + ";" + Integer.toString(value);
-
-        StoneType opponentType = ( type.equals(StoneType.BLACK) ? StoneType.WHITE : StoneType.BLACK );
-
-        checkFullArea( move[0]-1, move[1]-1, opponentType );
-        checkFullArea( move[0],   move[1]-1, opponentType );
-        checkFullArea( move[0]+1, move[1]-1, opponentType );
-        checkFullArea( move[0]+1,   move[1], opponentType );
-        checkFullArea( move[0]+1, move[1]+1, opponentType );
-        checkFullArea(   move[0], move[1]+1, opponentType );
-        checkFullArea( move[0]-1, move[1]+1, opponentType );
-        checkFullArea( move[0]-1,   move[1], opponentType );
 
         return stoneMove;
     }
@@ -65,21 +69,27 @@ public class GameEngine {
 
     private boolean checkFullArea(int x, int y, StoneType type) {
 
-        if( gameField[x][y].getStoneType().equals())
+        if( x >= 0 && x < size && y >= 0 && y < size ) {
 
-        clearTest();
-        boolean isKilled = ifAreaIsFull(x, y, 1, type);
+            if (gameField[x][y].getStoneType().equals(StoneType.EMPTY)) return false;
 
-        if (isKilled) {
-            System.out.print("ELEMENT ZABITY: X: " + Integer.toString(x) + " Y: " + Integer.toString(y) + "\n");
-            deleteArea(x,y);
+            clearTest();
+            boolean isKilled = ifAreaIsFull(x, y, 1, type);
+
+            if (isKilled) {
+                System.out.print("ELEMENT ZABITY: X: " + Integer.toString(x) + " Y: " + Integer.toString(y) + "\n");
+                deleteArea(x, y);
+            }
+            return isKilled;
         }
-        return isKilled;
+        else {
+            return false;
+        }
     }
 
     private boolean ifAreaIsFull(int x, int y, int number, StoneType type) {
 
-        if( x < 0 || x >= 19 || y < 0 || y >= 19 ) return true;
+        if( x < 0 || x >= size || y < 0 || y >= size ) return true;
 
         if( gameField[x][y].getTestType() <= number && gameField[x][y].getTestType() != 0 ) return true;
 
@@ -98,18 +108,18 @@ public class GameEngine {
     }
 
     private void deleteArea(int x, int y) {
-        if( x < 0 || x >= 19 || y < 0 || y >= 19 ) {
+        if( x >= 0 && x < size && y >= 0 && y < size ) {
             if( gameField[x][y].getTestType() > 0 ) {
                 gameField[x][y].setTestType(0);
-                gameField[x][y].setStoneType( StoneType.EMPTY );
+                gameField[x][y].setStoneType(StoneType.EMPTY);
 
-                stoneMove += "E;" + Integer.toString( x + (y*19) );
+                stoneMove += "E;" + Integer.toString(x + (y * 19)) + ";";
+
+                deleteArea(x - 1, y);
+                deleteArea(x + 1, y);
+                deleteArea(x, y - 1);
+                deleteArea(x, y + 1);
             }
-
-            deleteArea(x-1, y);
-            deleteArea(x+1, y);
-            deleteArea(x, y-1);
-            deleteArea(x, y+1);
         }
     }
 

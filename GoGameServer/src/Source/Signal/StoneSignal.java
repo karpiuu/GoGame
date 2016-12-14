@@ -41,12 +41,17 @@ public class StoneSignal extends Signal {
 
             if( table.getActivePlayer().equals(id) ) {
 
-                if ( table.getGameEngine().checkMove(move, type).indexOf("Stone") == 0) {
+                String command = table.getGameEngine().checkMove(move, type);
 
-                    owner.sendMessageToUser("OK");
+                if ( command.contains("YourMove") ) {
+
+                    owner.sendMessageToUser(command);
+
+                    command = "Stone" + command.substring( command.indexOf(";") );
+                    System.out.print("[" + command + "]");
 
                     try {
-                        userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( "Stone;" + type.toString() + ";" + Integer.toString(move) + ";" );
+                        userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( command );
                     } catch (UnknownUserIdException e) {
                         // This user might be deleted
                         System.out.println("[ERROR] User " + id + " don't exists anymore");
@@ -54,8 +59,9 @@ public class StoneSignal extends Signal {
 
                     table.setActivePlayer( table.getUnactivePlayer() );
 
-                } else {
-                    owner.sendMessageToUser("Invalid move.");
+                }
+                else {
+                    owner.sendMessageToUser(command);
                 }
             }
             else {

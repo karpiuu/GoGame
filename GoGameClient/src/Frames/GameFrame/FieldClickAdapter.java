@@ -44,7 +44,7 @@ public class FieldClickAdapter implements MouseListener {
 
             String line = client.readFromInput();
 
-            if(line.contains("Stone")) {
+            if(line.contains("YourMove")) {
                 gameEngine.changeTurn();
                 gameEngine.place(line);
                 gamePanel.repaint();
