@@ -39,6 +39,9 @@ public class GameEngine {
             if( checkFullArea( move[0]-1, move[1]+1, opponentType ) ) killed = true;
             if( checkFullArea( move[0]-1,   move[1], opponentType ) ) killed = true;
 
+            if( killed )
+                System.out.println("COS ZABIL");
+
             if ( !killed && checkFullArea(move[0], move[1], type) ) return "This move is suicide";        // Sprawdza sam siebie
         }
         else {
@@ -71,14 +74,14 @@ public class GameEngine {
 
         if( x >= 0 && x < size && y >= 0 && y < size ) {
 
-            if (gameField[x][y].getStoneType().equals(StoneType.EMPTY)) return false;
+            if (!gameField[x][y].getStoneType().equals(type)) return false;
 
             clearTest();
             boolean isKilled = ifAreaIsFull(x, y, 1, type);
 
             if (isKilled) {
                 System.out.print("ELEMENT ZABITY: X: " + Integer.toString(x) + " Y: " + Integer.toString(y) + "\n");
-                deleteArea(x, y);
+                deleteArea(x,y);
             }
             return isKilled;
         }

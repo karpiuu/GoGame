@@ -48,7 +48,6 @@ public class StoneSignal extends Signal {
                     owner.sendMessageToUser(command);
 
                     command = "Stone" + command.substring( command.indexOf(";") );
-                    System.out.print("[" + command + "]");
 
                     try {
                         userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( command );
