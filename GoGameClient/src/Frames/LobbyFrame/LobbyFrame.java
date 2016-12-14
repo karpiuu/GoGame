@@ -2,16 +2,15 @@ package Frames.LobbyFrame;
 
 import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
-import Frames.GameFrame.GameFrame;
 import GameEngine.SignalOperation;
-
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class LobbyFrame create lobby frame with tables list, users list and buttons.
+ */
 public class LobbyFrame extends JFrame {
+
     SocketClient client;
 
     private JPanel panel1;
@@ -22,14 +21,13 @@ public class LobbyFrame extends JFrame {
     private OpponentSignalObserver opponentObserver;
 
     public LobbyFrame(SocketClient newClient, OpponentSignalObserver opponentObserver) {
+
         super("Lobby window");
 
         this.opponentObserver = opponentObserver;
-
         client = newClient;
 
         setContentPane(panel1);
-
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
@@ -40,10 +38,12 @@ public class LobbyFrame extends JFrame {
         tableList.addMouseListener(new ListJoinToTableAdapter(client, this, tableList, opponentObserver));
 
         setVisible(true);
-
-
     }
 
+    /**
+     * Function gets all usernames from server and relays to the list on client
+     * @param line
+     */
     public void refreshUserList(String line) {
 
         ArrayList<String> userArray = SignalOperation.parseString(line);
@@ -60,6 +60,10 @@ public class LobbyFrame extends JFrame {
 
     }
 
+    /**
+     * Function gets all table from server and relays to the list on client
+     * @param line
+     */
     public void refreshTableList(String line) {
         ArrayList<String> tableArray = SignalOperation.parseString(line);
 
@@ -85,6 +89,9 @@ public class LobbyFrame extends JFrame {
         tableList.setModel(listModel);
     }
 
+    /**
+     * Function init add ActionListener to the refresh button.
+     */
     public void init(){
         refreshButton.addActionListener(new ButtonRefreshAdapter(client, this));
     }

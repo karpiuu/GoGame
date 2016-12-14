@@ -28,8 +28,6 @@ public class ButtonRefreshAdapter implements ActionListener {
         line = client.readFromInput();
 
         frame.refreshUserList(line.substring( 0, line.indexOf("Tables") ));
-
         frame.refreshTableList(line.substring( line.indexOf("Tables") ));
     }
-
 }
