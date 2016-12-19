@@ -2,12 +2,10 @@ package Frames.GameFrame;
 
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
-import GameEngine.GameEngine;
+import GameEngine.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GameFrame extends JFrame {
     private SocketClient client;
@@ -54,12 +52,31 @@ public class GameFrame extends JFrame {
         if( line.contains("Pass") || line.contains("ChangeTurn")) {
             changeTurn();
         }
-
-        if( line.contains("Stone")) {
+        else if( line.contains("Stone")) {
             gameViewPanel.getGameEngine().place(line);
             changeTurn();
 
             gameViewPanel.repaint();
+        }
+        else if(line.contains("StartGame")) {
+
+            gameEngine.startGame();
+
+            if(line.contains("White")) {
+                gameEngine.setPlayerStone( Stone.WHITE );
+            }
+            else {
+                gameEngine.setPlayerStone( Stone.BLACK );
+                changeTurn();
+            }
+
+            surrenderButton.setVisible(true);
+            surrenderButton.setEnabled(true);
+            passButton.setVisible(true);
+            passButton.setEnabled(true);
+            startButton.setVisible(false);
+            turn1.setVisible(true);
+            turn2.setVisible(true);
         }
     }
 

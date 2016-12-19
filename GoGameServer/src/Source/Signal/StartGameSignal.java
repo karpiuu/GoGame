@@ -21,6 +21,8 @@ public class StartGameSignal extends Signal {
     @Override
     public void execute() {
         Table table;
+        boolean type = false;
+
         if(owner.getTableId() != null) {
             try { table = tableManager.getTable( owner.getTableId() ); }
             catch (UnknownTableIdException e) {
@@ -30,14 +32,28 @@ public class StartGameSignal extends Signal {
             }
 
             if( table.startGame() ) {
-                owner.sendMessageToUser( "OK" );
 
                 table.startGame();
 
+                owner.sendMessageToUser( "OK" );
+
                 if (table.getIdUserWhite() == id) {
                     owner.sendMessageToUser("White");
+                    type = true;
                 } else if (table.getIdUserBlack() == id) {
                     owner.sendMessageToUser("Black");
+                    type = false;
+                }
+
+                if( table.getActivePlayer().equals(id) ) {
+                    try {
+                        userManager.getUser(table.getUnactivePlayer()).sendMessageToUser("StartGame;" + (type ? "Black;" : "White;"));
+                    } catch (UnknownUserIdException e) {
+                        // Unknown user
+                        System.out.println("[ERROR] User don't exists");
+                        owner.sendMessageToUser("You don't have opponent");
+                        return;
+                    }
                 }
             }
             else {

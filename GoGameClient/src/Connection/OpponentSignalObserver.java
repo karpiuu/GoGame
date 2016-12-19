@@ -20,6 +20,11 @@ public class OpponentSignalObserver {
             gameFrame.notifyGame(line);
             return true;
         }
+
+        if(line.contains("StartGame")) {
+            gameFrame.notifyGame(line);
+            return true;
+        }
         return false;
     }
 
