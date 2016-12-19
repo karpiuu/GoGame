@@ -16,6 +16,8 @@ public class GameFrame extends JFrame {
     private JButton passButton;
     private JLabel turn1;
     private JLabel turn2;
+    private JLabel color;
+    private JLabel colorLabel;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -44,7 +46,8 @@ public class GameFrame extends JFrame {
         gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, turn2);
         panel1.add( gameViewPanel, BorderLayout.CENTER );
 
-        startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton, passButton, turn1, turn2) );
+        startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton,
+                                                              passButton, turn1, turn2, colorLabel, color) );
         passButton.addActionListener(new ButtonPassAdapter(client,this));
     }
 
@@ -62,12 +65,14 @@ public class GameFrame extends JFrame {
 
             gameEngine.startGame();
 
-            if(line.contains("White")) {
-                gameEngine.setPlayerStone( Stone.WHITE );
+            if(line.contains("Black")) {
+                gameEngine.setPlayerStone( Stone.BLACK );
+                color.setText("Black");
+                gameEngine.changeTurn();
             }
             else {
-                gameEngine.setPlayerStone( Stone.BLACK );
-                changeTurn();
+                gameEngine.setPlayerStone( Stone.WHITE );
+                color.setText("White");
             }
 
             surrenderButton.setVisible(true);
@@ -77,6 +82,8 @@ public class GameFrame extends JFrame {
             startButton.setVisible(false);
             turn1.setVisible(true);
             turn2.setVisible(true);
+            colorLabel.setVisible(true);
+            color.setVisible(true);
         }
     }
 

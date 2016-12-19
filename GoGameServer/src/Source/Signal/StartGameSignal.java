@@ -55,6 +55,16 @@ public class StartGameSignal extends Signal {
                         return;
                     }
                 }
+                else {
+                    try {
+                        userManager.getUser(table.getActivePlayer()).sendMessageToUser("StartGame;" + (type ? "Black;" : "White;"));
+                    } catch (UnknownUserIdException e) {
+                        // Unknown user
+                        System.out.println("[ERROR] User don't exists");
+                        owner.sendMessageToUser("You don't have opponent");
+                        return;
+                    }
+                }
             }
             else {
                 owner.sendMessageToUser( "You need opponent to start game." );
