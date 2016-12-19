@@ -18,8 +18,12 @@ public class StartButtonAdapter implements ActionListener {
     private GameEngine gameEngine;
     private JLabel turn1;
     private JLabel turn2;
+    private JLabel colorLabel;
+    private JLabel color;
 
-    public StartButtonAdapter(SocketClient client, GameEngine gameEngine, JButton startButton, JButton surrenderButton, JButton passButton, JLabel turn1, JLabel turn2) {
+    public StartButtonAdapter(SocketClient client, GameEngine gameEngine, JButton startButton,
+                              JButton surrenderButton, JButton passButton, JLabel turn1, JLabel turn2,
+                              JLabel colorLabel, JLabel color) {
         this.client = client;
         this.gameEngine = gameEngine;
         this.startButton = startButton;
@@ -27,6 +31,8 @@ public class StartButtonAdapter implements ActionListener {
         this.passButton = passButton;
         this.turn1 = turn1;
         this.turn2 = turn2;
+        this.colorLabel = colorLabel;
+        this.color = color;
     }
 
     @Override
@@ -44,9 +50,11 @@ public class StartButtonAdapter implements ActionListener {
 
             if(line.equals("White")) {
                 gameEngine.setPlayerStone( Stone.WHITE );
+                color.setText("White");
             }
             else {
                 gameEngine.setPlayerStone( Stone.BLACK );
+                color.setText("Black");
                 gameEngine.changeTurn();
             }
         }
@@ -63,5 +71,7 @@ public class StartButtonAdapter implements ActionListener {
         startButton.setVisible(false);
         turn1.setVisible(true);
         turn2.setVisible(true);
+        colorLabel.setVisible(true);
+        color.setVisible(true);
     }
 }
