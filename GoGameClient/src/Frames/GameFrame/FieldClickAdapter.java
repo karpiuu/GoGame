@@ -18,8 +18,13 @@ public class FieldClickAdapter implements MouseListener {
     private JPanel gamePanel;
     private SocketClient client;
     private JLabel turn;
+    private JLabel blackP;
+    private JLabel whiteP;
 
-    public FieldClickAdapter(SocketClient newClient, int x, int y, JLabel turn, GameEngine gameEngine, GameViewPanel gameViewPanel) {
+    public FieldClickAdapter(SocketClient newClient, int x, int y, JLabel turn, GameEngine gameEngine, GameViewPanel gameViewPanel, JLabel blackP, JLabel whiteP) {
+        this.blackP = blackP;
+        this.whiteP = whiteP;
+
         client = newClient;
         this.x = x;
         this.y = y;
@@ -56,7 +61,12 @@ public class FieldClickAdapter implements MouseListener {
                     turn.setText("Black");
                 }
 
-                gameEngine.place(line);
+                gameEngine.place(line.substring(0,line.indexOf("Points") ));
+                gameEngine.changePoints(line.substring(line.indexOf("Points")));
+
+                blackP.setText( gameEngine.getPointsBlack().toString() );
+                whiteP.setText( gameEngine.getPointsWhite().toString() );
+
                 gamePanel.repaint();
             }
             else {

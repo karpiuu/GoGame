@@ -11,8 +11,14 @@ public class GameEngine {
     private ArrayList<Integer> lastKilled;
     private ArrayList<Integer> newKilled;
     private int nearStone[][];
+    private int pointsBlack;
+    private int pointsWhite;
+    private boolean pointsTo;       // False - Black, True - White
 
     public GameEngine(int size) {
+        pointsBlack = 0;
+        pointsWhite = 0;
+        pointsTo = false;
         gameField = new Stone[size][size];
         lastKilled = new ArrayList<>();
 
@@ -49,6 +55,7 @@ public class GameEngine {
                         gameField[move[0]][move[1]].setStoneType(StoneType.EMPTY);
                         return "That move creates infinite loop";
                     }
+                    pointsTo = (!type.equals(StoneType.BLACK));
                     deleteArea(move[0] + nearStone[i][0], move[1] + nearStone[i][1]);
                     killed = true;
                 }
@@ -63,6 +70,8 @@ public class GameEngine {
         else {
             return "This field is already taken";
         }
+
+        stoneMove += "Points;" + Integer.toString(pointsBlack) + ";" + Integer.toString(pointsWhite) + ";";
 
         lastKilled = newKilled;
         lastMove = value;
@@ -148,6 +157,8 @@ public class GameEngine {
                 gameField[x][y].setStoneType(StoneType.EMPTY);
 
                 stoneMove += "E;" + Integer.toString(x + (y * 19)) + ";";
+                if(!pointsTo) pointsBlack++;
+                else pointsWhite++;
 
                 deleteArea(x - 1, y);
                 deleteArea(x + 1, y);

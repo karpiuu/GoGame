@@ -12,10 +12,18 @@ public class GameEngine {
     private Stone playerStone;
     private boolean gameStart;
     private boolean yourTurn;
+    private int lastMove[];
+    private int pointsBlack;
+    private int pointsWhite;
 
     public GameEngine(int size) {
+        pointsBlack = 0;
+        pointsWhite = 0;
+
         gameStart = false;
         yourTurn = false;
+        lastMove = new int[2];
+        lastMove[0] = -1;
 
         playerStone = Stone.WHITE;
 
@@ -50,7 +58,10 @@ public class GameEngine {
      */
     public void place(String line) {
         ArrayList<String> list = SignalOperation.parseString(line);
-        int move[];
+        int move[] = convertMove( Integer.parseInt(list.get(1)) );
+
+        lastMove[0] = move[0];
+        lastMove[1] = move[1];
 
         for(int i = 0; i < list.size(); i += 2) {
 
@@ -122,12 +133,16 @@ public class GameEngine {
 
 
     /**
-     * Function getYourTurn returns actual value of yourTurn variable: 0 or 1.
-     * @return
+     * @return actual value of yourTurn variable: 0 or 1.
      */
     public boolean getYourTurn() {
         return yourTurn;
     }
+
+    /**
+     * @return Last placed move
+     */
+    public int[] getLastMove() { return lastMove; }
 
     /**
      * Function gets number of row and column from single value.
@@ -141,5 +156,20 @@ public class GameEngine {
         move[1] = value / size;
 
         return move;
+    }
+
+    public void changePoints(String line) {
+        ArrayList<String> args = SignalOperation.parseString(line);
+
+        pointsBlack = Integer.parseInt( args.get(0) );
+        pointsWhite = Integer.parseInt( args.get(1) );
+    }
+
+    public Integer getPointsBlack() {
+        return pointsBlack;
+    }
+
+    public Integer getPointsWhite() {
+        return pointsWhite;
     }
 }
