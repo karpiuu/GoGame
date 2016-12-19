@@ -63,7 +63,9 @@ public class FieldClickAdapter implements MouseListener {
                 JOptionPane.showMessageDialog(null, line);
             }
         }
-        //JOptionPane.showMessageDialog(null, "You click on x: " + x.toString() + " y: " + y.toString());
+        else {
+            JOptionPane.showMessageDialog(null, "Wait for your turn");
+        }
     }
 
     @Override

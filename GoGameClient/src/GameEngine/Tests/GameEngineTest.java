@@ -1,5 +1,7 @@
-package GameEngine;
+package GameEngine.Tests;
 
+import GameEngine.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class GameEngineTest {
         line = "Stone;B;1;";
         gameEngine.place(line);
 
-        assertEquals(Stone.EMPTY, gameEngine.getStone(0,1));
+        Assert.assertEquals(Stone.EMPTY, gameEngine.getStone(0,1));
     }
 
     @Test
@@ -37,8 +39,8 @@ public class GameEngineTest {
         GameEngine gameEngine = new GameEngine(19);
         gameEngine.place(1,1, Stone.BLACK);
 
-        assertEquals(Stone.BLACK, gameEngine.getStone(1,1) );
-        assertEquals(Stone.EMPTY, gameEngine.getStone(1,2) );
+        Assert.assertEquals(Stone.BLACK, gameEngine.getStone(1,1) );
+        Assert.assertEquals(Stone.EMPTY, gameEngine.getStone(1,2) );
     }
 
     @Test
