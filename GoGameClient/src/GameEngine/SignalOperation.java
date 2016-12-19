@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class SignalOperation {
 
+    /**
+     * Function parseString changes line to arraylist with arguments
+     * @param line
+     * @return
+     */
     public static ArrayList<String> parseString(String line) {
 
         if( line.length() > 0 ) {

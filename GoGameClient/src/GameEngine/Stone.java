@@ -1,8 +1,16 @@
 package GameEngine;
 
+/**
+ * Enum class has function which retruns type of Stone and parses to String
+ */
 public enum Stone {
     EMPTY, BLACK, WHITE;
 
+    /**
+     * Function getTypeFromString gets type of stone with switch-case.
+     * @param type
+     * @return
+     */
     public static Stone getTypeFromString(String type) {
         switch (type) {
             case "E" : return EMPTY;
@@ -12,6 +20,10 @@ public enum Stone {
         }
     }
 
+    /**
+     * Function toString returns type stone as String
+     * @return
+     */
     @Override
     public String toString() {
         switch (this) {
