@@ -1,17 +1,24 @@
 package Source.Game;
 
+import java.util.ArrayList;
+
 public class GameEngine {
 
     private Stone gameField[][];    // Actual state of the game
     private int size;
     private String stoneMove;
-    //private int lastMove[];
+    private int lastMove;
+    private ArrayList<Integer> lastKilled;
+    private ArrayList<Integer> newKilled;
+    private int nearStone[][];
 
     public GameEngine(int size) {
         gameField = new Stone[size][size];
-
+        lastKilled = new ArrayList<>();
 
         this.size = size;
+
+        nearStone = new int[][]{ { -1, -1 }, { 0, -1 }, { 1, -1 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 } };
 
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
@@ -21,6 +28,8 @@ public class GameEngine {
     }
 
     public String checkMove(int value, StoneType type) {
+
+        newKilled = new ArrayList<>();
 
         boolean killed = false;
 
@@ -32,22 +41,41 @@ public class GameEngine {
 
             StoneType opponentType = ( type.equals(StoneType.BLACK) ? StoneType.WHITE : StoneType.BLACK );
 
-            if( checkFullArea( move[0]-1, move[1]-1, opponentType ) ) killed = true;
-            if( checkFullArea( move[0],   move[1]-1, opponentType ) ) killed = true;
-            if( checkFullArea( move[0]+1, move[1]-1, opponentType ) ) killed = true;
-            if( checkFullArea( move[0]+1,   move[1], opponentType ) ) killed = true;
-            if( checkFullArea( move[0]+1, move[1]+1, opponentType ) ) killed = true;
-            if( checkFullArea(   move[0], move[1]+1, opponentType ) ) killed = true;
-            if( checkFullArea( move[0]-1, move[1]+1, opponentType ) ) killed = true;
-            if( checkFullArea( move[0]-1,   move[1], opponentType ) ) killed = true;
+            // Check if this move kill any other stone
+            for(int i = 0; i < 8; i++) {
+                if (checkFullArea(move[0] + nearStone[i][0], move[1] + nearStone[i][1], opponentType)) {
+                    // Checks if move is against rule KO
+                    if (!checkKO(convertMove(move[0] + nearStone[i][0], move[1] + nearStone[i][1]), value)) {
+                        gameField[move[0]][move[1]].setStoneType(StoneType.EMPTY);
+                        return "That move creates infinite loop";
+                    }
+                    deleteArea(move[0] + nearStone[i][0], move[1] + nearStone[i][1]);
+                    killed = true;
+                }
+            }
 
-            if ( !killed && checkFullArea(move[0], move[1], type) ) return "This move is suicide";        // Sprawdza sam siebie
+            // Check himself
+            if ( !killed && checkFullArea(move[0], move[1], type) ) {
+                gameField[move[0]][move[1]].setStoneType(StoneType.EMPTY);
+                return "This move is suicide";
+            }
         }
         else {
             return "This field is already taken";
         }
 
+        lastKilled = newKilled;
+        lastMove = value;
         return stoneMove;
+    }
+
+    private boolean checkKO(int move, int playerMove) {
+        for (Integer value : lastKilled) {
+            if(value == playerMove) {
+                if(lastMove == move) return false;
+            }
+        }
+        return true;
     }
 
     private int[] convertMove(int value) {
@@ -57,6 +85,10 @@ public class GameEngine {
         move[1] = value / size;
 
         return move;
+    }
+
+    private int convertMove(int x, int y) {
+        return x + y*size;
     }
 
     private boolean place(int x, int y, StoneType type) {
@@ -80,7 +112,7 @@ public class GameEngine {
 
             if (isKilled) {
                 System.out.print("ELEMENT ZABITY: X: " + Integer.toString(x) + " Y: " + Integer.toString(y) + "\n");
-                deleteArea(x, y);
+                newKilled.add(convertMove(x,y));
             }
             return isKilled;
         }

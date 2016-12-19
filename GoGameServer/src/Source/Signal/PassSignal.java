@@ -33,7 +33,7 @@ public class PassSignal extends Signal {
                 return;
             }
 
-            if( table.startGame() ) {
+            if( table.getGameStart() ) {
                 if( table.getActivePlayer().equals(id) ) {
 
                     owner.sendMessageToUser("OK");
