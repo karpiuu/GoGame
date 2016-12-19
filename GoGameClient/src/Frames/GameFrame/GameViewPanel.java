@@ -23,7 +23,9 @@ public class GameViewPanel extends JPanel {
     private JLabel buttonList[][];
     private SocketClient client;
 
-    public GameViewPanel(SocketClient newClient, int w, int h, GameEngine gameEngine, JLabel turn) {
+    public GameViewPanel(SocketClient newClient, int w, int h, GameEngine gameEngine, JLabel turn, JLabel blackP, JLabel whiteP) {
+
+
         this.gameEngine = gameEngine;
         this.turn = turn;
 
@@ -48,7 +50,7 @@ public class GameViewPanel extends JPanel {
 
         rowNumber = 19;
 
-        setButtons(rowNumber);
+        setButtons(rowNumber, blackP, whiteP);
     }
 
     private void doDrawing(Graphics g) {
@@ -103,9 +105,14 @@ public class GameViewPanel extends JPanel {
                 }
             }
         }
+
+        if( gameEngine.getLastMove()[0] != -1) {
+            g2d.setColor(Color.RED);
+            g2d.fillRect(offX + 14 + (size * gameEngine.getLastMove()[0]), offY + 14 + (size * gameEngine.getLastMove()[1]), 9, 9);
+        }
     }
 
-    private void setButtons(int rowNumber) {
+    private void setButtons(int rowNumber, JLabel blackP, JLabel whiteP) {
 
         buttonList = new JLabel[19][19];
 
@@ -118,7 +125,7 @@ public class GameViewPanel extends JPanel {
                 //buttonList[i][j].setOpaque(true);
                 //buttonList[i][j].setBackground( Color.cyan );
                 buttonList[i][j].setBounds( offX + (size * i), offY + (size * j), size, size );
-                buttonList[i][j].addMouseListener( new FieldClickAdapter(client, i,j, turn, gameEngine, this) );
+                buttonList[i][j].addMouseListener( new FieldClickAdapter(client, i,j, turn, gameEngine, this, blackP, whiteP) );
 
                 add( buttonList[i][j] );
             }

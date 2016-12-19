@@ -18,6 +18,8 @@ public class GameFrame extends JFrame {
     private JLabel turn2;
     private JLabel color;
     private JLabel colorLabel;
+    private JLabel blackP;
+    private JLabel whiteP;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -43,7 +45,7 @@ public class GameFrame extends JFrame {
     }
 
     public void init() {
-        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, turn2);
+        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, turn2, blackP, whiteP);
         panel1.add( gameViewPanel, BorderLayout.CENTER );
 
         startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton,
@@ -56,7 +58,12 @@ public class GameFrame extends JFrame {
             changeTurn();
         }
         else if( line.contains("Stone")) {
-            gameViewPanel.getGameEngine().place(line);
+            gameViewPanel.getGameEngine().place(line.substring( 0, line.indexOf("Points") ));
+            gameEngine.changePoints(line.substring(line.indexOf("Points")));
+
+            blackP.setText( gameEngine.getPointsBlack().toString() );
+            whiteP.setText( gameEngine.getPointsWhite().toString() );
+
             changeTurn();
 
             gameViewPanel.repaint();

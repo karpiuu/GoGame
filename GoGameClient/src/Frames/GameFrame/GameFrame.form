@@ -46,10 +46,10 @@
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="White:"/>
+              <text value="Black:"/>
             </properties>
           </component>
-          <component id="f4e8f" class="javax.swing.JLabel">
+          <component id="f4e8f" class="javax.swing.JLabel" binding="blackP">
             <constraints>
               <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -62,10 +62,10 @@
               <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Black:"/>
+              <text value="White:"/>
             </properties>
           </component>
-          <component id="1843f" class="javax.swing.JLabel">
+          <component id="1843f" class="javax.swing.JLabel" binding="whiteP">
             <constraints>
               <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -120,7 +120,8 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="EMPTY"/>
+              <text value=""/>
+              <visible value="false"/>
             </properties>
           </component>
         </children>
