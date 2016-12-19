@@ -93,9 +93,7 @@ public class SignalManager {
             else if (argv.get(0).equals("Pass")) {
                 System.out.println("USER " + Integer.toString(id) + " wants to pass.");
                 signal = new PassSignal(server, id);
-                synchronized (UserConnection.class) {
-                    signal.execute();
-                }
+                signal.execute();
             }
             else {
                 System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );

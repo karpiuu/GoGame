@@ -5,9 +5,11 @@ public class GameEngine {
     private Stone gameField[][];    // Actual state of the game
     private int size;
     private String stoneMove;
+    //private int lastMove[];
 
     public GameEngine(int size) {
         gameField = new Stone[size][size];
+
 
         this.size = size;
 

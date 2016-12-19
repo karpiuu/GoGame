@@ -14,9 +14,9 @@ import java.util.ArrayList;
  */
 public class UserManager {
 
-    private ArrayList<UserConnection> user;     // Hold every user Thread
-    private ArrayList<Integer> freeUserId;      // Contain free ID for new users
-    private Integer userCount;                  // If every slot in array is taken, describe ID for new user
+    private volatile ArrayList<UserConnection> user;     // Hold every user Thread
+    private ArrayList<Integer> freeUserId;               // Contain free ID for new users
+    private Integer userCount;                           // If every slot in array is taken, describe ID for new user
 
     public UserManager() {
 

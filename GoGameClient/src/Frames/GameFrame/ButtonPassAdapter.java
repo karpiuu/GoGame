@@ -10,11 +10,11 @@ import java.awt.event.ActionListener;
 public class ButtonPassAdapter implements ActionListener {
 
     private SocketClient client;
-    private GameEngine gameEngine;
+    private GameFrame gameFrame;
 
-    public ButtonPassAdapter(SocketClient newclient, GameEngine gameEngine){
+    public ButtonPassAdapter(SocketClient newclient, GameFrame gameFrame){
         client = newclient;
-        this.gameEngine = gameEngine;
+        this.gameFrame = gameFrame;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ButtonPassAdapter implements ActionListener {
         line = client.readFromInput();
 
         if(line.equals("OK")) {
-            gameEngine.changeTurn();
+            gameFrame.changeTurn();
         }
         else {
             JOptionPane.showMessageDialog(null, line);

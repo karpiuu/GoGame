@@ -16,6 +16,8 @@ public class GameFrame extends JFrame {
     private JButton startButton;
     private JButton surrenderButton;
     private JButton passButton;
+    private JLabel turn1;
+    private JLabel turn2;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -38,24 +40,37 @@ public class GameFrame extends JFrame {
         setResizable(false);
         setVisible(true);
         // surrenderButton.addActionListener(new ButtonSurenderAdapter(client));
-        passButton.addActionListener(new ButtonPassAdapter(client,gameEngine));
     }
 
     public void init() {
-        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine);
+        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, turn2);
         panel1.add( gameViewPanel, BorderLayout.CENTER );
 
-        startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton, passButton) );
+        startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton, passButton, turn1, turn2) );
+        passButton.addActionListener(new ButtonPassAdapter(client,this));
     }
 
     public void notifyGame(String line) {
-        if( line.contains("Pass")) {
-            gameEngine.changeTurn();
+        if( line.contains("Pass") || line.contains("ChangeTurn")) {
+            changeTurn();
         }
+
         if( line.contains("Stone")) {
             gameViewPanel.getGameEngine().place(line);
-            gameEngine.changeTurn();
+            changeTurn();
+
             gameViewPanel.repaint();
         }
+    }
+
+    public void changeTurn() {
+        if(turn2.getText().equals("Black")) {
+            turn2.setText("White");
+        }
+        else {
+            turn2.setText("Black");
+        }
+
+        gameEngine.changeTurn();
     }
 }

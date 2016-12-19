@@ -18,12 +18,15 @@ public class GameViewPanel extends JPanel {
     private int size;
     private int halfSize;
     private int rowNumber;
+    private JLabel turn;
 
     private JLabel buttonList[][];
     private SocketClient client;
 
-    public GameViewPanel(SocketClient newClient, int w, int h, GameEngine gameEngine) {
+    public GameViewPanel(SocketClient newClient, int w, int h, GameEngine gameEngine, JLabel turn) {
         this.gameEngine = gameEngine;
+        this.turn = turn;
+
         client = newClient;
 
         width = w;
@@ -115,7 +118,7 @@ public class GameViewPanel extends JPanel {
                 //buttonList[i][j].setOpaque(true);
                 //buttonList[i][j].setBackground( Color.cyan );
                 buttonList[i][j].setBounds( offX + (size * i), offY + (size * j), size, size );
-                buttonList[i][j].addMouseListener( new FieldClickAdapter(client, i,j, gameEngine, this) );
+                buttonList[i][j].addMouseListener( new FieldClickAdapter(client, i,j, turn, gameEngine, this) );
 
                 add( buttonList[i][j] );
             }

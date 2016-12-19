@@ -34,7 +34,7 @@ public class PassSignal extends Signal {
             }
 
             if( table.startGame() ) {
-                if( table.getActivePlayer().equals(id) ){
+                if( table.getActivePlayer().equals(id) ) {
 
                     owner.sendMessageToUser("OK");
 
@@ -44,6 +44,11 @@ public class PassSignal extends Signal {
                         // This user might be deleted
                         System.out.println("[ERROR] User " + id + " don't exists anymore");
                     }
+
+                    table.setActivePlayer( table.getUnactivePlayer() );
+                }
+                else {
+                    owner.sendMessageToUser( "Wait for your turn." );
                 }
             }
             else {

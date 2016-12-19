@@ -16,13 +16,17 @@ public class StartButtonAdapter implements ActionListener {
     private JButton surrenderButton;
     private JButton passButton;
     private GameEngine gameEngine;
+    private JLabel turn1;
+    private JLabel turn2;
 
-    public StartButtonAdapter(SocketClient client, GameEngine gameEngine, JButton startButton, JButton surrenderButton, JButton passButton) {
+    public StartButtonAdapter(SocketClient client, GameEngine gameEngine, JButton startButton, JButton surrenderButton, JButton passButton, JLabel turn1, JLabel turn2) {
         this.client = client;
         this.gameEngine = gameEngine;
         this.startButton = startButton;
         this.surrenderButton = surrenderButton;
         this.passButton = passButton;
+        this.turn1 = turn1;
+        this.turn2 = turn2;
     }
 
     @Override
@@ -57,6 +61,7 @@ public class StartButtonAdapter implements ActionListener {
         passButton.setVisible(true);
         passButton.setEnabled(true);
         startButton.setVisible(false);
-
+        turn1.setVisible(true);
+        turn2.setVisible(true);
     }
 }

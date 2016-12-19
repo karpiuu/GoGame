@@ -16,14 +16,16 @@ public class FieldClickAdapter implements MouseListener {
     private Integer y;
     private GameEngine gameEngine;
     private JPanel gamePanel;
-    SocketClient client;
+    private SocketClient client;
+    private JLabel turn;
 
-    public FieldClickAdapter(SocketClient newClient, int x, int y, GameEngine gameEngine, GameViewPanel gameViewPanel) {
+    public FieldClickAdapter(SocketClient newClient, int x, int y, JLabel turn, GameEngine gameEngine, GameViewPanel gameViewPanel) {
         client = newClient;
         this.x = x;
         this.y = y;
         this.gameEngine = gameEngine;
         gamePanel = gameViewPanel;
+        this.turn = turn;
     }
 
     @Override
@@ -46,6 +48,14 @@ public class FieldClickAdapter implements MouseListener {
 
             if(line.contains("YourMove")) {
                 gameEngine.changeTurn();
+
+                if(turn.getText().equals("Black")) {
+                    turn.setText("White");
+                }
+                else {
+                    turn.setText("Black");
+                }
+
                 gameEngine.place(line);
                 gamePanel.repaint();
             }
