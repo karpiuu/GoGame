@@ -14,14 +14,24 @@ public class GameFrame extends JFrame {
     private JButton startButton;
     private JButton surrenderButton;
     private JButton passButton;
-    private JLabel turn1;
-    private JLabel turn2;
-    private JLabel color;
-    private JLabel colorLabel;
-    private JLabel blackP;
-    private JLabel whiteP;
-    private JLabel bLabelPoints;
-    private JLabel wLabelPoints;
+    private JLabel blackPoints;
+    private JLabel blackLabel;
+    private JLabel whiteLabel;
+    private JLabel whitePoints;
+    private JLabel actualTurn;
+    private JLabel turnLabel;
+    private JLabel ourColor;
+    private JLabel opponentColor;
+    private JPanel gameButtonsPanel;
+    private JPanel startGamePanel;
+    private JPanel passGamePanel;
+    private JButton commitButton;
+    private JButton returnToGameButton;
+    private JPanel opponentIsSelectingPanel;
+    private JButton yesButton;
+    private JButton noButton;
+    private JButton returnToGameButton1;
+    private JPanel acceptPanel;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -39,7 +49,7 @@ public class GameFrame extends JFrame {
 
         pack();
 
-        setSize(800,800);
+        setSize(1000,900);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -47,7 +57,7 @@ public class GameFrame extends JFrame {
     }
 
     public void init() {
-        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, turn2, blackP, whiteP);
+        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, actualTurn, blackPoints, whitePoints);
         panel1.add( gameViewPanel, BorderLayout.CENTER );
 
         startButton.addActionListener( new StartButtonAdapter(client, this, gameEngine) );
@@ -62,8 +72,8 @@ public class GameFrame extends JFrame {
             gameViewPanel.getGameEngine().place(line.substring( 0, line.indexOf("Points") ));
             gameEngine.changePoints(line.substring(line.indexOf("Points")));
 
-            blackP.setText( gameEngine.getPointsBlack().toString() );
-            whiteP.setText( gameEngine.getPointsWhite().toString() );
+            blackPoints.setText( gameEngine.getPointsBlack().toString() );
+            whitePoints.setText( gameEngine.getPointsWhite().toString() );
 
             changeTurn();
 
@@ -83,38 +93,49 @@ public class GameFrame extends JFrame {
 
         if(line.contains("Black")) {
             gameEngine.setPlayerStone( Stone.BLACK );
-            color.setText("Black");
+            ourColor.setText("Black");
             gameEngine.changeTurn();
         }
         else {
             gameEngine.setPlayerStone( Stone.WHITE );
-            color.setText("White");
+            ourColor.setText("White");
         }
 
+        startGamePanel.setVisible(false);
+        gameButtonsPanel.setVisible(true);
         surrenderButton.setVisible(true);
         passButton.setVisible(true);
         startButton.setVisible(false);
-        turn1.setVisible(true);
-        turn2.setVisible(true);
-        colorLabel.setVisible(true);
-        color.setVisible(true);
-        bLabelPoints.setVisible(true);
-        wLabelPoints.setVisible(true);
-        blackP.setVisible(true);
-        whiteP.setVisible(true);
+        turnLabel.setVisible(true);
+        actualTurn.setVisible(true);
+        ourColor.setVisible(true);
+        blackLabel.setVisible(true);
+        whiteLabel.setVisible(true);
+        blackPoints.setVisible(true);
+        whitePoints.setVisible(true);
     }
 
     public void setEndGame() {
         gameEngine.setGameEnd(true);
+
+        gameButtonsPanel.setVisible(false);
+
+        if( gameEngine.getPlayerStone().equals(Stone.BLACK)){
+            passGamePanel.setVisible(true);
+        }
+        else{
+            opponentIsSelectingPanel.setVisible(true);
+        }
+
         JOptionPane.showMessageDialog(null, "Game end");
     }
 
     public void changeTurn() {
-        if(turn2.getText().equals("Black")) {
-            turn2.setText("White");
+        if(actualTurn.getText().equals("Black")) {
+            actualTurn.setText("White");
         }
         else {
-            turn2.setText("Black");
+            actualTurn.setText("Black");
         }
 
         gameEngine.changeTurn();
