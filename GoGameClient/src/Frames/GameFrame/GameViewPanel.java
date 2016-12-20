@@ -74,7 +74,7 @@ public class GameViewPanel extends JPanel {
 
     private void drawBaseGamePlane(Graphics2D g2d, int rowNumber) {
 
-        g2d.setColor( new Color( 255, 225, 190 ) );
+        g2d.setColor( new Color( 240, 180, 100 ) );
 
         g2d.fillRect( 0, 0, width, height );
 
@@ -84,6 +84,9 @@ public class GameViewPanel extends JPanel {
         for( int i = 0; i < rowNumber-1; i++ ) {
             for( int j = 0; j < rowNumber-1; j++ ) {
                 g2d.drawRect( offX + halfSize + (size * i), offY + halfSize + (size * j), size, size );
+
+                if( ((i+3) % 6) == 0 && ((j+3) % 6) == 0 )
+                    g2d.fillRect(offX + halfSize + (size * i) - 2, offY + halfSize + (size * j) - 2, 4, 4);
             }
         }
     }
@@ -96,12 +99,16 @@ public class GameViewPanel extends JPanel {
                 stone = gameEngine.getStone(i,j);
 
                 if(stone.equals( Stone.BLACK ) ) {
-                    g2d.setColor( new Color ( 20, 20, 20 ) );
+                    g2d.setColor( new Color ( 40, 40, 40 ) );
                     g2d.fillOval( offX + (size * i), offY + (size * j), size, size );
+                    g2d.setColor( new Color ( 0, 0, 0 ) );
+                    g2d.fillOval( offX + (size * i), offY + (size * j), size-2, size-2 );
                 }
                 else if(stone.equals( Stone.WHITE ) ) {
-                    g2d.setColor(new Color(255, 255, 255));
+                    g2d.setColor(new Color(230, 230, 230));
                     g2d.fillOval(offX  + (size * i), offY + (size * j), size, size);
+                    g2d.setColor(new Color(255, 255, 255));
+                    g2d.fillOval(offX + (size * i), offY + (size * j), size-2, size-2 );
                 }
             }
         }
