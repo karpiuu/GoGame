@@ -10,7 +10,10 @@ public class GameEngine {
     private Stone gameTab[][];
     private int size;
     private Stone playerStone;
+
     private boolean gameStart;
+    private boolean gameEnd;
+
     private boolean yourTurn;
     private int lastMove[];
     private int pointsBlack;
@@ -21,6 +24,7 @@ public class GameEngine {
         pointsWhite = 0;
 
         gameStart = false;
+        gameEnd = false;
         yourTurn = false;
         lastMove = new int[2];
         lastMove[0] = -1;
@@ -104,14 +108,20 @@ public class GameEngine {
      */
     public void startGame() {
         gameStart = true;
+        gameEnd = false;
     }
 
 
+    public void setGameEnd(boolean state) {
+        gameEnd = state;
+    }
+
     /**
-     * Function endGame sets variable gameStart on false.
+     *
+     * @return
      */
-    public void endGame() {
-        gameStart = false;
+    public boolean getGameEnd() {
+        return gameEnd;
     }
 
 

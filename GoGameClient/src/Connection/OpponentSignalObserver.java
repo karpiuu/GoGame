@@ -25,6 +25,11 @@ public class OpponentSignalObserver {
             gameFrame.notifyGame(line);
             return true;
         }
+
+        if(line.contains("GameEnd")) {
+            gameFrame.notifyGame(line);
+            return true;
+        }
         return false;
     }
 

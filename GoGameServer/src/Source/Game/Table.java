@@ -101,6 +101,10 @@ public class Table {
         activePlayer = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getUnactivePlayer() {
         if( !idUserWhite.equals(activePlayer) ) return idUserWhite;
         else return idUserBlack;

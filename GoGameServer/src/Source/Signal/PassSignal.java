@@ -36,16 +36,29 @@ public class PassSignal extends Signal {
             if( table.getGameStart() ) {
                 if( table.getActivePlayer().equals(id) ) {
 
-                    owner.sendMessageToUser("OK");
+                    if( table.getGameEngine().userPass() >= 2 ) {           // If two player pass turn
+                        System.out.println("Table " + Integer.toString(table.getId()) + " is trying to end game");
+                        owner.sendMessageToUser("GameEnd;");
 
-                    try {
-                        userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( "Pass;" );
-                    } catch (UnknownUserIdException e) {
-                        // This user might be deleted
-                        System.out.println("[ERROR] User " + id + " don't exists anymore");
+                        try {
+                            userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( "GameEnd;" );
+                        } catch (UnknownUserIdException e) {
+                            // This user might be deleted
+                            System.out.println("[ERROR] User " + id + " don't exists anymore");
+                        }
                     }
+                    else {                                                  // If only one pass for now
+                        owner.sendMessageToUser("OK");
 
-                    table.setActivePlayer( table.getUnactivePlayer() );
+                        try {
+                            userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( "Pass;" );
+                        } catch (UnknownUserIdException e) {
+                            // This user might be deleted
+                            System.out.println("[ERROR] User " + id + " don't exists anymore");
+                        }
+
+                        table.setActivePlayer( table.getUnactivePlayer() );
+                    }
                 }
                 else {
                     owner.sendMessageToUser( "Wait for your turn." );

@@ -14,6 +14,8 @@ public class GameEngine {
     private int pointsBlack;
     private int pointsWhite;
     private boolean pointsTo;       // False - Black, True - White
+    private int numKill;
+    private int pass;
 
     public GameEngine(int size) {
         pointsBlack = 0;
@@ -21,6 +23,7 @@ public class GameEngine {
         pointsTo = false;
         gameField = new Stone[size][size];
         lastKilled = new ArrayList<>();
+        pass = 0;
 
         this.size = size;
 
@@ -56,7 +59,13 @@ public class GameEngine {
                         return "That move creates infinite loop";
                     }
                     pointsTo = (!type.equals(StoneType.BLACK));
+                    numKill = 0;
                     deleteArea(move[0] + nearStone[i][0], move[1] + nearStone[i][1]);
+
+                    if( numKill == 1 ) {
+                        newKilled.add( convertMove( move[0] + nearStone[i][0], move[1] + nearStone[i][1] ) );
+                    }
+
                     killed = true;
                 }
             }
@@ -75,7 +84,13 @@ public class GameEngine {
 
         lastKilled = newKilled;
         lastMove = value;
+        pass = 0;
         return stoneMove;
+    }
+
+    public int userPass() {
+        pass += 1;
+        return pass;
     }
 
     private boolean checkKO(int move, int playerMove) {
@@ -121,7 +136,6 @@ public class GameEngine {
 
             if (isKilled) {
                 System.out.print("ELEMENT ZABITY: X: " + Integer.toString(x) + " Y: " + Integer.toString(y) + "\n");
-                newKilled.add(convertMove(x,y));
             }
             return isKilled;
         }
@@ -157,6 +171,8 @@ public class GameEngine {
                 gameField[x][y].setStoneType(StoneType.EMPTY);
 
                 stoneMove += "E;" + Integer.toString(x + (y * 19)) + ";";
+                numKill++;
+
                 if(!pointsTo) pointsBlack++;
                 else pointsWhite++;
 

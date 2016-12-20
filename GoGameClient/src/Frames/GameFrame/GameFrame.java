@@ -50,7 +50,7 @@ public class GameFrame extends JFrame {
 
         startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton,
                                                               passButton, turn1, turn2, colorLabel, color) );
-        passButton.addActionListener(new ButtonPassAdapter(client,this));
+        passButton.addActionListener(new ButtonPassAdapter(client,this,gameEngine));
     }
 
     public void notifyGame(String line) {
@@ -91,6 +91,10 @@ public class GameFrame extends JFrame {
             turn2.setVisible(true);
             colorLabel.setVisible(true);
             color.setVisible(true);
+        }
+        else if(line.contains("GameEnd")) {
+            gameEngine.setGameEnd(true);
+            JOptionPane.showMessageDialog(null, "Game end");
         }
     }
 
