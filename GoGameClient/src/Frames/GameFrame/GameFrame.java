@@ -20,6 +20,8 @@ public class GameFrame extends JFrame {
     private JLabel colorLabel;
     private JLabel blackP;
     private JLabel whiteP;
+    private JLabel bLabelPoints;
+    private JLabel wLabelPoints;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -48,13 +50,12 @@ public class GameFrame extends JFrame {
         gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, turn2, blackP, whiteP);
         panel1.add( gameViewPanel, BorderLayout.CENTER );
 
-        startButton.addActionListener( new StartButtonAdapter(client, gameEngine, startButton, surrenderButton,
-                                                              passButton, turn1, turn2, colorLabel, color) );
-        passButton.addActionListener(new ButtonPassAdapter(client,this,gameEngine));
+        startButton.addActionListener( new StartButtonAdapter(client, this, gameEngine) );
+        passButton.addActionListener(new ButtonPassAdapter(client, this, gameEngine));
     }
 
     public void notifyGame(String line) {
-        if( line.contains("Pass") || line.contains("ChangeTurn")) {
+        if( line.equals("Pass;") || line.equals("ChangeTurn;")) {
             changeTurn();
         }
         else if( line.contains("Stone")) {
@@ -68,34 +69,44 @@ public class GameFrame extends JFrame {
 
             gameViewPanel.repaint();
         }
-        else if(line.contains("StartGame")) {
-
-            gameEngine.startGame();
-
-            if(line.contains("Black")) {
-                gameEngine.setPlayerStone( Stone.BLACK );
-                color.setText("Black");
-                gameEngine.changeTurn();
-            }
-            else {
-                gameEngine.setPlayerStone( Stone.WHITE );
-                color.setText("White");
-            }
-
-            surrenderButton.setVisible(true);
-            surrenderButton.setEnabled(true);
-            passButton.setVisible(true);
-            passButton.setEnabled(true);
-            startButton.setVisible(false);
-            turn1.setVisible(true);
-            turn2.setVisible(true);
-            colorLabel.setVisible(true);
-            color.setVisible(true);
+        else if(line.contains("StartGame;")) {
+            setStartGame(line);
         }
-        else if(line.contains("GameEnd")) {
-            gameEngine.setGameEnd(true);
-            JOptionPane.showMessageDialog(null, "Game end");
+        else if(line.equals("GameEnd;")) {
+            setEndGame();
         }
+    }
+
+    public void setStartGame(String line) {
+
+        gameEngine.startGame();
+
+        if(line.contains("Black")) {
+            gameEngine.setPlayerStone( Stone.BLACK );
+            color.setText("Black");
+            gameEngine.changeTurn();
+        }
+        else {
+            gameEngine.setPlayerStone( Stone.WHITE );
+            color.setText("White");
+        }
+
+        surrenderButton.setVisible(true);
+        passButton.setVisible(true);
+        startButton.setVisible(false);
+        turn1.setVisible(true);
+        turn2.setVisible(true);
+        colorLabel.setVisible(true);
+        color.setVisible(true);
+        bLabelPoints.setVisible(true);
+        wLabelPoints.setVisible(true);
+        blackP.setVisible(true);
+        whiteP.setVisible(true);
+    }
+
+    public void setEndGame() {
+        gameEngine.setGameEnd(true);
+        JOptionPane.showMessageDialog(null, "Game end");
     }
 
     public void changeTurn() {

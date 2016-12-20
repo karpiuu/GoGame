@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GameEngine {
 
     private Stone gameField[][];    // Actual state of the game
+    private Stone gameEndField[][];    // Actual state of the game
     private int size;
     private String stoneMove;
     private int lastMove;
@@ -88,8 +89,11 @@ public class GameEngine {
         return stoneMove;
     }
 
-    public int userPass() {
+    public void userPass() {
         pass += 1;
+    }
+
+    public int getUserPass() {
         return pass;
     }
 
@@ -188,6 +192,16 @@ public class GameEngine {
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 gameField[i][j].setTestType(0);
+            }
+        }
+    }
+
+    public void setGameEnd(boolean state) {
+        if(state) {
+            for(int i = 0; i < size; i++) {
+                for(int j = 0; j < size; j++) {
+                    gameEndField[i][j] = gameField[i][j];
+                }
             }
         }
     }

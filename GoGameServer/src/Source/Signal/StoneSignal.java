@@ -37,7 +37,11 @@ public class StoneSignal extends Signal {
             System.out.println("[ERROR] Can't stand up, table don't exists");
             return;
         }
-        if( table.getGameStart() ) {
+
+        if( table.isGameEnd() ) {
+            owner.sendMessageToUser("Can't place stone in end phase");
+        }
+        else if( table.getGameStart() ) {
 
             if( table.getActivePlayer().equals(id) ) {
 

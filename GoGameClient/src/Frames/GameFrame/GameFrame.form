@@ -13,20 +13,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="f410d" class="javax.swing.JButton" binding="startButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Start"/>
-            </properties>
-          </component>
           <component id="b2bae" class="javax.swing.JButton" binding="surrenderButton" default-binding="true">
             <constraints>
               <grid row="0" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <enabled value="false"/>
+              <enabled value="true"/>
               <text value="Surrender"/>
               <visible value="false"/>
             </properties>
@@ -36,17 +28,18 @@
               <grid row="0" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <enabled value="false"/>
+              <enabled value="true"/>
               <text value="Pass"/>
               <visible value="false"/>
             </properties>
           </component>
-          <component id="7a7f3" class="javax.swing.JLabel">
+          <component id="7a7f3" class="javax.swing.JLabel" binding="bLabelPoints">
             <constraints>
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Black:"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="f4e8f" class="javax.swing.JLabel" binding="blackP">
@@ -55,14 +48,16 @@
             </constraints>
             <properties>
               <text value="0"/>
+              <visible value="false"/>
             </properties>
           </component>
-          <component id="11906" class="javax.swing.JLabel">
+          <component id="11906" class="javax.swing.JLabel" binding="wLabelPoints">
             <constraints>
               <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="White:"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="1843f" class="javax.swing.JLabel" binding="whiteP">
@@ -71,11 +66,12 @@
             </constraints>
             <properties>
               <text value="0"/>
+              <visible value="false"/>
             </properties>
           </component>
           <hspacer id="75481">
             <constraints>
-              <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
           <hspacer id="67d82">
@@ -90,7 +86,7 @@
           </hspacer>
           <component id="a46bc" class="javax.swing.JLabel" binding="turn1">
             <constraints>
-              <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Actual turn: "/>
@@ -99,7 +95,7 @@
           </component>
           <component id="2c694" class="javax.swing.JLabel" binding="turn2">
             <constraints>
-              <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Black"/>
@@ -122,6 +118,14 @@
             <properties>
               <text value=""/>
               <visible value="false"/>
+            </properties>
+          </component>
+          <component id="f410d" class="javax.swing.JButton" binding="startButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Start"/>
             </properties>
           </component>
         </children>

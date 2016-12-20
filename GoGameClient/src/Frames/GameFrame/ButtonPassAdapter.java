@@ -30,9 +30,8 @@ public class ButtonPassAdapter implements ActionListener {
         if(line.equals("OK")) {
             gameFrame.changeTurn();
         }
-        else if( line.contains("GameEnd") ) {
-            gameEngine.setGameEnd(true);
-            JOptionPane.showMessageDialog(null, "Game end adapter");
+        else if( line.contains("GamePassEnd") ) {
+            gameFrame.setEndGame();
         }
         else {
             JOptionPane.showMessageDialog(null, line);

@@ -12,27 +12,13 @@ import GameEngine.Stone;
 public class StartButtonAdapter implements ActionListener {
 
     private SocketClient client;
-    private JButton startButton;
-    private JButton surrenderButton;
-    private JButton passButton;
     private GameEngine gameEngine;
-    private JLabel turn1;
-    private JLabel turn2;
-    private JLabel colorLabel;
-    private JLabel color;
+    private GameFrame gameFrame;
 
-    public StartButtonAdapter(SocketClient client, GameEngine gameEngine, JButton startButton,
-                              JButton surrenderButton, JButton passButton, JLabel turn1, JLabel turn2,
-                              JLabel colorLabel, JLabel color) {
+    public StartButtonAdapter(SocketClient client, GameFrame gameFrame, GameEngine gameEngine) {
         this.client = client;
         this.gameEngine = gameEngine;
-        this.startButton = startButton;
-        this.surrenderButton = surrenderButton;
-        this.passButton = passButton;
-        this.turn1 = turn1;
-        this.turn2 = turn2;
-        this.colorLabel = colorLabel;
-        this.color = color;
+        this.gameFrame = gameFrame;
     }
 
     @Override
@@ -46,17 +32,7 @@ public class StartButtonAdapter implements ActionListener {
         if(line.equals("OK")) {
             line = client.readFromInput();
 
-            gameEngine.startGame();
-
-            if(line.equals("White")) {
-                gameEngine.setPlayerStone( Stone.WHITE );
-                color.setText("White");
-            }
-            else {
-                gameEngine.setPlayerStone( Stone.BLACK );
-                color.setText("Black");
-                gameEngine.changeTurn();
-            }
+            gameFrame.setStartGame(line);
         }
         else {
             JOptionPane.showMessageDialog(null, line, "Error",
@@ -64,14 +40,6 @@ public class StartButtonAdapter implements ActionListener {
             return;
         }
 
-        surrenderButton.setVisible(true);
-        surrenderButton.setEnabled(true);
-        passButton.setVisible(true);
-        passButton.setEnabled(true);
-        startButton.setVisible(false);
-        turn1.setVisible(true);
-        turn2.setVisible(true);
-        colorLabel.setVisible(true);
-        color.setVisible(true);
+
     }
 }

@@ -36,9 +36,12 @@ public class PassSignal extends Signal {
             if( table.getGameStart() ) {
                 if( table.getActivePlayer().equals(id) ) {
 
-                    if( table.getGameEngine().userPass() >= 2 ) {           // If two player pass turn
+                    table.getGameEngine().userPass();
+
+                    if( table.isGameEnd() ) {           // If two player pass turn
+
                         System.out.println("Table " + Integer.toString(table.getId()) + " is trying to end game");
-                        owner.sendMessageToUser("GameEnd;");
+                        owner.sendMessageToUser("GamePassEnd;");
 
                         try {
                             userManager.getUser( table.getUnactivePlayer() ).sendMessageToUser( "GameEnd;" );

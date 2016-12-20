@@ -16,7 +16,7 @@ public class OpponentSignalObserver {
             return true;
         }
 
-        if(line.contains("Pass")) {
+        if(line.equals("Pass;")) {
             gameFrame.notifyGame(line);
             return true;
         }
@@ -26,7 +26,7 @@ public class OpponentSignalObserver {
             return true;
         }
 
-        if(line.contains("GameEnd")) {
+        if(line.equals("GameEnd;")) {
             gameFrame.notifyGame(line);
             return true;
         }

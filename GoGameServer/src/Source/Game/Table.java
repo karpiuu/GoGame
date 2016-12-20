@@ -11,6 +11,7 @@ public class Table {
     private Integer id;             // Id of table
     private Integer activePlayer;   // Id of current player making move
     private boolean gameStart;
+    private boolean gameEnd;
 
     private GameEngine gameEngine;  // Checks if move is correct, or give stones to delete, holds game table
 
@@ -19,6 +20,7 @@ public class Table {
         idUserWhite = null;
         id = index;
         gameStart = false;
+        gameEnd = false;
         gameEngine = new GameEngine(19);
     }
 
@@ -72,6 +74,7 @@ public class Table {
         if( getUserCount() >= 2 ) {
             activePlayer = idUserBlack;
             gameStart = true;
+            gameEnd = false;
             return true;
         }
         return false;
@@ -150,5 +153,13 @@ public class Table {
      */
     public GameEngine getGameEngine() {
         return gameEngine;
+    }
+
+    public boolean isGameEnd() {
+        if( gameEngine.getUserPass() >= 2 ) {
+            gameEnd = true;
+            gameEngine.setGameEnd(true);
+        }
+        return gameEnd;
     }
 }
