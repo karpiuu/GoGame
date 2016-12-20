@@ -32,8 +32,10 @@ public class ListJoinToTableAdapter implements MouseListener {
         if (e.getClickCount() == 2 )
         {
             int index = tableList.locationToIndex(e.getPoint());
+            String value = tableList.getModel().getElementAt(index).toString();
+            value = value.substring( value.indexOf("#")+1, value.indexOf(" "));
 
-            client.sendMessage("SitDown;" + index + ";");
+            client.sendMessage("SitDown;" + value + ";");
 
             String line;
 
