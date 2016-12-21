@@ -32,6 +32,7 @@ public class GameFrame extends JFrame {
     private JButton noButton;
     private JButton returnToGameButton1;
     private JPanel acceptPanel;
+    private JPanel scorePanel;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -49,7 +50,7 @@ public class GameFrame extends JFrame {
 
         pack();
 
-        setSize(1000,900);
+        setSize(1000,830);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -57,8 +58,8 @@ public class GameFrame extends JFrame {
     }
 
     public void init() {
-        gameViewPanel = new GameViewPanel(client, 800,750, gameEngine, actualTurn, blackPoints, whitePoints);
-        panel1.add( gameViewPanel, BorderLayout.CENTER );
+        gameViewPanel = new GameViewPanel(client, 1000,730, gameEngine, actualTurn, blackPoints, whitePoints);
+        panel1.add( gameViewPanel );
 
         startButton.addActionListener( new StartButtonAdapter(client, this, gameEngine) );
         passButton.addActionListener(new ButtonPassAdapter(client, this, gameEngine));

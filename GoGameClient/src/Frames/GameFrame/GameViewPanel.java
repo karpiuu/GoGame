@@ -76,7 +76,7 @@ public class GameViewPanel extends JPanel {
 
         g2d.setColor( new Color( 240, 180, 100 ) );
 
-        g2d.fillRect( 0, 0, width, height );
+        g2d.fillRect( offX, offY, (rowNumber * size), (rowNumber * size));
 
         halfSize = size/2;
 

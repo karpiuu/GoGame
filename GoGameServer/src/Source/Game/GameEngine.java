@@ -198,6 +198,8 @@ public class GameEngine {
 
     public void setGameEnd(boolean state) {
         if(state) {
+            gameEndField = new Stone[size][size];
+
             for(int i = 0; i < size; i++) {
                 for(int j = 0; j < size; j++) {
                     gameEndField[i][j] = gameField[i][j];
