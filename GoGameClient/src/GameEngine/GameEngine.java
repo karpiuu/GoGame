@@ -8,7 +8,9 @@ import java.util.ArrayList;
 public class GameEngine {
 
     private Stone gameTab[][];
-    private boolean deadStoneTab[][];
+    private boolean deadStoneTabYours[][];
+    private boolean deadStoneTabOpponent[][];
+    private Stone gameTerritory[][];
 
     private int size;
     private Stone playerStone;
@@ -17,6 +19,7 @@ public class GameEngine {
     private boolean gameEnd;
     private boolean youSelect;
     private boolean youCheck;
+    private boolean territoryCheck;
 
     private boolean yourTurn;
     private int lastMove[];
@@ -121,7 +124,8 @@ public class GameEngine {
 
 
     public void setGameEnd(boolean state) {
-        deadStoneTab = new boolean[size][size];
+        deadStoneTabYours = new boolean[size][size];
+        deadStoneTabOpponent = new boolean[size][size];
         gameEnd = state;
     }
 
@@ -185,7 +189,7 @@ public class GameEngine {
 
     public boolean selectDeadStone(int x, int y, Stone type) {
         if( gameTab[x][y].equals(type) ) {
-            deadStoneTab[x][y] = !deadStoneTab[x][y];
+            deadStoneTabYours[x][y] = !deadStoneTabYours[x][y];
             return true;
         }
         else {
@@ -194,15 +198,15 @@ public class GameEngine {
     }
 
     public boolean isStoneDead(int x, int y) {
-        return deadStoneTab[x][y];
+        return ( deadStoneTabYours[x][y] || deadStoneTabOpponent[x][y] );
     }
 
-    public String getAllDeadStones() {
+    public String getAllYoursDeadStones() {
         String text = "";
 
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
-                if( deadStoneTab[i][j] ) {
+                if( deadStoneTabYours[i][j] ) {
                     text += Integer.toString(i + size * j) + ";";
                 }
             }
@@ -211,7 +215,21 @@ public class GameEngine {
         return text;
     }
 
-    public void setDeadStone(String line) {
+    public String getAllOpponentDeadStones() {
+        String text = "";
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if( deadStoneTabOpponent[i][j] ) {
+                    text += Integer.toString(i + size * j) + ";";
+                }
+            }
+        }
+
+        return text;
+    }
+
+    public void setOpponentDeadStone(String line) {
         ArrayList<String> args = SignalOperation.parseString(line);
 
         int move[];
@@ -219,10 +237,14 @@ public class GameEngine {
         for(String position : args) {
             move = convertMove( Integer.parseInt(position) );
 
-            deadStoneTab[move[0]][move[1]] = true;
+            deadStoneTabOpponent[move[0]][move[1]] = true;
         }
 
         youCheck = true;
+    }
+
+    public void clearOpponentDeadStone() {
+        deadStoneTabOpponent = new boolean[size][size];
     }
 
     public void setYouCheck(boolean state) {
@@ -231,6 +253,48 @@ public class GameEngine {
 
     public boolean isYouCheck() {
         return youCheck;
+    }
+
+    public void setTerritoryCheck(boolean state) {
+        territoryCheck = state;
+    }
+
+    public boolean isTerritoryCheck() {
+        return territoryCheck;
+    }
+
+    public void setTerritory(String line) {
+
+        clearTerritory();
+
+        ArrayList<String> args = SignalOperation.parseString(line);
+
+        int move[];
+
+        for(int i = 0; i < args.size(); i += 2) {
+            move = convertMove( Integer.parseInt( args.get(i+1) ) );
+
+            if(args.get(i).equals("B")) {
+                gameTerritory[move[0]][move[1]] = Stone.BLACK;
+            }
+            else if(args.get(i).equals("W")) {
+                gameTerritory[move[0]][move[1]] = Stone.WHITE;
+            }
+        }
+    }
+
+    public Stone getTerritory(int x, int y) {
+        return gameTerritory[x][y];
+    }
+
+    public void clearTerritory() {
+        gameTerritory = new Stone[size][size];
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                gameTerritory[i][j] = Stone.EMPTY;
+            }
+        }
     }
 
     /**

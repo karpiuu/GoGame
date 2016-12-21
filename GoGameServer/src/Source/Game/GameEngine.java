@@ -18,6 +18,9 @@ public class GameEngine {
     private int numKill;
     private int pass;
 
+    private ArrayList<String> territoryValue;  // U - UNDEFINED, E - EMPTY, B - BLACK, W - WHITE
+    private int territoryField[][];
+
     public GameEngine(int size) {
         pointsBlack = 0;
         pointsWhite = 0;
@@ -210,5 +213,81 @@ public class GameEngine {
 
     public void clearDeadStone(int x, int y) {
         gameEndField[x][y].setStoneType(StoneType.EMPTY);
+    }
+
+    public String getTerritory() {
+
+        territoryValue = new ArrayList<>();
+        territoryField = new int[size][size];
+
+        int counter = 1;
+
+        territoryValue.add(0,"E");
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if( territoryField[i][j] == 0 ) {
+
+                    territoryValue.add(counter,"U");
+                    fillTerritory(i, j, counter);
+
+                    if(territoryValue.get(counter).equals("U")) {
+                        territoryValue.set(counter, "E");
+                    }
+
+                    counter++;
+                }
+            }
+        }
+
+        return getTerritoryString();
+    }
+
+    private String getTerritoryString() {
+        String str = "";
+
+        for (int j = 0; j < size; j++) {
+            for(int i = 0; i < size; i++) {
+                if( !territoryValue.get(territoryField[i][j]).equals("E") ) {
+                    str += territoryValue.get(territoryField[i][j]) + ";";
+                    str += Integer.toString(convertMove(i, j)) + ";";
+                }
+            }
+        }
+        return str;
+    }
+
+    public void fillTerritory(int x, int y, int value) {
+        if( x < 0 || x >= size || y < 0 || y >= size ) return;
+
+        if(territoryField[x][y] == 0) {
+            if(gameEndField[x][y].getStoneType().equals(StoneType.EMPTY)) {
+                //EMPTY
+                territoryField[x][y] = value;
+
+                fillTerritory(x-1,   y, value);
+                fillTerritory(x+1,   y, value);
+                fillTerritory(  x, y-1, value);
+                fillTerritory(  x, y+1, value);
+            }
+            else if(gameEndField[x][y].getStoneType().equals(StoneType.WHITE)) {
+                // WHITE
+                if(territoryValue.get(value).equals("U")) {
+                    territoryValue.set(value, "W");
+                }
+                else if(territoryValue.get(value).equals("B")){
+                    territoryValue.set(value, "E");
+                }
+            }
+            else {
+                // BLACK
+                if(territoryValue.get(value).equals("U")) {
+                    territoryValue.set(value, "B");
+                }
+                else if(territoryValue.get(value).equals("W")){
+                    territoryValue.set(value, "E");
+                }
+            }
+        }
     }
 }

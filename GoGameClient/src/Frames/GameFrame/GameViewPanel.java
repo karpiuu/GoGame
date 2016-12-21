@@ -60,6 +60,10 @@ public class GameViewPanel extends JPanel {
 
         drawBaseGamePlane(g2d, rowNumber);
         drawShapes(g2d);
+        if(gameEngine.isTerritoryCheck()) {
+            drawTerritory(g2d);
+        }
+
         if(gameEngine.isYouSelect() || gameEngine.isYouCheck()) {
             drawDeadStones(g2d);
         }
@@ -102,23 +106,25 @@ public class GameViewPanel extends JPanel {
             for( int j = 0; j < rowNumber; j++ ) {
                 stone = gameEngine.getStone(i,j);
 
-                if(stone.equals( Stone.BLACK ) ) {
-                    g2d.setColor( new Color ( 40, 40, 40 ) );
-                    g2d.fillOval( offX + (size * i), offY + (size * j), size, size );
-                    g2d.setColor( new Color ( 0, 0, 0 ) );
-                    g2d.fillOval( offX + (size * i), offY + (size * j), size-2, size-2 );
-                }
-                else if(stone.equals( Stone.WHITE ) ) {
-                    g2d.setColor(new Color(230, 230, 230));
-                    g2d.fillOval(offX  + (size * i), offY + (size * j), size, size);
-                    g2d.setColor(new Color(255, 255, 255));
-                    g2d.fillOval(offX + (size * i), offY + (size * j), size-2, size-2 );
+                if(!gameEngine.isTerritoryCheck() || (gameEngine.isTerritoryCheck() && !gameEngine.isStoneDead(i,j)) ) {
+
+                    if (stone.equals(Stone.BLACK)) {
+                        g2d.setColor(new Color(40, 40, 40));
+                        g2d.fillOval(offX + (size * i), offY + (size * j), size, size);
+                        g2d.setColor(new Color(0, 0, 0));
+                        g2d.fillOval(offX + (size * i), offY + (size * j), size - 2, size - 2);
+                    } else if (stone.equals(Stone.WHITE)) {
+                        g2d.setColor(new Color(230, 230, 230));
+                        g2d.fillOval(offX + (size * i), offY + (size * j), size, size);
+                        g2d.setColor(new Color(255, 255, 255));
+                        g2d.fillOval(offX + (size * i), offY + (size * j), size - 2, size - 2);
+                    }
                 }
             }
         }
 
         if( gameEngine.getLastMove()[0] != -1) {
-            g2d.setColor(Color.RED);
+            g2d.setColor(new Color(255,0,0));
             g2d.fillRect(offX + 14 + (size * gameEngine.getLastMove()[0]), offY + 14 + (size * gameEngine.getLastMove()[1]), 9, 9);
         }
     }
@@ -133,6 +139,28 @@ public class GameViewPanel extends JPanel {
                 if( gameEngine.isStoneDead(i,j) ) {
                     g2d.setColor(new Color(200, 40, 40));
                     g2d.fillRect(offX  + (size * i), offY + (size * j), size, size);
+                }
+            }
+        }
+    }
+
+    private void drawTerritory(Graphics2D g2d) {
+        for( int i = 0; i < rowNumber; i++ ) {
+            for (int j = 0; j < rowNumber; j++) {
+
+                if(gameEngine.getTerritory(i,j).equals(Stone.BLACK)) {
+                    g2d.setColor(new Color(240, 240, 240));
+                    g2d.fillRect(offX + 11 + (size * i), offY + 11 + (size * j), 14, 14);
+
+                    g2d.setColor(new Color(0, 0, 0));
+                    g2d.fillRect(offX + 12 + (size * i), offY + 12 + (size * j), 13, 13);
+                }
+                else if(gameEngine.getTerritory(i,j).equals(Stone.WHITE)) {
+                    g2d.setColor(new Color(20, 20, 20));
+                    g2d.fillRect(offX + 11 + (size * i), offY + 11 + (size * j), 14, 14);
+
+                    g2d.setColor(new Color(240, 240, 240));
+                    g2d.fillRect(offX + 12 + (size * i), offY + 12 + (size * j), 13, 13);
                 }
             }
         }

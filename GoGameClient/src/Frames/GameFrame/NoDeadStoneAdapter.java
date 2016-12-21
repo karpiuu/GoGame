@@ -3,17 +3,16 @@ package Frames.GameFrame;
 import Connection.SocketClient;
 import GameEngine.GameEngine;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class YesDeadStoneAdapter implements ActionListener {
+public class NoDeadStoneAdapter implements ActionListener {
 
     private SocketClient client;
     private GameFrame gameFrame;
     private GameEngine gameEngine;
 
-    public YesDeadStoneAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
+    public NoDeadStoneAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
         client = newclient;
         this.gameEngine = gameEngine;
         this.gameFrame = gameFrame;
@@ -21,7 +20,8 @@ public class YesDeadStoneAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        client.sendMessage("YesDeadStone;" + gameEngine.getAllOpponentDeadStones());
-        gameFrame.setSelect();
+        client.sendMessage("NoDeadStone;");
+        gameEngine.clearOpponentDeadStone();
+        gameFrame.setWaitForRespond();
     }
 }

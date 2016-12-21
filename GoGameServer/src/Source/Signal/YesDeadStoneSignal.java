@@ -40,27 +40,39 @@ public class YesDeadStoneSignal extends Signal {
 
             ArrayList<String> args = SignalManager.parseString(line.substring( line.indexOf(";")+1 ));
 
-            for (String position : args) {
-                move = table.getGameEngine().convertMove( Integer.parseInt(position) );
-                table.getGameEngine().clearDeadStone( move[0], move[1] );
+            if( args != null ) {
+                for (String position : args) {
+                    move = table.getGameEngine().convertMove(Integer.parseInt(position));
+                    table.getGameEngine().clearDeadStone(move[0], move[1]);
+                }
             }
 
             owner.sendMessageToUser("OK");
 
             int opponentId;
 
-            if( table.getIdUserBlack() == id ) {
-                opponentId = table.getIdUserWhite();
+            if( table.getIdUserWhite() == id ) {
+                opponentId = table.getIdUserBlack();
+
+                try { userManager.getUser( opponentId ).sendMessageToUser("YesDeadStone;"); }
+                catch (UnknownUserIdException e) {
+                    // This user might be deleted
+                    System.out.println("[ERROR] User " + id + " don't exists anymore");
+                }
             }
             else {
-                opponentId = table.getIdUserBlack();
+                opponentId = table.getIdUserWhite();
+
+                try { userManager.getUser( opponentId ).sendMessageToUser("TerritoryCheck;" + table.getGameEngine().getTerritory()); }
+                catch (UnknownUserIdException e) {
+                    // This user might be deleted
+                    System.out.println("[ERROR] User " + id + " don't exists anymore");
+                }
+
+                owner.sendMessageToUser("TerritoryCheck;" + table.getGameEngine().getTerritory() );
             }
 
-            try { userManager.getUser( opponentId ).sendMessageToUser("YesDeadStone;"); }
-            catch (UnknownUserIdException e) {
-                // This user might be deleted
-                System.out.println("[ERROR] User " + id + " don't exists anymore");
-            }
+
 
         }
         else {

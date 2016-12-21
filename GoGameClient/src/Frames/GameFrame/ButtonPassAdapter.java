@@ -33,8 +33,5 @@ public class ButtonPassAdapter implements ActionListener {
         else if( line.contains("GamePassEnd") ) {
             gameFrame.setEndGame();
         }
-        else {
-            JOptionPane.showMessageDialog(null, line);
-        }
     }
 }

@@ -105,6 +105,11 @@ public class SignalManager {
                 signal = new YesDeadStoneSignal(server, id, line);
                 signal.execute();
             }
+            else if (argv.get(0).equals("NoDeadStone")) {
+                System.out.println("USER " + Integer.toString(id) + " don't accept dead stones.");
+                signal = new NoDeadStoneSignal(server, id, line);
+                signal.execute();
+            }
             else {
                 System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );
                 signal = new UnknownSignal(server, id);

@@ -50,7 +50,7 @@ public class GameFrame extends JFrame {
 
         pack();
 
-        setSize(1000,830);
+        setSize(800,830);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -58,13 +58,14 @@ public class GameFrame extends JFrame {
     }
 
     public void init() {
-        gameViewPanel = new GameViewPanel(client, 1000,730, gameEngine, actualTurn, blackPoints, whitePoints);
+        gameViewPanel = new GameViewPanel(client, 800,730, gameEngine, actualTurn, blackPoints, whitePoints);
         panel1.add( gameViewPanel );
 
         startButton.addActionListener( new StartButtonAdapter(client, this, gameEngine) );
         passButton.addActionListener(new ButtonPassAdapter(client, this, gameEngine));
         commitButton.addActionListener(new CommitDeadStoneAdapter(client, this, gameEngine));
         yesButton.addActionListener(new YesDeadStoneAdapter(client,this,gameEngine));
+        noButton.addActionListener(new NoDeadStoneAdapter(client,this,gameEngine));
     }
 
     public void notifyGame(String line) {
@@ -91,8 +92,15 @@ public class GameFrame extends JFrame {
         else if(line.contains("YesDeadStone;")) {
             setWaitForRespond();
         }
+        else if(line.contains("NoDeadStone;")) {
+            setSelect();
+        }
         else if(line.contains("DeadStone;")) {
             setRespond(line);
+        }
+        else if(line.contains("TerritoryCheck;")) {
+            gameEngine.setTerritory(line);
+            setTerritoryCheck();
         }
     }
 
@@ -128,17 +136,17 @@ public class GameFrame extends JFrame {
             opponentIsSelectingPanel.setVisible(true);
             gameEngine.setYouSelect(false);
         }
-
-        JOptionPane.showMessageDialog(null, "Game end");
     }
 
     public void setSelect() {
+        opponentIsSelectingPanel.setVisible(false);
         acceptPanel.setVisible(false);
         passGamePanel.setVisible(true);
         gameEngine.setYouSelect(true);
     }
 
     public void setWaitForRespond() {
+        acceptPanel.setVisible(false);
         passGamePanel.setVisible(false);
         opponentIsSelectingPanel.setVisible(true);
     }
@@ -147,7 +155,16 @@ public class GameFrame extends JFrame {
         acceptPanel.setVisible(true);
         opponentIsSelectingPanel.setVisible(false);
         gameEngine.setYouCheck(true);
-        gameEngine.setDeadStone(line);
+        gameEngine.setOpponentDeadStone(line);
+        gameViewPanel.repaint();
+    }
+
+    public void setTerritoryCheck() {
+        passGamePanel.setVisible(false);
+        acceptPanel.setVisible(true);
+        opponentIsSelectingPanel.setVisible(false);
+        gameEngine.setTerritoryCheck(true);
+        gameViewPanel.repaint();
     }
 
     public void changeTurn() {
