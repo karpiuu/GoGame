@@ -19,7 +19,6 @@ public class GameFrame extends JFrame {
     private JLabel whiteLabel;
     private JLabel whitePoints;
     private JLabel actualTurn;
-    private JLabel turnLabel;
     private JLabel ourColor;
     private JLabel opponentColor;
     private JPanel gameButtonsPanel;
@@ -33,6 +32,7 @@ public class GameFrame extends JFrame {
     private JButton returnToGameButton1;
     private JPanel acceptPanel;
     private JPanel scorePanel;
+    private JPanel movePanel;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -104,16 +104,8 @@ public class GameFrame extends JFrame {
 
         startGamePanel.setVisible(false);
         gameButtonsPanel.setVisible(true);
-        surrenderButton.setVisible(true);
-        passButton.setVisible(true);
-        startButton.setVisible(false);
-        turnLabel.setVisible(true);
-        actualTurn.setVisible(true);
-        ourColor.setVisible(true);
-        blackLabel.setVisible(true);
-        whiteLabel.setVisible(true);
-        blackPoints.setVisible(true);
-        whitePoints.setVisible(true);
+        scorePanel.setVisible(true);
+        movePanel.setVisible(true);
     }
 
     public void setEndGame() {
@@ -123,9 +115,11 @@ public class GameFrame extends JFrame {
 
         if( gameEngine.getPlayerStone().equals(Stone.BLACK)){
             passGamePanel.setVisible(true);
+            gameEngine.setYouSelect(true);
         }
         else{
             opponentIsSelectingPanel.setVisible(true);
+            gameEngine.setYouSelect(false);
         }
 
         JOptionPane.showMessageDialog(null, "Game end");

@@ -46,7 +46,17 @@ public class FieldClickAdapter implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        if( gameEngine.getYourTurn() ) {
+        if( gameEngine.getGameEnd() ) {
+            if( gameEngine.isYouSelect() ) {
+                gameEngine.selectDeadStone( x, y, gameEngine.getOpponentStone() );
+                System.out.println("LEMIESZ TO CIOTA");
+            }
+            else {
+                System.out.println("LEMIESZ TO CHUJ");
+            }
+        }
+        else if( gameEngine.getYourTurn() ) {
+
             client.sendMessage( "Stone;" + gameEngine.getPlayerStone().toString() + ";" + Integer.toString(getMove()) + ";");
 
             String line = client.readFromInput();

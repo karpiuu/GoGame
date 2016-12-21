@@ -8,11 +8,14 @@ import java.util.ArrayList;
 public class GameEngine {
 
     private Stone gameTab[][];
+    private boolean deadStoneTab[][];
+
     private int size;
     private Stone playerStone;
 
     private boolean gameStart;
     private boolean gameEnd;
+    private boolean youSelect;
 
     private boolean yourTurn;
     private int lastMove[];
@@ -95,6 +98,10 @@ public class GameEngine {
         return playerStone;
     }
 
+    public Stone getOpponentStone() {
+        return ( playerStone.equals(Stone.BLACK) ? Stone.WHITE : Stone.BLACK );
+    }
+
 
     /**
      * Function setPlayerStone sets stone of player to the variable.
@@ -113,6 +120,7 @@ public class GameEngine {
 
 
     public void setGameEnd(boolean state) {
+        deadStoneTab = new boolean[size][size];
         gameEnd = state;
     }
 
@@ -124,7 +132,6 @@ public class GameEngine {
         return gameEnd;
     }
 
-
     /**
      * Function changeTurn sets variable yourTurn on opposite.
      */
@@ -132,6 +139,13 @@ public class GameEngine {
         yourTurn = !yourTurn;
     }
 
+    public void setYouSelect(boolean state) {
+        youSelect = state;
+    }
+
+    public boolean isYouSelect() {
+        return youSelect;
+    }
 
     /**
      * Function getGameStart returns actual value of gameStart variable: 0 or 1.
@@ -140,7 +154,6 @@ public class GameEngine {
     public boolean getGameStart() {
         return gameStart;
     }
-
 
     /**
      * @return actual value of yourTurn variable: 0 or 1.
@@ -153,20 +166,6 @@ public class GameEngine {
      * @return Last placed move
      */
     public int[] getLastMove() { return lastMove; }
-
-    /**
-     * Function gets number of row and column from single value.
-     * @param value
-     * @return
-     */
-    private int[] convertMove(int value) {
-        int move[] = new int[2];
-
-        move[0] = value % size;
-        move[1] = value / size;
-
-        return move;
-    }
 
     public void changePoints(String line) {
         ArrayList<String> args = SignalOperation.parseString(line);
@@ -181,5 +180,33 @@ public class GameEngine {
 
     public Integer getPointsWhite() {
         return pointsWhite;
+    }
+
+    public boolean selectDeadStone(int x, int y, Stone type) {
+        if( gameTab[x][y].equals(type) ) {
+            deadStoneTab[x][y] = !deadStoneTab[x][y];
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean isStoneDead(int x, int y) {
+        return deadStoneTab[x][y];
+    }
+
+    /**
+     * Function gets number of row and column from single value.
+     * @param value
+     * @return
+     */
+    private int[] convertMove(int value) {
+        int move[] = new int[2];
+
+        move[0] = value % size;
+        move[1] = value / size;
+
+        return move;
     }
 }

@@ -56,9 +56,13 @@ public class GameViewPanel extends JPanel {
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         drawBaseGamePlane(g2d, rowNumber);
         drawShapes(g2d);
+        if(gameEngine.isYouSelect()) {
+            drawDeadStones(g2d);
+        }
     }
 
     @Override
@@ -116,6 +120,18 @@ public class GameViewPanel extends JPanel {
         if( gameEngine.getLastMove()[0] != -1) {
             g2d.setColor(Color.RED);
             g2d.fillRect(offX + 14 + (size * gameEngine.getLastMove()[0]), offY + 14 + (size * gameEngine.getLastMove()[1]), 9, 9);
+        }
+    }
+
+    private void drawDeadStones(Graphics2D g2d) {
+
+        for( int i = 0; i < rowNumber; i++ ) {
+            for (int j = 0; j < rowNumber; j++) {
+                if( gameEngine.isStoneDead(i,j) ) {
+                    g2d.setColor(new Color(200, 40, 40));
+                    g2d.fillOval(offX  + (size * i), offY + (size * j), size, size);
+                }
+            }
         }
     }
 
