@@ -22,6 +22,7 @@ public class CommitDeadStoneAdapter implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         client.sendMessage( "DeadStone;" + gameEngine.getAllDeadStones() );
+        gameEngine.setYouSelect(false);
 
         String line;
         line = client.readFromInput();

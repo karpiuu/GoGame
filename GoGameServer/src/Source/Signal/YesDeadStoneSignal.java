@@ -9,12 +9,12 @@ import Source.Manager.TableManager;
 
 import java.util.ArrayList;
 
-public class DeadStoneSignal extends Signal {
+public class YesDeadStoneSignal extends Signal {
 
     private TableManager tableManager;
     private String line;
 
-    public DeadStoneSignal(Server server, int newId, String line) {
+    public YesDeadStoneSignal(Server server, int newId, String line) {
         setUserManager(server.getUserManager());
         tableManager = server.getTableManager();
         id = newId;
@@ -36,6 +36,15 @@ public class DeadStoneSignal extends Signal {
                 return;
             }
 
+            int move[];
+
+            ArrayList<String> args = SignalManager.parseString(line.substring( line.indexOf(";")+1 ));
+
+            for (String position : args) {
+                move = table.getGameEngine().convertMove( Integer.parseInt(position) );
+                table.getGameEngine().clearDeadStone( move[0], move[1] );
+            }
+
             owner.sendMessageToUser("OK");
 
             int opponentId;
@@ -47,7 +56,7 @@ public class DeadStoneSignal extends Signal {
                 opponentId = table.getIdUserBlack();
             }
 
-            try { userManager.getUser( opponentId ).sendMessageToUser( line ); }
+            try { userManager.getUser( opponentId ).sendMessageToUser("YesDeadStone;"); }
             catch (UnknownUserIdException e) {
                 // This user might be deleted
                 System.out.println("[ERROR] User " + id + " don't exists anymore");

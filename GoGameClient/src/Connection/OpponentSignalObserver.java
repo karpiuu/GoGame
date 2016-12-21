@@ -31,6 +31,11 @@ public class OpponentSignalObserver {
             return true;
         }
 
+        if(line.contains("YesDeadStone;")) {
+            gameFrame.notifyGame(line);
+            return true;
+        }
+
         if(line.contains("DeadStone")) {
             gameFrame.notifyGame(line);
             return true;

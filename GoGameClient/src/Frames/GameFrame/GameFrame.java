@@ -63,13 +63,15 @@ public class GameFrame extends JFrame {
 
         startButton.addActionListener( new StartButtonAdapter(client, this, gameEngine) );
         passButton.addActionListener(new ButtonPassAdapter(client, this, gameEngine));
+        commitButton.addActionListener(new CommitDeadStoneAdapter(client, this, gameEngine));
+        yesButton.addActionListener(new YesDeadStoneAdapter(client,this,gameEngine));
     }
 
     public void notifyGame(String line) {
         if( line.equals("Pass;") || line.equals("ChangeTurn;")) {
             changeTurn();
         }
-        else if( line.contains("Stone")) {
+        else if( line.substring(0, line.indexOf(";")).equals("Stone") ) {
             gameViewPanel.getGameEngine().place(line.substring( 0, line.indexOf("Points") ));
             gameEngine.changePoints(line.substring(line.indexOf("Points")));
 
@@ -86,7 +88,10 @@ public class GameFrame extends JFrame {
         else if(line.equals("GameEnd;")) {
             setEndGame();
         }
-        else if(line.equals("DeadStone;")) {
+        else if(line.contains("YesDeadStone;")) {
+            setWaitForRespond();
+        }
+        else if(line.contains("DeadStone;")) {
             setRespond(line);
         }
     }
@@ -117,8 +122,7 @@ public class GameFrame extends JFrame {
         gameButtonsPanel.setVisible(false);
 
         if( gameEngine.getPlayerStone().equals(Stone.BLACK)){
-            passGamePanel.setVisible(true);
-            gameEngine.setYouSelect(true);
+            setSelect();
         }
         else{
             opponentIsSelectingPanel.setVisible(true);
@@ -126,6 +130,12 @@ public class GameFrame extends JFrame {
         }
 
         JOptionPane.showMessageDialog(null, "Game end");
+    }
+
+    public void setSelect() {
+        acceptPanel.setVisible(false);
+        passGamePanel.setVisible(true);
+        gameEngine.setYouSelect(true);
     }
 
     public void setWaitForRespond() {
