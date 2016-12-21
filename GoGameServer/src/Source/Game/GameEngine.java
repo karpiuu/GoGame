@@ -16,7 +16,9 @@ public class GameEngine {
     private int pointsWhite;
     private boolean pointsTo;       // False - Black, True - White
     private int numKill;
+
     private int pass;
+    private int territoryAccept;
 
     private ArrayList<String> territoryValue;  // U - UNDEFINED, E - EMPTY, B - BLACK, W - WHITE
     private int territoryField[][];
@@ -289,5 +291,17 @@ public class GameEngine {
                 }
             }
         }
+    }
+
+    public boolean isTerritoryAccepted() {
+        return (territoryAccept >= 2);
+    }
+
+    public void setTerritoryAccept(int territoryAccept) {
+        this.territoryAccept = territoryAccept;
+    }
+
+    public void userAcceptTerritory() {
+        territoryAccept++;
     }
 }

@@ -110,6 +110,11 @@ public class SignalManager {
                 signal = new NoDeadStoneSignal(server, id, line);
                 signal.execute();
             }
+            else if (argv.get(0).equals("YesTerritory")) {
+                System.out.println("USER " + Integer.toString(id) + " accept territory.");
+                signal = new YesTerritorySignal(server, id, line);
+                signal.execute();
+            }
             else {
                 System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );
                 signal = new UnknownSignal(server, id);

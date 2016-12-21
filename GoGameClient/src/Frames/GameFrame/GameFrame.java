@@ -33,6 +33,10 @@ public class GameFrame extends JFrame {
     private JPanel acceptPanel;
     private JPanel scorePanel;
     private JPanel movePanel;
+    private JPanel territoryPanel;
+    private JButton noTerritoryButton;
+    private JButton returnToGameButton2;
+    private JButton yesTerritoryButton;
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
@@ -66,6 +70,8 @@ public class GameFrame extends JFrame {
         commitButton.addActionListener(new CommitDeadStoneAdapter(client, this, gameEngine));
         yesButton.addActionListener(new YesDeadStoneAdapter(client,this,gameEngine));
         noButton.addActionListener(new NoDeadStoneAdapter(client,this,gameEngine));
+
+        yesTerritoryButton.addActionListener(new YesTerritoryAdapter(client,this,gameEngine));
     }
 
     public void notifyGame(String line) {
@@ -101,6 +107,9 @@ public class GameFrame extends JFrame {
         else if(line.contains("TerritoryCheck;")) {
             gameEngine.setTerritory(line);
             setTerritoryCheck();
+        }
+        else if(line.contains("GameResult")) {
+            JOptionPane.showMessageDialog(null, line);
         }
     }
 
@@ -146,6 +155,7 @@ public class GameFrame extends JFrame {
     }
 
     public void setWaitForRespond() {
+        territoryPanel.setVisible(false);
         acceptPanel.setVisible(false);
         passGamePanel.setVisible(false);
         opponentIsSelectingPanel.setVisible(true);
@@ -161,7 +171,8 @@ public class GameFrame extends JFrame {
 
     public void setTerritoryCheck() {
         passGamePanel.setVisible(false);
-        acceptPanel.setVisible(true);
+        acceptPanel.setVisible(false);
+        territoryPanel.setVisible(true);
         opponentIsSelectingPanel.setVisible(false);
         gameEngine.setTerritoryCheck(true);
         gameViewPanel.repaint();

@@ -63,6 +63,8 @@ public class YesDeadStoneSignal extends Signal {
             else {
                 opponentId = table.getIdUserWhite();
 
+                table.getGameEngine().setTerritoryAccept(0);
+
                 try { userManager.getUser( opponentId ).sendMessageToUser("TerritoryCheck;" + table.getGameEngine().getTerritory()); }
                 catch (UnknownUserIdException e) {
                     // This user might be deleted

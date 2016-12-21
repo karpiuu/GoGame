@@ -7,13 +7,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class YesDeadStoneAdapter implements ActionListener {
-
+public class YesTerritoryAdapter implements ActionListener {
     private SocketClient client;
     private GameFrame gameFrame;
     private GameEngine gameEngine;
 
-    public YesDeadStoneAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
+    public YesTerritoryAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
         client = newclient;
         this.gameEngine = gameEngine;
         this.gameFrame = gameFrame;
@@ -21,8 +20,8 @@ public class YesDeadStoneAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameFrame.setSelect();
-        client.sendMessage("YesDeadStone;" + gameEngine.getAllOpponentDeadStones());
+        client.sendMessage("YesTerritory;");
+        gameFrame.setWaitForRespond();
 
         String line = client.readFromInput();
 
