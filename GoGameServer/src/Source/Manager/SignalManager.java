@@ -95,6 +95,11 @@ public class SignalManager {
                 signal = new PassSignal(server, id);
                 signal.execute();
             }
+            else if (argv.get(0).equals("DeadStone")) {
+                System.out.println("USER " + Integer.toString(id) + " wants to check dead stones.");
+                signal = new DeadStoneSignal(server, id, line);
+                signal.execute();
+            }
             else {
                 System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );
                 signal = new UnknownSignal(server, id);
@@ -103,7 +108,7 @@ public class SignalManager {
         }
     }
 
-    private ArrayList<String> parseString(String line) {
+    public static ArrayList<String> parseString(String line) {
 
         if( line.length() > 0 ) {
             ArrayList<String> argv = new ArrayList<>();

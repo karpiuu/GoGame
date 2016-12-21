@@ -16,6 +16,7 @@ public class GameEngine {
     private boolean gameStart;
     private boolean gameEnd;
     private boolean youSelect;
+    private boolean youCheck;
 
     private boolean yourTurn;
     private int lastMove[];
@@ -194,6 +195,42 @@ public class GameEngine {
 
     public boolean isStoneDead(int x, int y) {
         return deadStoneTab[x][y];
+    }
+
+    public String getAllDeadStones() {
+        String text = "";
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if( deadStoneTab[i][j] ) {
+                    text += Integer.toString(i + size * j) + ";";
+                }
+            }
+        }
+
+        return text;
+    }
+
+    public void setDeadStone(String line) {
+        ArrayList<String> args = SignalOperation.parseString(line);
+
+        int move[];
+
+        for(String position : args) {
+            move = convertMove( Integer.parseInt(position) );
+
+            deadStoneTab[move[0]][move[1]] = true;
+        }
+
+        youCheck = true;
+    }
+
+    public void setYouCheck(boolean state) {
+        youCheck = state;
+    }
+
+    public boolean isYouCheck() {
+        return youCheck;
     }
 
     /**

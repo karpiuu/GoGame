@@ -106,7 +106,7 @@ public class GameEngine {
         return true;
     }
 
-    private int[] convertMove(int value) {
+    public int[] convertMove(int value) {
         int move[] = new int[2];
 
         move[0] = value % size;
@@ -206,5 +206,9 @@ public class GameEngine {
                 }
             }
         }
+    }
+
+    public void clearDeadStone(int x, int y) {
+        gameEndField[x][y].setStoneType(StoneType.EMPTY);
     }
 }

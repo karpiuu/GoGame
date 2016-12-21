@@ -86,6 +86,9 @@ public class GameFrame extends JFrame {
         else if(line.equals("GameEnd;")) {
             setEndGame();
         }
+        else if(line.equals("DeadStone;")) {
+            setRespond(line);
+        }
     }
 
     public void setStartGame(String line) {
@@ -123,6 +126,18 @@ public class GameFrame extends JFrame {
         }
 
         JOptionPane.showMessageDialog(null, "Game end");
+    }
+
+    public void setWaitForRespond() {
+        passGamePanel.setVisible(false);
+        opponentIsSelectingPanel.setVisible(true);
+    }
+
+    public void setRespond(String line) {
+        acceptPanel.setVisible(true);
+        opponentIsSelectingPanel.setVisible(false);
+        gameEngine.setYouCheck(true);
+        gameEngine.setDeadStone(line);
     }
 
     public void changeTurn() {

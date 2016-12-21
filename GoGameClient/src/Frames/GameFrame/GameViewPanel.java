@@ -60,7 +60,7 @@ public class GameViewPanel extends JPanel {
 
         drawBaseGamePlane(g2d, rowNumber);
         drawShapes(g2d);
-        if(gameEngine.isYouSelect()) {
+        if(gameEngine.isYouSelect() || gameEngine.isYouCheck()) {
             drawDeadStones(g2d);
         }
     }
@@ -125,11 +125,14 @@ public class GameViewPanel extends JPanel {
 
     private void drawDeadStones(Graphics2D g2d) {
 
+        g2d.setComposite(AlphaComposite.getInstance(
+                AlphaComposite.SRC_OVER, 0.3f));
+
         for( int i = 0; i < rowNumber; i++ ) {
             for (int j = 0; j < rowNumber; j++) {
                 if( gameEngine.isStoneDead(i,j) ) {
                     g2d.setColor(new Color(200, 40, 40));
-                    g2d.fillOval(offX  + (size * i), offY + (size * j), size, size);
+                    g2d.fillRect(offX  + (size * i), offY + (size * j), size, size);
                 }
             }
         }

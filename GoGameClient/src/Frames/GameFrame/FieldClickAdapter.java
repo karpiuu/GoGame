@@ -48,11 +48,9 @@ public class FieldClickAdapter implements MouseListener {
 
         if( gameEngine.getGameEnd() ) {
             if( gameEngine.isYouSelect() ) {
-                gameEngine.selectDeadStone( x, y, gameEngine.getOpponentStone() );
-                System.out.println("LEMIESZ TO CIOTA");
-            }
-            else {
-                System.out.println("LEMIESZ TO CHUJ");
+                if( gameEngine.selectDeadStone( x, y, gameEngine.getOpponentStone() ) ) {
+                    gamePanel.repaint();
+                }
             }
         }
         else if( gameEngine.getYourTurn() ) {
