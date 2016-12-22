@@ -75,9 +75,16 @@ public class Table {
             activePlayer = idUserBlack;
             gameStart = true;
             gameEnd = false;
+            gameEngine.startGame();
             return true;
         }
         return false;
+    }
+
+    public void setReturnToGame() {
+        gameStart = true;
+        gameEnd = false;
+        activePlayer = idUserBlack;
     }
 
     /**

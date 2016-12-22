@@ -17,11 +17,12 @@ public class FieldClickAdapter implements MouseListener {
     private GameEngine gameEngine;
     private JPanel gamePanel;
     private SocketClient client;
-    private JLabel turn;
     private JLabel blackP;
     private JLabel whiteP;
+    private JLabel actualTurn;
 
-    public FieldClickAdapter(SocketClient newClient, int x, int y, JLabel turn, GameEngine gameEngine, GameViewPanel gameViewPanel, JLabel blackP, JLabel whiteP) {
+    public FieldClickAdapter(SocketClient newClient, int x, int y, GameEngine gameEngine, GameViewPanel gameViewPanel,
+                             JLabel blackP, JLabel whiteP, JLabel actualTurn) {
         this.blackP = blackP;
         this.whiteP = whiteP;
 
@@ -30,7 +31,7 @@ public class FieldClickAdapter implements MouseListener {
         this.y = y;
         this.gameEngine = gameEngine;
         gamePanel = gameViewPanel;
-        this.turn = turn;
+        this.actualTurn = actualTurn;
     }
 
     @Override
@@ -53,36 +54,32 @@ public class FieldClickAdapter implements MouseListener {
                 }
             }
         }
-        else if( gameEngine.getYourTurn() ) {
+        else if(gameEngine.getGameStart() ) {
+            if (gameEngine.getYourTurn()) {
 
-            client.sendMessage( "Stone;" + gameEngine.getPlayerStone().toString() + ";" + Integer.toString(getMove()) + ";");
+                client.sendMessage("Stone;" + gameEngine.getPlayerStone().toString() + ";" + Integer.toString(getMove()) + ";");
 
-            String line = client.readFromInput();
+                actualTurn.setText("You place stone. Now your opponent makes move.");
 
-            if(line.contains("YourMove")) {
-                gameEngine.changeTurn();
+                String line = client.readFromInput();
 
-                if(turn.getText().equals("Black")) {
-                    turn.setText("White");
+                if (line.contains("YourMove")) {
+                    gameEngine.changeTurn();
+
+                    gameEngine.place(line.substring(0, line.indexOf("Points")));
+                    gameEngine.changePoints(line.substring(line.indexOf("Points")));
+
+                    blackP.setText(gameEngine.getPointsBlack().toString());
+                    whiteP.setText(gameEngine.getPointsWhite().toString());
+
+                    gamePanel.repaint();
+                } else {
+                    JOptionPane.showMessageDialog(null, line);
                 }
-                else {
-                    turn.setText("Black");
-                }
-
-                gameEngine.place(line.substring(0,line.indexOf("Points") ));
-                gameEngine.changePoints(line.substring(line.indexOf("Points")));
-
-                blackP.setText( gameEngine.getPointsBlack().toString() );
-                whiteP.setText( gameEngine.getPointsWhite().toString() );
-
-                gamePanel.repaint();
             }
             else {
-                JOptionPane.showMessageDialog(null, line);
+                JOptionPane.showMessageDialog(null, "Wait for your turn");
             }
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Wait for your turn");
         }
     }
 

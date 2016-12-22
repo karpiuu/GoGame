@@ -101,22 +101,42 @@ public class SignalManager {
                 signal.execute();
             }
             else if (argv.get(0).equals("YesDeadStone")) {
-                System.out.println("USER " + Integer.toString(id) + " accept dead stones.");
+                System.out.println("USER " + Integer.toString(id) + " accepts dead stones.");
                 signal = new YesDeadStoneSignal(server, id, line);
                 signal.execute();
             }
             else if (argv.get(0).equals("NoDeadStone")) {
-                System.out.println("USER " + Integer.toString(id) + " don't accept dead stones.");
+                System.out.println("USER " + Integer.toString(id) + " doesn't accept dead stones.");
                 signal = new NoDeadStoneSignal(server, id, line);
                 signal.execute();
             }
             else if (argv.get(0).equals("YesTerritory")) {
-                System.out.println("USER " + Integer.toString(id) + " accept territory.");
+                System.out.println("USER " + Integer.toString(id) + " accepts territory.");
                 signal = new YesTerritorySignal(server, id, line);
                 signal.execute();
             }
+            else if (argv.get(0).equals("NoTerritory")) {
+                System.out.println("USER " + Integer.toString(id) + " rejects territory.");
+                signal = new NoTerritorySignal(server, id);
+                signal.execute();
+            }
+            else if (argv.get(0).equals("ReturnToGame")) {
+                System.out.println("USER " + Integer.toString(id) + " returns to game.");
+                signal = new ReturnToGameSignal(server, id);
+                signal.execute();
+            }
+            else if (argv.get(0).equals("Surrender")) {
+                System.out.println("USER " + Integer.toString(id) + " returns to game.");
+                signal = new SurrenderSignal(server, id);
+                signal.execute();
+            }
+            else if (argv.get(0).equals("CreateBotTable")) {
+                System.out.println("USER " + Integer.toString(id) + " create bot table.");
+                signal = new CreateBotTableSignal(server, id);
+                signal.execute();
+            }
             else {
-                System.out.println("USER " + Integer.toString(id) + " send signal [" + line + "]" );
+                System.out.println("USER " + Integer.toString(id) + " sends signal [" + line + "]" );
                 signal = new UnknownSignal(server, id);
                 signal.execute();
             }

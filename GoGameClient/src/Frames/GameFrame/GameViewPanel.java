@@ -23,7 +23,7 @@ public class GameViewPanel extends JPanel {
     private JLabel buttonList[][];
     private SocketClient client;
 
-    public GameViewPanel(SocketClient newClient, int w, int h, GameEngine gameEngine, JLabel turn, JLabel blackP, JLabel whiteP) {
+    public GameViewPanel(SocketClient newClient, int w, int h, GameEngine gameEngine, JLabel blackP, JLabel whiteP, JLabel actualTurn, int size) {
 
 
         this.gameEngine = gameEngine;
@@ -48,9 +48,9 @@ public class GameViewPanel extends JPanel {
 
         setLayout( null );
 
-        rowNumber = 19;
+        rowNumber = size;
 
-        setButtons(rowNumber, blackP, whiteP);
+        setButtons(rowNumber, blackP, whiteP, actualTurn);
     }
 
     private void doDrawing(Graphics g) {
@@ -64,7 +64,7 @@ public class GameViewPanel extends JPanel {
             drawTerritory(g2d);
         }
 
-        if(gameEngine.isYouSelect() || gameEngine.isYouCheck()) {
+        if((gameEngine.isYouSelect() || gameEngine.isYouCheck()) && !gameEngine.isTerritoryCheck()) {
             drawDeadStones(g2d);
         }
     }
@@ -166,9 +166,9 @@ public class GameViewPanel extends JPanel {
         }
     }
 
-    private void setButtons(int rowNumber, JLabel blackP, JLabel whiteP) {
+    private void setButtons(int rowNumber, JLabel blackP, JLabel whiteP, JLabel actualTurn) {
 
-        buttonList = new JLabel[19][19];
+        buttonList = new JLabel[rowNumber][rowNumber];
 
         if( width > height ) size = (height - (offY*2)) / rowNumber;
         else size = (width - (offY*2)) / rowNumber;
@@ -176,10 +176,9 @@ public class GameViewPanel extends JPanel {
         for( int i = 0; i < rowNumber; i++ ) {
             for( int j = 0; j < rowNumber; j++ ) {
                 buttonList[i][j] = new JLabel();
-                //buttonList[i][j].setOpaque(true);
-                //buttonList[i][j].setBackground( Color.cyan );
+                //buttonList[i][j].setText( Integer.toString(i) + " " + Integer.toString(j) );
                 buttonList[i][j].setBounds( offX + (size * i), offY + (size * j), size, size );
-                buttonList[i][j].addMouseListener( new FieldClickAdapter(client, i,j, turn, gameEngine, this, blackP, whiteP) );
+                buttonList[i][j].addMouseListener( new FieldClickAdapter(client, i,j, gameEngine, this, blackP, whiteP, actualTurn) );
 
                 add( buttonList[i][j] );
             }

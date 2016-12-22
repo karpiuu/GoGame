@@ -1,5 +1,6 @@
 package Source.Manager;
 
+import Source.Connection.BotConnection;
 import Source.Connection.Server;
 import Source.Exception.UnknownUserIdException;
 import Source.Connection.UserConnection;
@@ -17,12 +18,15 @@ public class UserManager {
     private volatile ArrayList<UserConnection> user;     // Hold every user Thread
     private ArrayList<Integer> freeUserId;               // Contain free ID for new users
     private Integer userCount;                           // If every slot in array is taken, describe ID for new user
+    private ArrayList<String> invalidStringInName;
 
     public UserManager() {
 
         user = new ArrayList<>();
         freeUserId = new ArrayList<>();
         userCount = 0;
+
+        initInvalidNames();
     }
 
     /**
@@ -45,6 +49,40 @@ public class UserManager {
             user.get(userCount).start();
             userCount++;
         }
+    }
+
+    public void addBot(Server server) {
+        user.add( new BotConnection(server, 0));
+        user.get(0).setUserName("Bot");
+        userCount++;
+    }
+
+    public void initInvalidNames() {
+        invalidStringInName = new ArrayList<>();
+
+        invalidStringInName.add(";");
+        invalidStringInName.add(" ");
+        invalidStringInName.add("   ");
+        invalidStringInName.add("CreateTable");
+        invalidStringInName.add("DeadStone");
+        invalidStringInName.add("NoDeadStone");
+        invalidStringInName.add("NoTerritory");
+        invalidStringInName.add("Pass");
+        invalidStringInName.add("Refresh");
+        invalidStringInName.add("ReturnToGame");
+        invalidStringInName.add("SetName");
+        invalidStringInName.add("SitDown");
+        invalidStringInName.add("StandUp");
+        invalidStringInName.add("StartGame");
+        invalidStringInName.add("Stone");
+        invalidStringInName.add("Surrender");
+        invalidStringInName.add("YesDeadStone");
+        invalidStringInName.add("YesTerritory");
+        invalidStringInName.add("TerritoryCheck");
+        invalidStringInName.add("GameResult");
+        invalidStringInName.add("GameEnd");
+        invalidStringInName.add("\\");
+
     }
 
     /**
@@ -91,10 +129,16 @@ public class UserManager {
      * @return True - name is free, False - name already taken
      */
     public boolean checkValidUserName(String name) {
+        if(name.equals("")){
+            return false;
+        }
 
-        if( name.indexOf(';') != -1 ) return false;
-        if( name.equals("") ) return false;
+        for( String text : invalidStringInName ) {
+            if(name.contains(text)) return false;
+        }
 
         return true;
     }
+
+
 }

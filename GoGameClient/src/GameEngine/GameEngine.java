@@ -39,13 +39,8 @@ public class GameEngine {
         playerStone = Stone.WHITE;
 
         this.size = size;
-        gameTab = new Stone[size][size];
 
-        for(int i = 0; i < size; i++) {
-            for(int j = 0; j < size; j++) {
-                gameTab[i][j] = Stone.EMPTY;
-            }
-        }
+        clearStones();
     }
 
     /**
@@ -94,6 +89,14 @@ public class GameEngine {
         return Stone.EMPTY;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setYourTurn(boolean state) {
+        yourTurn = state;
+    }
+
     /**
      * Function getPlayerStone returns actual stone of player.
      * @return
@@ -117,9 +120,31 @@ public class GameEngine {
     /**
      * Function startGame sets variable gameStart on true.
      */
-    public void startGame() {
-        gameStart = true;
+    public void setStartGame(boolean state) {
+
+        gameStart = state;
+        lastMove[0] = -1;
+        lastMove[1] = -1;
+
+        clearStones();
+        setReturnToGame();
+    }
+
+    public void setReturnToGame() {
         gameEnd = false;
+        clearYoursDeadStone();
+        clearOpponentDeadStone();
+        clearTerritory();
+    }
+
+    public void clearStones() {
+        gameTab = new Stone[size][size];
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                gameTab[i][j] = Stone.EMPTY;
+            }
+        }
     }
 
 
@@ -135,6 +160,10 @@ public class GameEngine {
      */
     public boolean getGameEnd() {
         return gameEnd;
+    }
+
+    public void setTurn(boolean state) {
+        yourTurn = state;
     }
 
     /**
@@ -247,6 +276,10 @@ public class GameEngine {
         deadStoneTabOpponent = new boolean[size][size];
     }
 
+    public void clearYoursDeadStone() {
+        deadStoneTabYours = new boolean[size][size];
+    }
+
     public void setYouCheck(boolean state) {
         youCheck = state;
     }
@@ -295,6 +328,11 @@ public class GameEngine {
                 gameTerritory[i][j] = Stone.EMPTY;
             }
         }
+    }
+
+    public void clearLastMove() {
+        lastMove[0] = -1;
+        lastMove[1] = -1;
     }
 
     /**

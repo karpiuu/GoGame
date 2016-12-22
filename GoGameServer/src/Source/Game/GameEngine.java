@@ -5,16 +5,19 @@ import java.util.ArrayList;
 public class GameEngine {
 
     private Stone gameField[][];    // Actual state of the game
-    private Stone gameEndField[][];    // Actual state of the game
+    private Stone gameEndField[][];    // GameEnd state of the game
     private int size;
     private String stoneMove;
     private int lastMove;
     private ArrayList<Integer> lastKilled;
     private ArrayList<Integer> newKilled;
+
     private int nearStone[][];
+
     private int pointsBlack;
     private int pointsWhite;
-    private boolean pointsTo;       // False - Black, True - White
+
+    private boolean pointsTo;       // Describe who gets points after killing stones : False - Black, True - White
     private int numKill;
 
     private int pass;
@@ -24,22 +27,10 @@ public class GameEngine {
     private int territoryField[][];
 
     public GameEngine(int size) {
-        pointsBlack = 0;
-        pointsWhite = 0;
-        pointsTo = false;
-        gameField = new Stone[size][size];
-        lastKilled = new ArrayList<>();
-        pass = 0;
-
         this.size = size;
-
         nearStone = new int[][]{ { -1, -1 }, { 0, -1 }, { 1, -1 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 } };
 
-        for(int i = 0; i < size; i++) {
-            for(int j = 0; j < size; j++) {
-                gameField[i][j] = new Stone();
-            }
-        }
+        startGame();
     }
 
     public String checkMove(int value, StoneType type) {
@@ -179,7 +170,7 @@ public class GameEngine {
                 gameField[x][y].setTestType(0);
                 gameField[x][y].setStoneType(StoneType.EMPTY);
 
-                stoneMove += "E;" + Integer.toString(x + (y * 19)) + ";";
+                stoneMove += "E;" + Integer.toString(x + (y * size)) + ";";
                 numKill++;
 
                 if(!pointsTo) pointsBlack++;
@@ -303,5 +294,53 @@ public class GameEngine {
 
     public void userAcceptTerritory() {
         territoryAccept++;
+    }
+
+    public String getPoints() {
+
+        double blackTerritoryPoints = 0;
+        double whiteTerritoryPoints = 0;
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if( territoryValue.get( territoryField[i][j] ).equals("B") ) {
+                    blackTerritoryPoints++;
+                }
+                else if( territoryValue.get( territoryField[i][j] ).equals("W") ) {
+                    whiteTerritoryPoints++;
+                }
+            }
+        }
+
+        String result = "";
+
+        blackTerritoryPoints += pointsBlack;
+        whiteTerritoryPoints += pointsWhite + 6.5;
+
+        result += ( blackTerritoryPoints > whiteTerritoryPoints ? "Black wins! " : "White wins! " );
+        result += "Black gets " + Double.toString(blackTerritoryPoints) + " points";
+        result += " White gets " + Double.toString(whiteTerritoryPoints) + " points.";
+
+        return result;
+    }
+
+    public void startGame() {
+        pointsBlack = 0;
+        pointsWhite = 0;
+        pointsTo = false;
+        gameField = new Stone[size][size];
+        lastKilled = new ArrayList<>();
+        pass = 0;
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                gameField[i][j] = new Stone();
+            }
+        }
+    }
+
+    public void returnToGame() {
+        pass = 0;
+        territoryAccept = 0;
     }
 }

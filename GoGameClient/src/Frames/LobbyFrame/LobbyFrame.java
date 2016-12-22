@@ -18,11 +18,14 @@ public class LobbyFrame extends JFrame {
     private JList userList;
     private JButton createNewTableButton;
     private JButton refreshButton;
+    private JButton playWithBotButton;
     private OpponentSignalObserver opponentObserver;
+    private String yourName;
 
-    public LobbyFrame(SocketClient newClient, OpponentSignalObserver opponentObserver) {
-
+    public LobbyFrame(SocketClient newClient, OpponentSignalObserver opponentObserver, String yourName) {
         super("Lobby window");
+
+        this.yourName = yourName;
 
         this.opponentObserver = opponentObserver;
         client = newClient;
@@ -34,8 +37,9 @@ public class LobbyFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client,this, opponentObserver) );
-        tableList.addMouseListener(new ListJoinToTableAdapter(client, this, tableList, opponentObserver));
+        createNewTableButton.addActionListener( new ButtonCreateTableAdapter(client,this, opponentObserver, yourName) );
+        tableList.addMouseListener(new ListJoinToTableAdapter(client, this, tableList, opponentObserver, yourName));
+        playWithBotButton.addActionListener(new ButtonPlayWithBotAdapter(client,this,opponentObserver,yourName));
 
         setVisible(true);
     }

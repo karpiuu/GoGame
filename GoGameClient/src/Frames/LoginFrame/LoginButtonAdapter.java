@@ -3,6 +3,8 @@ package Frames.LoginFrame;
 import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +35,9 @@ public class LoginButtonAdapter implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        client.sendMessage("SetName;" + logTextField.getText() + ";");
+        String yourName = logTextField.getText();
+
+        client.sendMessage("SetName;" + yourName + ";");
 
         String name;
 
@@ -41,7 +45,7 @@ public class LoginButtonAdapter implements ActionListener {
 
         if (name.equals("OK")) {
             loginFrame.setVisible(false);
-            LobbyFrame lobbyFrame = new LobbyFrame(client, opponentObserver);
+            LobbyFrame lobbyFrame = new LobbyFrame(client, opponentObserver, yourName);
             lobbyFrame.init();
 
             client.sendMessage("Refresh;");
@@ -53,7 +57,7 @@ public class LoginButtonAdapter implements ActionListener {
             lobbyFrame.refreshTableList(line.substring( line.indexOf("Tables") ));
 
         } else {
-            System.out.println(name);
+            JOptionPane.showMessageDialog(null, name);
         }
     }
 }

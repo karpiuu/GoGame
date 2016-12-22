@@ -3,11 +3,13 @@ package Frames.LobbyFrame;
 import Connection.OpponentSignalObserver;
 import Connection.SocketClient;
 import Frames.GameFrame.GameFrame;
+import GameEngine.SignalOperation;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by SZYMON on 07.12.2016.
@@ -18,12 +20,14 @@ public class ListJoinToTableAdapter implements MouseListener {
     private LobbyFrame lobbyFrame;
     private JList tableList;
     private OpponentSignalObserver opponentObserver;
+    private String yourName;
 
-    public ListJoinToTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame, JList newtableList, OpponentSignalObserver opponentObserver){
+    public ListJoinToTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame, JList newtableList, OpponentSignalObserver opponentObserver, String yourName){
         client = newClient;
         lobbyFrame = newlobbyFrame;
         tableList = newtableList;
         this.opponentObserver = opponentObserver;
+        this.yourName = yourName;
     }
 
     @Override
@@ -41,12 +45,18 @@ public class ListJoinToTableAdapter implements MouseListener {
 
             line = client.readFromInput();
 
-            if(line.equals("OK")) {
-                GameFrame gameFrame = new GameFrame(client, lobbyFrame);
+            if(line.equals("OK") || line.contains("OpponentName")) {
+                ArrayList<String> name = SignalOperation.parseString(line);
+
+                GameFrame gameFrame = new GameFrame(client, lobbyFrame, yourName);
                 gameFrame.init();
+                gameFrame.setOpponentName(name.get(0));
 
                 opponentObserver.setObserver(gameFrame);
                 lobbyFrame.setVisible(false);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, line);
             }
 
         }

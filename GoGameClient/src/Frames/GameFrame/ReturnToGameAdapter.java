@@ -7,32 +7,29 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by SZYMON on 14.12.2016.
- */
-public class ButtonSurenderAdapter implements ActionListener {
+public class ReturnToGameAdapter implements ActionListener {
     private SocketClient client;
     private GameFrame gameFrame;
     private GameEngine gameEngine;
 
-    public ButtonSurenderAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
+    public ReturnToGameAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
         client = newclient;
-        this.gameFrame = gameFrame;
         this.gameEngine = gameEngine;
+        this.gameFrame = gameFrame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        client.sendMessage("ReturnToGame;");
 
-        client.sendMessage("Surrender;");
+        String line = client.readFromInput();
 
-        String line;
-        line = client.readFromInput();
-
-        if(!line.equals("OK")) {
+        if(line.equals("OK")) {
+            gameEngine.setYourTurn(false);
+            gameFrame.setReturnToGame();
+        } else {
             JOptionPane.showMessageDialog(null, line);
         }
 
-        gameFrame.setToStart();
     }
 }

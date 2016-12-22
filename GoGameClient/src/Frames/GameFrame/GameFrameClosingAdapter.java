@@ -2,6 +2,7 @@ package Frames.GameFrame;
 
 import Connection.SocketClient;
 import Frames.LobbyFrame.LobbyFrame;
+import GameEngine.GameEngine;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -12,12 +13,14 @@ import java.awt.event.WindowListener;
  */
 public class GameFrameClosingAdapter implements WindowListener
 {
-    SocketClient client;
-    LobbyFrame lobbyFrame;
+    private SocketClient client;
+    private LobbyFrame lobbyFrame;
+    private GameEngine gameEngine;
 
-    public GameFrameClosingAdapter( SocketClient newclient, LobbyFrame newlobbyFrame){
+    public GameFrameClosingAdapter(SocketClient newclient, LobbyFrame newlobbyFrame, GameEngine gameEngine){
         client = newclient;
         lobbyFrame = newlobbyFrame;
+        this.gameEngine = gameEngine;
     }
 
     @Override
@@ -28,16 +31,34 @@ public class GameFrameClosingAdapter implements WindowListener
     @Override
     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 
-        client.sendMessage("StandUp;");
-        lobbyFrame.setVisible(true);
+        if (JOptionPane.showConfirmDialog(null, "Are you sure to close this window?", "Really Closing?",
+           JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+        {
+            if(gameEngine.getGameStart()) {
+                client.sendMessage("Surrender;");
 
-//        if (JOptionPane.showConfirmDialog(frame,
-//        "Are you sure to close this window?", "Really Closing?",
-//        JOptionPane.YES_NO_OPTION,
-//        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-//        {
-//        System.exit(0);
-//        }
+                String line;
+                line = client.readFromInput();
+
+                if(!line.equals("OK")) {
+                    JOptionPane.showMessageDialog(null, line);
+                }
+            }
+
+            client.sendMessage("StandUp;");
+
+            client.sendMessage("Refresh;");
+
+            String line;
+            line = client.readFromInput();
+
+            lobbyFrame.refreshUserList(line.substring( 0, line.indexOf("Tables") ));
+            lobbyFrame.refreshTableList(line.substring( line.indexOf("Tables") ));
+
+            lobbyFrame.setVisible(true);
+        }
+
+
     }
 
     @Override

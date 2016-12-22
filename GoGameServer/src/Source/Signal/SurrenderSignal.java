@@ -4,21 +4,16 @@ import Source.Connection.Server;
 import Source.Exception.UnknownTableIdException;
 import Source.Exception.UnknownUserIdException;
 import Source.Game.Table;
-import Source.Manager.SignalManager;
 import Source.Manager.TableManager;
 
-import java.util.ArrayList;
-
-public class YesTerritorySignal extends Signal {
-
+public class SurrenderSignal extends Signal {
     private TableManager tableManager;
     private String line;
 
-    public YesTerritorySignal(Server server, int newId, String line) {
+    public SurrenderSignal(Server server, int newId) {
         setUserManager(server.getUserManager());
         tableManager = server.getTableManager();
         id = newId;
-        this.line = line;
 
         setOwner();
     }
@@ -38,18 +33,14 @@ public class YesTerritorySignal extends Signal {
 
             owner.sendMessageToUser("OK");
 
-            table.getGameEngine().userAcceptTerritory();
+            int opponentId = (table.getIdUserWhite() == id ? table.getIdUserBlack() : table.getIdUserWhite() );
 
-            if(table.getGameEngine().isTerritoryAccepted()) {
-                owner.sendMessageToUser("GameResult;" + table.getGameEngine().getPoints());
+            //owner.sendMessageToUser("GameResult;You lost game." );
 
-                int opponentId = (table.getIdUserWhite() == id ? table.getIdUserBlack() : table.getIdUserWhite() );
-
-                try { userManager.getUser( opponentId ).sendMessageToUser("GameResult;" + table.getGameEngine().getPoints()); }
-                catch (UnknownUserIdException e) {
-                    // This user might be deleted
-                    System.out.println("[ERROR] User " + id + " don't exists anymore");
-                }
+            try { userManager.getUser( opponentId ).sendMessageToUser("GameResult;Your opponent surrender. You won game"); }
+            catch (UnknownUserIdException e) {
+                // This user might be deleted
+                System.out.println("[ERROR] User " + id + " don't exists anymore");
             }
         }
         else {

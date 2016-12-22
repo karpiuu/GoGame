@@ -1,5 +1,6 @@
 package Connection;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,21 +25,24 @@ public class SocketClient extends Thread  {
 
     public void listenSocket()
     {
+        String ip;
+
+        ip = (String)JOptionPane.showInputDialog( null, "Write server ip: ", "192.168.0.11" );
+
         try
         {
-            //socket = new Socket("localhost", 4444);
-            socket = new Socket("192.168.0.11", 4444);
+            socket = new Socket(ip, 4444);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         }
         catch(UnknownHostException e)
         {
-            System.out.println("Unknown host: localhost");
+            JOptionPane.showMessageDialog(null, "Unknown host ip");
             System.exit(1);
         }
         catch(IOException e)
         {
-            System.out.println("No I/O");
+            JOptionPane.showMessageDialog(null, "Server is offline");
             System.exit(1);
         }
     }

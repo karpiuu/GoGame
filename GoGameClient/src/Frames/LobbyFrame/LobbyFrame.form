@@ -78,6 +78,12 @@
               <text value="Create New Table"/>
             </properties>
           </component>
+          <component id="d1b87" class="javax.swing.JButton" binding="playWithBotButton">
+            <constraints/>
+            <properties>
+              <text value="Play with Bot"/>
+            </properties>
+          </component>
           <component id="a317c" class="javax.swing.JButton" binding="refreshButton" default-binding="true">
             <constraints/>
             <properties>

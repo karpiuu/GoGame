@@ -28,7 +28,10 @@ public class ButtonPassAdapter implements ActionListener {
         line = client.readFromInput();
 
         if(line.equals("OK")) {
-            gameFrame.changeTurn();
+            gameFrame.setFooterText("You passed. Now your opponent makes move.");
+            gameEngine.changeTurn();
+            gameEngine.clearLastMove();
+            gameFrame.repaintPanel();
         }
         else if( line.contains("GamePassEnd") ) {
             gameFrame.setEndGame();

@@ -6,16 +6,15 @@ import Frames.GameFrame.GameFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-public class ButtonCreateTableAdapter implements ActionListener {
+public class ButtonPlayWithBotAdapter implements ActionListener {
 
     private SocketClient client;
     private LobbyFrame lobbyFrame;
     private OpponentSignalObserver opponentObserver;
     private String yourName;
 
-    public ButtonCreateTableAdapter(SocketClient newClient, LobbyFrame newlobbyFrame, OpponentSignalObserver opponentObserver, String yourName) {
+    public ButtonPlayWithBotAdapter(SocketClient newClient, LobbyFrame newlobbyFrame, OpponentSignalObserver opponentObserver, String yourName) {
         client = newClient;
         lobbyFrame = newlobbyFrame;
         this.opponentObserver = opponentObserver;
@@ -24,7 +23,7 @@ public class ButtonCreateTableAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        client.sendMessage("CreateTable;");
+        client.sendMessage("CreateBotTable;");
 
         String line;
 
@@ -34,8 +33,9 @@ public class ButtonCreateTableAdapter implements ActionListener {
 
             GameFrame gameFrame = new GameFrame(client, lobbyFrame, yourName);
             gameFrame.init();
-
             opponentObserver.setObserver(gameFrame);
+
+            gameFrame.setStartGame("StartGame;Black;");
 
             lobbyFrame.setVisible(false);
         }

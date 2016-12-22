@@ -30,6 +30,8 @@ public class Server {
 
         signalManager = new SignalManager(this);
 
+        userManager.addBot(this);
+
         while(true) {
             try { clientSocket = socketServer.getServer().accept(); }
             catch (IOException e) {

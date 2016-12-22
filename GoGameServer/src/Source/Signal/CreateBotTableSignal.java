@@ -1,0 +1,69 @@
+package Source.Signal;
+
+import Source.Connection.Server;
+import Source.Exception.FullTableException;
+import Source.Exception.UnknownTableIdException;
+import Source.Exception.UnknownUserIdException;
+import Source.Game.Table;
+import Source.Manager.TableManager;
+
+public class CreateBotTableSignal extends Signal {
+    private TableManager tableManager;
+
+    public CreateBotTableSignal(Server server, int newId) {
+        setUserManager(server.getUserManager());
+        tableManager = server.getTableManager();
+        id = newId;
+
+        setOwner();
+    }
+
+    @Override
+    public void execute() {
+
+        try {
+            int index = tableManager.addTable();
+            tableManager.getTable( index ).sitDown(id);
+            userManager.getUser(id).sitDown( index );
+
+        }
+        catch (FullTableException e) {
+            System.out.println("[ERROR] USER " + id.toString() + " can't join to table, table is full");
+            owner.sendMessageToUser("Table is full");
+            return;
+        }
+        catch (UnknownTableIdException e) {
+            System.out.println("[ERROR] USER " + id.toString() + " can't join table, table doesn't exist");
+            owner.sendMessageToUser("Table don't exists");
+            return;
+        }
+        catch (UnknownUserIdException e) {
+            //User don't exists???
+            System.out.println("[ERROR] USER " + id.toString() + " doesn't exist");
+            owner.sendMessageToUser("You don't exist in server");
+        }
+
+        owner.sendMessageToUser("OK");
+
+        Table table;
+
+        if(owner.getTableId() != null) {
+            try {
+                table = tableManager.getTable(owner.getTableId());
+            } catch (UnknownTableIdException e) {
+                // Unknown table id
+                System.out.println("[ERROR] Can't start game, table don't exists");
+                return;
+            }
+
+            try {
+                table.sitDown(0);
+            } catch (FullTableException e) {
+                e.printStackTrace();
+                // Never enter here
+            }
+
+            table.startGame();
+        }
+    }
+}

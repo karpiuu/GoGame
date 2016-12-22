@@ -7,32 +7,29 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by SZYMON on 14.12.2016.
- */
-public class ButtonSurenderAdapter implements ActionListener {
+public class NoTerritoryAdapter implements ActionListener{
     private SocketClient client;
     private GameFrame gameFrame;
     private GameEngine gameEngine;
 
-    public ButtonSurenderAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
+    public NoTerritoryAdapter(SocketClient newclient, GameFrame gameFrame, GameEngine gameEngine){
         client = newclient;
-        this.gameFrame = gameFrame;
         this.gameEngine = gameEngine;
+        this.gameFrame = gameFrame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        client.sendMessage("NoTerritory;");
+        gameFrame.setWaitForRespond();
 
-        client.sendMessage("Surrender;");
+        String line = client.readFromInput();
 
-        String line;
-        line = client.readFromInput();
-
-        if(!line.equals("OK")) {
+        if( line.contains("OK")) {
+            gameFrame.setEndGame();
+        }
+        else {
             JOptionPane.showMessageDialog(null, line);
         }
-
-        gameFrame.setToStart();
     }
 }

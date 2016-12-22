@@ -5,44 +5,53 @@ import Frames.LobbyFrame.LobbyFrame;
 import GameEngine.*;
 
 import javax.swing.*;
-import java.awt.*;
+import java.util.ArrayList;
 
 public class GameFrame extends JFrame {
     private SocketClient client;
 
     private JPanel panel1;
+
+    private JPanel gameButtonsPanel;
+    private JPanel startGamePanel;
+    private JPanel commitGamePanel;
+    private JPanel opponentIsSelectingPanel;
+    private JPanel acceptPanel;
+    private JPanel scorePanel;
+    private JPanel movePanel;
+    private JPanel territoryPanel;
+
     private JButton startButton;
     private JButton surrenderButton;
     private JButton passButton;
+    private JButton commitButton;
+    private JButton returnToGameButton;
+    private JButton yesButton;
+    private JButton noButton;
+    private JButton returnToGameButton1;
+    private JButton noTerritoryButton;
+    private JButton returnToGameButton2;
+    private JButton yesTerritoryButton;
+
     private JLabel blackPoints;
     private JLabel blackLabel;
     private JLabel whiteLabel;
     private JLabel whitePoints;
     private JLabel actualTurn;
-    private JLabel ourColor;
-    private JLabel opponentColor;
-    private JPanel gameButtonsPanel;
-    private JPanel startGamePanel;
-    private JPanel passGamePanel;
-    private JButton commitButton;
-    private JButton returnToGameButton;
-    private JPanel opponentIsSelectingPanel;
-    private JButton yesButton;
-    private JButton noButton;
-    private JButton returnToGameButton1;
-    private JPanel acceptPanel;
-    private JPanel scorePanel;
-    private JPanel movePanel;
-    private JPanel territoryPanel;
-    private JButton noTerritoryButton;
-    private JButton returnToGameButton2;
-    private JButton yesTerritoryButton;
+    private JLabel whiteName;
+    private JLabel blackName;
+
     private LobbyFrame lobbyFrame;
     private GameViewPanel gameViewPanel;
     private GameEngine gameEngine;
 
-    public GameFrame(SocketClient newClient, LobbyFrame newlobbyFrame) {
+    private String yourName;
+    private String opponentName;
+
+    public GameFrame(SocketClient newClient, LobbyFrame newlobbyFrame, String yourName) {
         super("Go game");
+
+        this.yourName = yourName;
 
         client = newClient;
         lobbyFrame = newlobbyFrame;
@@ -50,7 +59,7 @@ public class GameFrame extends JFrame {
         gameEngine = new GameEngine(19);
         setContentPane(panel1);
 
-        addWindowListener(new GameFrameClosingAdapter(client, lobbyFrame));
+        addWindowListener(new GameFrameClosingAdapter(client, lobbyFrame, gameEngine));
 
         pack();
 
@@ -58,11 +67,10 @@ public class GameFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-        // surrenderButton.addActionListener(new ButtonSurenderAdapter(client));
     }
 
     public void init() {
-        gameViewPanel = new GameViewPanel(client, 800,730, gameEngine, actualTurn, blackPoints, whitePoints);
+        gameViewPanel = new GameViewPanel(client, 800,730, gameEngine, blackPoints, whitePoints, actualTurn, gameEngine.getSize());
         panel1.add( gameViewPanel );
 
         startButton.addActionListener( new StartButtonAdapter(client, this, gameEngine) );
@@ -72,11 +80,21 @@ public class GameFrame extends JFrame {
         noButton.addActionListener(new NoDeadStoneAdapter(client,this,gameEngine));
 
         yesTerritoryButton.addActionListener(new YesTerritoryAdapter(client,this,gameEngine));
+        noTerritoryButton.addActionListener(new NoTerritoryAdapter(client,this,gameEngine));
+        returnToGameButton.addActionListener(new ReturnToGameAdapter(client,this,gameEngine));
+        returnToGameButton1.addActionListener(new ReturnToGameAdapter(client,this,gameEngine));
+        returnToGameButton2.addActionListener(new ReturnToGameAdapter(client,this,gameEngine));
+        surrenderButton.addActionListener(new ButtonSurenderAdapter(client,this,gameEngine));
+
+
     }
 
     public void notifyGame(String line) {
         if( line.equals("Pass;") || line.equals("ChangeTurn;")) {
-            changeTurn();
+            setFooterText("Your opponent passed turn.");
+            gameEngine.changeTurn();
+            gameEngine.clearLastMove();
+            gameViewPanel.repaint();
         }
         else if( line.substring(0, line.indexOf(";")).equals("Stone") ) {
             gameViewPanel.getGameEngine().place(line.substring( 0, line.indexOf("Points") ));
@@ -85,15 +103,28 @@ public class GameFrame extends JFrame {
             blackPoints.setText( gameEngine.getPointsBlack().toString() );
             whitePoints.setText( gameEngine.getPointsWhite().toString() );
 
-            changeTurn();
+            setFooterText("Your opponent place stone.");
+            gameEngine.changeTurn();
 
             gameViewPanel.repaint();
         }
         else if(line.contains("StartGame;")) {
             setStartGame(line);
         }
+        else if(line.contains("OpponentJoinTable;")) {
+
+            ArrayList<String> name = SignalOperation.parseString(line);
+
+            opponentName = name.get(0);
+
+            JOptionPane.showMessageDialog(null, opponentName + " joins table.");
+        }
         else if(line.equals("GameEnd;")) {
             setEndGame();
+        }
+        else if(line.equals("ReturnToGame;")) {
+            gameEngine.setYourTurn(true);
+            setReturnToGame();
         }
         else if(line.contains("YesDeadStone;")) {
             setWaitForRespond();
@@ -109,22 +140,37 @@ public class GameFrame extends JFrame {
             setTerritoryCheck();
         }
         else if(line.contains("GameResult")) {
-            JOptionPane.showMessageDialog(null, line);
+            JOptionPane.showMessageDialog(null, line.substring( line.indexOf(";")+1 ));
+            setToStart();
         }
+    }
+
+    public void setToStart() {
+        gameButtonsPanel.setVisible(false);
+        startGamePanel.setVisible(true);
+        opponentIsSelectingPanel.setVisible(false);
+        scorePanel.setVisible(false);
+        gameEngine.setGameEnd(false);
+        gameEngine.setStartGame(false);
     }
 
     public void setStartGame(String line) {
 
-        gameEngine.startGame();
+        gameEngine.setStartGame(true);
 
         if(line.contains("Black")) {
             gameEngine.setPlayerStone( Stone.BLACK );
-            ourColor.setText("Black");
-            gameEngine.changeTurn();
+            gameEngine.setTurn(true);
+            blackName.setText(yourName);
+            whiteName.setText(opponentName);
+            setFooterText("You start game, make move.");
         }
         else {
             gameEngine.setPlayerStone( Stone.WHITE );
-            ourColor.setText("White");
+            gameEngine.setTurn(false);
+            whiteName.setText(yourName);
+            blackName.setText(opponentName);
+            setFooterText("Your opponent starts game, please wait for move.");
         }
 
         startGamePanel.setVisible(false);
@@ -135,8 +181,12 @@ public class GameFrame extends JFrame {
 
     public void setEndGame() {
         gameEngine.setGameEnd(true);
+        gameEngine.clearLastMove();
+        gameViewPanel.repaint();
 
         gameButtonsPanel.setVisible(false);
+        territoryPanel.setVisible(false);
+        gameEngine.setTerritoryCheck(false);
 
         if( gameEngine.getPlayerStone().equals(Stone.BLACK)){
             setSelect();
@@ -150,14 +200,14 @@ public class GameFrame extends JFrame {
     public void setSelect() {
         opponentIsSelectingPanel.setVisible(false);
         acceptPanel.setVisible(false);
-        passGamePanel.setVisible(true);
+        commitGamePanel.setVisible(true);
         gameEngine.setYouSelect(true);
     }
 
     public void setWaitForRespond() {
         territoryPanel.setVisible(false);
         acceptPanel.setVisible(false);
-        passGamePanel.setVisible(false);
+        commitGamePanel.setVisible(false);
         opponentIsSelectingPanel.setVisible(true);
     }
 
@@ -170,7 +220,7 @@ public class GameFrame extends JFrame {
     }
 
     public void setTerritoryCheck() {
-        passGamePanel.setVisible(false);
+        commitGamePanel.setVisible(false);
         acceptPanel.setVisible(false);
         territoryPanel.setVisible(true);
         opponentIsSelectingPanel.setVisible(false);
@@ -178,14 +228,30 @@ public class GameFrame extends JFrame {
         gameViewPanel.repaint();
     }
 
-    public void changeTurn() {
-        if(actualTurn.getText().equals("Black")) {
-            actualTurn.setText("White");
-        }
-        else {
-            actualTurn.setText("Black");
-        }
+    public void setReturnToGame() {
+        gameButtonsPanel.setVisible(true);
+        commitGamePanel.setVisible(false);
+        opponentIsSelectingPanel.setVisible(false);
+        acceptPanel.setVisible(false);
+        scorePanel.setVisible(true);
+        movePanel.setVisible(true);
+        territoryPanel.setVisible(false);
 
-        gameEngine.changeTurn();
+        gameEngine.setTerritoryCheck(false);
+        gameEngine.setYouSelect(false);
+        gameEngine.setReturnToGame();
+        gameEngine.setGameEnd(false);
+    }
+
+    public void setFooterText(String text) {
+        actualTurn.setText(text);
+    }
+
+    public void repaintPanel() {
+        gameViewPanel.repaint();
+    }
+
+    public void setOpponentName(String name) {
+        opponentName = name;
     }
 }

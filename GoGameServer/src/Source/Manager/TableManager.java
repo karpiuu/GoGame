@@ -51,6 +51,7 @@ public class TableManager {
      */
     public Table getTable(int id) throws UnknownTableIdException {
         if(id < table.size()) {
+            if(table.get(id) == null) throw new UnknownTableIdException(id);
             return table.get(id);
         }
         else {

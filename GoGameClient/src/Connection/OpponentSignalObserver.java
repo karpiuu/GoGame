@@ -26,6 +26,16 @@ public class OpponentSignalObserver {
             return true;
         }
 
+        if(line.contains("OpponentJoinTable;")) {
+            gameFrame.notifyGame(line);
+            return true;
+        }
+
+        if(line.equals("ReturnToGame;")) {
+            gameFrame.notifyGame(line);
+            return true;
+        }
+
         if(line.equals("GameEnd;")) {
             gameFrame.notifyGame(line);
             return true;
