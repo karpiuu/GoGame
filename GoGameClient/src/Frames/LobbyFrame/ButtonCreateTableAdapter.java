@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Creating new game frame
+ */
 public class ButtonCreateTableAdapter implements ActionListener {
 
     private SocketClient client;
@@ -22,6 +25,10 @@ public class ButtonCreateTableAdapter implements ActionListener {
         this.yourName = yourName;
     }
 
+    /**
+     * After click on this button, new game is creating
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         client.sendMessage("CreateTable;");

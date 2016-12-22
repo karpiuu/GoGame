@@ -7,6 +7,9 @@ import Frames.GameFrame.GameFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Creating new game frame
+ */
 public class ButtonPlayWithBotAdapter implements ActionListener {
 
     private SocketClient client;
@@ -21,6 +24,10 @@ public class ButtonPlayWithBotAdapter implements ActionListener {
         this.yourName = yourName;
     }
 
+    /**
+     * Creating new game with the bot
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         client.sendMessage("CreateBotTable;");

@@ -10,6 +10,11 @@ public class OpponentSignalObserver {
 
     }
 
+    /**
+     * Function check line with signal
+     * @param line
+     * @return true if commands is OK
+     */
     public boolean checkLine(String line) {
         if(line.contains("Stone")) {
             gameFrame.notifyGame(line);
@@ -68,6 +73,10 @@ public class OpponentSignalObserver {
         return false;
     }
 
+    /**
+     * Function setObserver sets actual fram with the game
+     * @param frame
+     */
     public void setObserver(GameFrame frame) {
         gameFrame = frame;
     }

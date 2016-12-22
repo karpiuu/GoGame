@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import GameEngine.Stone;
 
+/**
+ * Adapter to the start button
+ */
 public class StartButtonAdapter implements ActionListener {
 
     private SocketClient client;
@@ -21,6 +24,10 @@ public class StartButtonAdapter implements ActionListener {
         this.gameFrame = gameFrame;
     }
 
+    /**
+     * Users has to click on the start to start game
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String line;

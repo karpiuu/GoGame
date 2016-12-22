@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Adapter to the answer yes : territory statment
+ */
 public class YesTerritoryAdapter implements ActionListener {
     private SocketClient client;
     private GameFrame gameFrame;
@@ -18,6 +21,11 @@ public class YesTerritoryAdapter implements ActionListener {
         this.gameFrame = gameFrame;
     }
 
+
+    /**
+     * Clicking on the yes button
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         client.sendMessage("YesTerritory;");

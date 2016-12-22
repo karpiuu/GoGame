@@ -11,6 +11,10 @@ import java.awt.event.WindowListener;
 /**
  * Created by SZYMON on 07.12.2016.
  */
+
+/**
+ * Adapter to the closing game frame
+ */
 public class GameFrameClosingAdapter implements WindowListener
 {
     private SocketClient client;
@@ -28,6 +32,10 @@ public class GameFrameClosingAdapter implements WindowListener
 
     }
 
+    /**
+     * Function sets frame to the closing by user.
+     * @param windowEvent
+     */
     @Override
     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 

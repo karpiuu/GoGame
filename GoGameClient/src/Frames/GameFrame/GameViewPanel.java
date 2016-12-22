@@ -7,6 +7,9 @@ import GameEngine.Stone;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class which draws board and stones
+ */
 public class GameViewPanel extends JPanel {
 
     private int width;
@@ -53,6 +56,10 @@ public class GameViewPanel extends JPanel {
         setButtons(rowNumber, blackP, whiteP, actualTurn);
     }
 
+    /**
+     * Drawing of the territory, dead stones
+     * @param g
+     */
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -69,6 +76,10 @@ public class GameViewPanel extends JPanel {
         }
     }
 
+    /**
+     * Using doDrawing function
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
 
@@ -76,10 +87,19 @@ public class GameViewPanel extends JPanel {
         doDrawing(g);
     }
 
+    /**
+     *
+     * @return gameEngine
+     */
     public GameEngine getGameEngine() {
         return gameEngine;
     }
 
+    /**
+     * Function which draws board
+     * @param g2d
+     * @param rowNumber
+     */
     private void drawBaseGamePlane(Graphics2D g2d, int rowNumber) {
 
         g2d.setColor( new Color( 240, 180, 100 ) );
@@ -99,6 +119,10 @@ public class GameViewPanel extends JPanel {
         }
     }
 
+
+    /**
+     * Drawing: stones, last move
+     */
     private void drawShapes(Graphics2D g2d) {
         Stone stone;
 
@@ -129,6 +153,11 @@ public class GameViewPanel extends JPanel {
         }
     }
 
+
+    /**
+     * Drawing: dead stones
+     * @param g2d
+     */
     private void drawDeadStones(Graphics2D g2d) {
 
         g2d.setComposite(AlphaComposite.getInstance(
@@ -144,6 +173,11 @@ public class GameViewPanel extends JPanel {
         }
     }
 
+
+    /**
+     *Drawing: territory
+     * @param g2d
+     */
     private void drawTerritory(Graphics2D g2d) {
         for( int i = 0; i < rowNumber; i++ ) {
             for (int j = 0; j < rowNumber; j++) {
@@ -166,6 +200,13 @@ public class GameViewPanel extends JPanel {
         }
     }
 
+    /**
+     * Set buttons
+     * @param rowNumber
+     * @param blackP
+     * @param whiteP
+     * @param actualTurn
+     */
     private void setButtons(int rowNumber, JLabel blackP, JLabel whiteP, JLabel actualTurn) {
 
         buttonList = new JLabel[rowNumber][rowNumber];

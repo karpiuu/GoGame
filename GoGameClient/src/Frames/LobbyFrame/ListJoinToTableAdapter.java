@@ -14,6 +14,11 @@ import java.util.ArrayList;
 /**
  * Created by SZYMON on 07.12.2016.
  */
+
+/**
+ * User wants to join to the table which is made
+ */
+
 public class ListJoinToTableAdapter implements MouseListener {
 
     private SocketClient client;
@@ -30,6 +35,10 @@ public class ListJoinToTableAdapter implements MouseListener {
         this.yourName = yourName;
     }
 
+    /**
+     * After double clicking on the table, server gives respond and then game frame is made for user.
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 

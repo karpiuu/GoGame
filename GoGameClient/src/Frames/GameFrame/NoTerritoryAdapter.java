@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Adapter to the answer no : territory statment
+ */
 public class NoTerritoryAdapter implements ActionListener{
     private SocketClient client;
     private GameFrame gameFrame;
@@ -18,6 +21,10 @@ public class NoTerritoryAdapter implements ActionListener{
         this.gameFrame = gameFrame;
     }
 
+    /**
+     * Clicking on the no button
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         client.sendMessage("NoTerritory;");

@@ -10,6 +10,10 @@ import java.io.IOException;
 /**
  * Created by SZYMON on 28.11.2016.
  */
+
+/**
+ * Refreshing lists of the users and tables
+ */
 public class ButtonRefreshAdapter implements ActionListener {
 
     private LobbyFrame frame;
@@ -20,6 +24,9 @@ public class ButtonRefreshAdapter implements ActionListener {
         client = newclient;
     }
 
+    /**
+     * Refreshing lists of the users and tables
+     */
     public void actionPerformed(ActionEvent e) {
 
         client.sendMessage("Refresh;");

@@ -2,6 +2,9 @@ package GameEngine;
 
 import java.util.ArrayList;
 
+/**
+ * Parsing line from server
+ */
 public class SignalOperation {
 
     /**

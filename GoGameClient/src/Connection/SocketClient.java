@@ -23,6 +23,9 @@ public class SocketClient extends Thread  {
         this.opponentObserver = opponentObserver;
     }
 
+    /**
+     * Function listenSocket try connect with client
+     */
     public void listenSocket()
     {
         String ip;
@@ -47,6 +50,9 @@ public class SocketClient extends Thread  {
         }
     }
 
+    /**
+     * Main function of thread
+     */
     public void run() {
         String line;
 
@@ -68,6 +74,9 @@ public class SocketClient extends Thread  {
         }
     }
 
+    /**
+     * @return line which was read
+     */
     public String readFromInput() {
         String line;
 
@@ -78,6 +87,10 @@ public class SocketClient extends Thread  {
         return line;
     }
 
+    /**
+     * Function sends the message
+     * @param message
+     */
     public void sendMessage(String message) {
         out.println(message);
     }

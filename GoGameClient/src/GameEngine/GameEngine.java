@@ -7,10 +7,10 @@ import java.util.ArrayList;
  */
 public class GameEngine {
 
-    private Stone gameTab[][];
-    private boolean deadStoneTabYours[][];
-    private boolean deadStoneTabOpponent[][];
-    private Stone gameTerritory[][];
+    private Stone gameTab[][];                  // table of the game
+    private boolean deadStoneTabYours[][];      // table : is our stone dead
+    private boolean deadStoneTabOpponent[][];   // table : is opponent stoned dead
+    private Stone gameTerritory[][];            // table : every field belongs to W,B or E
 
     private int size;
     private Stone playerStone;
@@ -23,7 +23,7 @@ public class GameEngine {
 
     private boolean yourTurn;
     private int lastMove[];
-    private int pointsBlack;
+    private int pointsBlack;  // points for beaten stones - slaves
     private int pointsWhite;
 
     public GameEngine(int size) {
@@ -45,9 +45,9 @@ public class GameEngine {
 
     /**
      * Function place is setting stone on the gameboard.
-     * @param x
-     * @param y
-     * @param type
+     * @param x position
+     * @param y position
+     * @param type of stone
      * @return
      */
     public boolean place(int x, int y, Stone type) {
@@ -57,6 +57,7 @@ public class GameEngine {
         }
         return false;
     }
+
 
     /**
      * Function changes all fields which are forwarded from server
@@ -76,10 +77,11 @@ public class GameEngine {
         }
     }
 
+
     /**
      * Function getStone gets type of stone form field.
-     * @param x
-     * @param y
+     * @param x position
+     * @param y position
      * @return
      */
     public Stone getStone(int x, int y) {
@@ -89,13 +91,25 @@ public class GameEngine {
         return Stone.EMPTY;
     }
 
+
+    /**
+     *
+     * @return size of board
+     */
     public int getSize() {
         return size;
     }
 
+
+    /**
+     * Function sets your turn as state
+     * @param state
+     */
     public void setYourTurn(boolean state) {
         yourTurn = state;
     }
+
+
 
     /**
      * Function getPlayerStone returns actual stone of player.
@@ -105,6 +119,11 @@ public class GameEngine {
         return playerStone;
     }
 
+
+    /**
+     *
+     * @return color if the opponent stone. If our stone is BLACK then function retruns WHITE, otherwise BLACK.
+     */
     public Stone getOpponentStone() {
         return ( playerStone.equals(Stone.BLACK) ? Stone.WHITE : Stone.BLACK );
     }
@@ -130,6 +149,10 @@ public class GameEngine {
         setReturnToGame();
     }
 
+
+    /**
+     * Function sets parametrs of the game to go to the previous state of the game.
+     */
     public void setReturnToGame() {
         gameEnd = false;
         clearYoursDeadStone();
@@ -137,7 +160,11 @@ public class GameEngine {
         clearTerritory();
     }
 
-    public void clearStones() {
+
+    /**
+     * Function goes after each single field and sets every stone as EMPTY
+     */
+    private void clearStones() {
         gameTab = new Stone[size][size];
 
         for(int i = 0; i < size; i++) {
@@ -148,6 +175,10 @@ public class GameEngine {
     }
 
 
+    /**
+     * Function sets parametrs of the game to end phase the game.
+     * @param state
+     */
     public void setGameEnd(boolean state) {
         deadStoneTabYours = new boolean[size][size];
         deadStoneTabOpponent = new boolean[size][size];
@@ -156,15 +187,21 @@ public class GameEngine {
 
     /**
      *
-     * @return
+     * @return value of the gameEnd
      */
     public boolean getGameEnd() {
         return gameEnd;
     }
 
+
+    /**
+     *
+     * @param state of our turn
+     */
     public void setTurn(boolean state) {
         yourTurn = state;
     }
+
 
     /**
      * Function changeTurn sets variable yourTurn on opposite.
@@ -173,13 +210,24 @@ public class GameEngine {
         yourTurn = !yourTurn;
     }
 
+
+    /**
+     * If you select dead stones.
+     * @param state
+     */
     public void setYouSelect(boolean state) {
         youSelect = state;
     }
 
+
+    /**
+     *
+     * @return value of youSelect
+     */
     public boolean isYouSelect() {
         return youSelect;
     }
+
 
     /**
      * Function getGameStart returns actual value of gameStart variable: 0 or 1.
@@ -189,6 +237,7 @@ public class GameEngine {
         return gameStart;
     }
 
+
     /**
      * @return actual value of yourTurn variable: 0 or 1.
      */
@@ -196,11 +245,17 @@ public class GameEngine {
         return yourTurn;
     }
 
+
     /**
      * @return Last placed move
      */
     public int[] getLastMove() { return lastMove; }
 
+
+    /**
+     * This function gets points for slaves.
+     * @param line
+     */
     public void changePoints(String line) {
         ArrayList<String> args = SignalOperation.parseString(line);
 
@@ -208,14 +263,32 @@ public class GameEngine {
         pointsWhite = Integer.parseInt( args.get(1) );
     }
 
+
+    /**
+     *
+     * @return points of the black player for slaves
+     */
     public Integer getPointsBlack() {
         return pointsBlack;
     }
 
+
+    /**
+     *
+     * @return points of the white player for slaves.
+     */
     public Integer getPointsWhite() {
         return pointsWhite;
     }
 
+
+    /**
+     * Change state of the dead stones
+     * @param x position
+     * @param y position
+     * @param type of stone
+     * @return if stone is property color, function returns true
+     */
     public boolean selectDeadStone(int x, int y, Stone type) {
         if( gameTab[x][y].equals(type) ) {
             deadStoneTabYours[x][y] = !deadStoneTabYours[x][y];
@@ -226,10 +299,21 @@ public class GameEngine {
         }
     }
 
+    /**
+     *
+     * @param x position
+     * @param y position
+     * @return true if is dead stone
+     */
     public boolean isStoneDead(int x, int y) {
         return ( deadStoneTabYours[x][y] || deadStoneTabOpponent[x][y] );
     }
 
+
+    /**
+     *
+     * @return places of all of dead stones of our player
+     */
     public String getAllYoursDeadStones() {
         String text = "";
 
@@ -240,10 +324,14 @@ public class GameEngine {
                 }
             }
         }
-
         return text;
     }
 
+
+    /**
+     *
+     * @return places of all of dead stones of opponent player
+     */
     public String getAllOpponentDeadStones() {
         String text = "";
 
@@ -258,6 +346,10 @@ public class GameEngine {
         return text;
     }
 
+
+    /** Function sets dead stones of the opponent
+     * @param line
+     */
     public void setOpponentDeadStone(String line) {
         ArrayList<String> args = SignalOperation.parseString(line);
 
@@ -272,30 +364,63 @@ public class GameEngine {
         youCheck = true;
     }
 
+
+    /**
+     * Table of the dead stones of opponent is cleared
+     */
     public void clearOpponentDeadStone() {
         deadStoneTabOpponent = new boolean[size][size];
     }
 
-    public void clearYoursDeadStone() {
+
+    /**
+     * Table of the our dead stones is cleared
+     */
+    private void clearYoursDeadStone() {
         deadStoneTabYours = new boolean[size][size];
     }
 
+
+    /**
+     * Function sets variable youCheck - you are checking yours dead stones
+     * @param state
+     */
     public void setYouCheck(boolean state) {
         youCheck = state;
     }
 
+
+    /**
+     *
+     * @return youCheck
+     */
     public boolean isYouCheck() {
         return youCheck;
     }
 
+
+    /**
+     * Sets territoryCheck on the state
+     * @param state
+     */
     public void setTerritoryCheck(boolean state) {
         territoryCheck = state;
     }
 
+
+    /**
+     *
+     * @return territoryCheck
+     */
     public boolean isTerritoryCheck() {
         return territoryCheck;
     }
 
+
+    /**
+     * Function sets stones to the gameTerritory
+     * @param line
+     */
     public void setTerritory(String line) {
 
         clearTerritory();
@@ -316,10 +441,21 @@ public class GameEngine {
         }
     }
 
+
+    /**
+     *
+     * @param x position
+     * @param y position
+     * @return territory from given field
+     */
     public Stone getTerritory(int x, int y) {
         return gameTerritory[x][y];
     }
 
+
+    /**
+     * Table gameTerritory is filling by empty stones.
+     */
     public void clearTerritory() {
         gameTerritory = new Stone[size][size];
 
@@ -330,6 +466,10 @@ public class GameEngine {
         }
     }
 
+
+    /**
+     * Function clears last move.
+     */
     public void clearLastMove() {
         lastMove[0] = -1;
         lastMove[1] = -1;

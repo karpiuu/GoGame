@@ -7,6 +7,9 @@ import GameEngine.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * Game
+ */
 public class GameFrame extends JFrame {
     private SocketClient client;
 
@@ -69,6 +72,9 @@ public class GameFrame extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Init of the all adapters
+     */
     public void init() {
         gameViewPanel = new GameViewPanel(client, 800,730, gameEngine, blackPoints, whitePoints, actualTurn, gameEngine.getSize());
         panel1.add( gameViewPanel );
@@ -89,6 +95,11 @@ public class GameFrame extends JFrame {
 
     }
 
+
+    /**
+     * Getting good signal from observer.
+     * @param line
+     */
     public void notifyGame(String line) {
         if( line.equals("Pass;") || line.equals("ChangeTurn;")) {
             setFooterText("Your opponent passed turn.");
@@ -145,6 +156,10 @@ public class GameFrame extends JFrame {
         }
     }
 
+
+    /**
+     * Setting view during start button
+     */
     public void setToStart() {
         gameButtonsPanel.setVisible(false);
         startGamePanel.setVisible(true);
@@ -154,6 +169,11 @@ public class GameFrame extends JFrame {
         gameEngine.setStartGame(false);
     }
 
+
+    /**
+     * Setting view during playing
+     * @param line
+     */
     public void setStartGame(String line) {
 
         gameEngine.setStartGame(true);
@@ -179,6 +199,10 @@ public class GameFrame extends JFrame {
         movePanel.setVisible(true);
     }
 
+
+    /**
+     * Setting view during ending game
+     */
     public void setEndGame() {
         gameEngine.setGameEnd(true);
         gameEngine.clearLastMove();
@@ -197,6 +221,10 @@ public class GameFrame extends JFrame {
         }
     }
 
+
+    /**
+     *  Setting view during checking dead stones
+     */
     public void setSelect() {
         opponentIsSelectingPanel.setVisible(false);
         acceptPanel.setVisible(false);
@@ -204,6 +232,10 @@ public class GameFrame extends JFrame {
         gameEngine.setYouSelect(true);
     }
 
+
+    /**
+     * Setting view during waiting on the opponent
+     */
     public void setWaitForRespond() {
         territoryPanel.setVisible(false);
         acceptPanel.setVisible(false);
@@ -211,6 +243,11 @@ public class GameFrame extends JFrame {
         opponentIsSelectingPanel.setVisible(true);
     }
 
+
+    /**
+     * Setting view after getting respond
+     * @param line
+     */
     public void setRespond(String line) {
         acceptPanel.setVisible(true);
         opponentIsSelectingPanel.setVisible(false);
@@ -219,6 +256,10 @@ public class GameFrame extends JFrame {
         gameViewPanel.repaint();
     }
 
+
+    /**
+     * Setting view during checking territory
+     */
     public void setTerritoryCheck() {
         commitGamePanel.setVisible(false);
         acceptPanel.setVisible(false);
@@ -228,6 +269,9 @@ public class GameFrame extends JFrame {
         gameViewPanel.repaint();
     }
 
+    /**
+     * Setting view after clicking ReturnToGame
+     */
     public void setReturnToGame() {
         gameButtonsPanel.setVisible(true);
         commitGamePanel.setVisible(false);
@@ -243,14 +287,27 @@ public class GameFrame extends JFrame {
         gameEngine.setGameEnd(false);
     }
 
+
+    /**
+     * Setting footer
+     */
     public void setFooterText(String text) {
         actualTurn.setText(text);
     }
 
+
+    /**
+     * Repainting gamepanel
+     */
     public void repaintPanel() {
         gameViewPanel.repaint();
     }
 
+
+    /**
+     * Setting opponent name
+     * @param name
+     */
     public void setOpponentName(String name) {
         opponentName = name;
     }
