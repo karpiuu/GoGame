@@ -8,6 +8,9 @@ import Source.Game.StoneType;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
+/**
+ * Signal executed when user place stone on board
+ */
 public class StoneSignal extends Signal {
 
     private TableManager tableManager;

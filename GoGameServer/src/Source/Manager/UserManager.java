@@ -18,7 +18,7 @@ public class UserManager {
     private volatile ArrayList<UserConnection> user;     // Hold every user Thread
     private ArrayList<Integer> freeUserId;               // Contain free ID for new users
     private Integer userCount;                           // If every slot in array is taken, describe ID for new user
-    private ArrayList<String> invalidStringInName;
+    private ArrayList<String> invalidStringInName;       // All invalid names
 
     public UserManager() {
 
@@ -51,6 +51,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * Adds bot to server
+     * @param server given server
+     * @return bot id
+     */
     public int addBot(Server server) {
         int index;
 
@@ -71,7 +76,10 @@ public class UserManager {
         }
     }
 
-    public void initInvalidNames() {
+    /**
+     * Sets all invalid names
+     */
+    private void initInvalidNames() {
         invalidStringInName = new ArrayList<>();
 
         invalidStringInName.add(";");
@@ -153,6 +161,4 @@ public class UserManager {
 
         return true;
     }
-
-
 }

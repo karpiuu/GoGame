@@ -6,6 +6,9 @@ import Source.Exception.UnknownUserIdException;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
+/**
+ * Signal executed when user surrenders game
+ */
 public class SurrenderSignal extends Signal {
     private TableManager tableManager;
     private String line;

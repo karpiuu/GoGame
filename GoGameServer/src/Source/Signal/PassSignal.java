@@ -7,7 +7,7 @@ import Source.Game.Table;
 import Source.Manager.TableManager;
 
 /**
- * Created by SZYMON on 14.12.2016.
+ * Signal executed when user passes
  */
 public class PassSignal extends Signal {
 

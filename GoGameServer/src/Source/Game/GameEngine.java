@@ -2,6 +2,9 @@ package Source.Game;
 
 import java.util.ArrayList;
 
+/**
+ * Game Engine class is main physics class, holds fields and checks moves
+ */
 public class GameEngine {
 
     private Stone gameField[][];    // Actual state of the game
@@ -33,6 +36,12 @@ public class GameEngine {
         startGame();
     }
 
+    /**
+     * Checks if move is correct
+     * @param value given move
+     * @param type type of stone
+     * @return if move is correct or error message
+     */
     public String checkMove(int value, StoneType type) {
 
         newKilled = new ArrayList<>();
@@ -85,14 +94,26 @@ public class GameEngine {
         return stoneMove;
     }
 
+    /**
+     * Add user pass to counter
+     */
     public void userPass() {
         pass += 1;
     }
 
-    public int getUserPass() {
+    /**
+     * @return How many user passed
+     */
+    int getUserPass() {
         return pass;
     }
 
+    /**
+     * Check if move is correct in KO rule
+     * @param move given near stone position
+     * @param playerMove given move position
+     * @return is move is correct
+     */
     private boolean checkKO(int move, int playerMove) {
         for (Integer value : lastKilled) {
             if(value == playerMove) {
@@ -102,6 +123,10 @@ public class GameEngine {
         return true;
     }
 
+    /**
+     * @param value given move
+     * @return move in x i y values
+     */
     public int[] convertMove(int value) {
         int move[] = new int[2];
 
@@ -111,10 +136,21 @@ public class GameEngine {
         return move;
     }
 
+    /**
+     * @param x position
+     * @param y position
+     * @return position in one value form (x + y * 19)
+     */
     private int convertMove(int x, int y) {
         return x + y*size;
     }
 
+    /**
+     * @param x position
+     * @param y position
+     * @param type of stone
+     * @return if move is correct
+     */
     private boolean place(int x, int y, StoneType type) {
         if( gameField[x][y].getStoneType().equals( StoneType.EMPTY ) ) {    // Check if field is empty
             gameField[x][y].setStoneType(type);
@@ -125,10 +161,22 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Function for placing stones by bot, bot have to clear his own block before checking
+     * @param value position
+     * @param type of stone
+     */
     public void placeBot(int value, StoneType type) {
         gameField[convertMove(value)[0]][convertMove(value)[1]].setStoneType(type);
     }
 
+    /**
+     * Main physics function, checks if area have no breath
+     * @param x position
+     * @param y position
+     * @param type of stone
+     * @return if area is full
+     */
     private boolean checkFullArea(int x, int y, StoneType type) {
 
         if( x >= 0 && x < size && y >= 0 && y < size ) {
@@ -148,6 +196,14 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Physics function for checking near stones, recurrent function
+     * @param x position
+     * @param y position
+     * @param number value of field in recurrent function
+     * @param type of stone
+     * @return if area is full
+     */
     private boolean ifAreaIsFull(int x, int y, int number, StoneType type) {
 
         if( x < 0 || x >= size || y < 0 || y >= size ) return true;
@@ -168,6 +224,11 @@ public class GameEngine {
         return true;
     }
 
+    /**
+     * Deletes area and given near stones, recurrent function
+     * @param x position
+     * @param y position
+     */
     private void deleteArea(int x, int y) {
         if( x >= 0 && x < size && y >= 0 && y < size ) {
             if( gameField[x][y].getTestType() > 0 ) {
@@ -188,7 +249,10 @@ public class GameEngine {
         }
     }
 
-    public void clearTest() {
+    /**
+     * Clears test given in check process
+     */
+    private void clearTest() {
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 gameField[i][j].setTestType(0);
@@ -196,7 +260,11 @@ public class GameEngine {
         }
     }
 
-    public void setGameEnd(boolean state) {
+    /**
+     * Prepare game to end phase
+     * @param state of the game
+     */
+    void setGameEnd(boolean state) {
         if(state) {
             gameEndField = new Stone[size][size];
 
@@ -208,10 +276,19 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Clears all dead stones selected by users
+     * @param x position
+     * @param y position
+     */
     public void clearDeadStone(int x, int y) {
         gameEndField[x][y].setStoneType(StoneType.EMPTY);
     }
 
+    /**
+     * Calculate and returns territory string
+     * @return big Territory string
+     */
     public String getTerritory() {
 
         territoryValue = new ArrayList<>();
@@ -240,6 +317,9 @@ public class GameEngine {
         return getTerritoryString();
     }
 
+    /**
+     * @return returns only string
+     */
     private String getTerritoryString() {
         String str = "";
 
@@ -254,7 +334,13 @@ public class GameEngine {
         return str;
     }
 
-    public void fillTerritory(int x, int y, int value) {
+    /**
+     * Fills territory and checks if this territory belong to someone
+     * @param x position
+     * @param y position
+     * @param value id of territory
+     */
+    private void fillTerritory(int x, int y, int value) {
         if( x < 0 || x >= size || y < 0 || y >= size ) return;
 
         if(territoryField[x][y] == 0) {
@@ -288,18 +374,31 @@ public class GameEngine {
         }
     }
 
+    /**
+     * @return if both players accepted territory
+     */
     public boolean isTerritoryAccepted() {
         return (territoryAccept >= 2);
     }
 
+    /**
+     * Used for clearing territory
+     * @param territoryAccept given state
+     */
     public void setTerritoryAccept(int territoryAccept) {
         this.territoryAccept = territoryAccept;
     }
 
+    /**
+     * Increment checking territory value
+     */
     public void userAcceptTerritory() {
         territoryAccept++;
     }
 
+    /**
+     * @return number of points by each user
+     */
     public String getPoints() {
 
         double blackTerritoryPoints = 0;
@@ -328,7 +427,10 @@ public class GameEngine {
         return result;
     }
 
-    public void startGame() {
+    /**
+     * Sets everything, to start new game
+     */
+    void startGame() {
         pointsBlack = 0;
         pointsWhite = 0;
         pointsTo = false;
@@ -343,6 +445,9 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Sets everything to game state which was before 2 player passed
+     */
     public void returnToGame() {
         pass = 0;
         territoryAccept = 0;

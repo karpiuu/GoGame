@@ -19,6 +19,9 @@ public class SocketServer {
         }
     }
 
+    /**
+     * @return server object
+     */
     public ServerSocket getServer() {
         return server;
     }

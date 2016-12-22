@@ -1,16 +1,12 @@
 package Source.Connection;
 
 import Source.Exception.WrongSignalException;
-import Source.Game.GameEngine;
 import Source.Game.StoneType;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Random;
 
+/**
+ * This main bot class
+ */
 public class BotConnection extends UserConnection {
 
     private volatile boolean haveAnswer;
@@ -23,6 +19,9 @@ public class BotConnection extends UserConnection {
         rnd = new Random();
     }
 
+    /**
+     * Main thread run for bot
+     */
     @Override
     public void run() {
         System.out.println("BOT " + userId + " is created");
@@ -48,11 +47,18 @@ public class BotConnection extends UserConnection {
         }
     }
 
+    /**
+     * @return command which bot provides
+     */
     private String readBot() {
         haveAnswer = false;
         return command;
     }
 
+    /**
+     * Bot calculate command, and make proper answer
+     * @param line message
+     */
     @Override
     public void sendMessageToUser(String line) {
 
@@ -105,9 +111,6 @@ public class BotConnection extends UserConnection {
             else if (serverCommand.equals("TerritoryCheck")) {
                 command = "YesTerritory;";
                 haveAnswer = true;
-            }
-            else {
-                System.out.println("BOT NOT ANSWER [" + line + "]");
             }
         }
     }

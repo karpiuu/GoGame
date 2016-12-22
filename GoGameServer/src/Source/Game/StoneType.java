@@ -1,8 +1,15 @@
 package Source.Game;
 
+/**
+ * State of the field, hold by enum value
+ */
 public enum StoneType {
     EMPTY, BLACK, WHITE;
 
+    /**
+     * @param type given in string
+     * @return enum value
+     */
     public static StoneType getTypeFromString(String type) {
         switch (type) {
             case "E" : return EMPTY;
@@ -12,6 +19,9 @@ public enum StoneType {
         }
     }
 
+    /**
+     * @return String value of type
+     */
     @Override
     public String toString() {
         switch (this) {

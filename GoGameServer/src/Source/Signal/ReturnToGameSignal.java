@@ -6,6 +6,9 @@ import Source.Exception.UnknownUserIdException;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
+/**
+ * Signal executed when user want to return to old game state before end game phase
+ */
 public class ReturnToGameSignal extends Signal {
     private TableManager tableManager;
 

@@ -6,6 +6,9 @@ import Source.Exception.UnknownUserIdException;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
+/**
+ * Signal execute when user stats his game
+ */
 public class StartGameSignal extends Signal {
 
     private TableManager tableManager;

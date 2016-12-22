@@ -9,6 +9,9 @@ import Source.Manager.TableManager;
 
 import java.util.ArrayList;
 
+/**
+ * Signal executed when player gives his dead stones
+ */
 public class DeadStoneSignal extends Signal {
 
     private TableManager tableManager;

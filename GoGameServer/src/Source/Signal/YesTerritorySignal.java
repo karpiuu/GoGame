@@ -9,6 +9,9 @@ import Source.Manager.TableManager;
 
 import java.util.ArrayList;
 
+/**
+ * Signal executed when user agree about given territory
+ */
 public class YesTerritorySignal extends Signal {
 
     private TableManager tableManager;

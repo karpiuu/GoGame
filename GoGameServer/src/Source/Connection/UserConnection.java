@@ -81,7 +81,6 @@ public class UserConnection extends Thread {
         tableId = id;
     }
 
-
     /**
      * Stand up from table
      */
@@ -118,6 +117,10 @@ public class UserConnection extends Thread {
      */
     public void setUserName(String newName) { userName = newName; }
 
+    /**
+     * Sets game engine to user
+     * @param gameEngine given game engine
+     */
     public void setGameEngine(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }

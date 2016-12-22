@@ -9,9 +9,9 @@ import Source.Exception.*;
  */
 public class TableManager {
 
-    private ArrayList<Table> table;        // Hold every table
-    private ArrayList<Integer> freeTableId;  // Contain free table Id
-    private Integer tablesCount;            // When full, Id for new table
+    private ArrayList<Table> table;             // Hold every table
+    private ArrayList<Integer> freeTableId;     // Contain free table Id
+    private Integer tablesCount;                // When full, Id for new table
 
     public TableManager() {
         table = new ArrayList<>();

@@ -7,6 +7,9 @@ import Source.Exception.UnknownUserIdException;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
+/**
+ * Signal executed when table is created
+ */
 public class CreateBotTableSignal extends Signal {
     private TableManager tableManager;
     private Server server;

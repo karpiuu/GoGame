@@ -68,8 +68,7 @@ public class Table {
     }
 
     /**
-     *
-     * @return
+     * @return if you are able to start game in this table
      */
     public boolean startGame() {
         if( getUserCount() >= 2 ) {
@@ -82,6 +81,9 @@ public class Table {
         return false;
     }
 
+    /**
+     * Sets game to previous state
+     */
     public void setReturnToGame() {
         gameStart = true;
         gameEnd = false;
@@ -89,32 +91,28 @@ public class Table {
     }
 
     /**
-     *
-     * @return
+     * @return if game started
      */
     public boolean getGameStart() {
         return gameStart;
     }
 
     /**
-     *
-     * @return
+     * @return active player
      */
     public Integer getActivePlayer() {
         return activePlayer;
     }
 
     /**
-     *
-     * @return
+     * @param id sets new active player
      */
     public void setActivePlayer(int id) {
         activePlayer = id;
     }
 
     /**
-     *
-     * @return
+     * @return unactive player
      */
     public Integer getUnactivePlayer() {
         if( !idUserWhite.equals(activePlayer) ) return idUserWhite;
@@ -163,6 +161,9 @@ public class Table {
         return gameEngine;
     }
 
+    /**
+     * @return if game is in ending phase
+     */
     public boolean isGameEnd() {
         if( gameEngine.getUserPass() >= 2 ) {
             gameEnd = true;
@@ -171,10 +172,16 @@ public class Table {
         return gameEnd;
     }
 
+    /**
+     * @param state sets game to played with bot
+     */
     public void setBotGame(boolean state) {
         botGame = state;
     }
 
+    /**
+     * @return if game is a bot game
+     */
     public boolean isBotGame() {
         return botGame;
     }

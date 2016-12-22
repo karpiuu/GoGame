@@ -6,6 +6,9 @@ import Source.Exception.UnknownUserIdException;
 import Source.Game.Table;
 import Source.Manager.TableManager;
 
+/**
+ * Signal executed when user don't agree to given territory
+ */
 public class NoTerritorySignal extends Signal {
     private TableManager tableManager;
 

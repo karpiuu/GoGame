@@ -143,6 +143,11 @@ public class SignalManager {
         }
     }
 
+    /**
+     * Function to separate given string
+     * @param line string to separate
+     * @return separate string
+     */
     public static ArrayList<String> parseString(String line) {
 
         if( line.length() > 0 ) {

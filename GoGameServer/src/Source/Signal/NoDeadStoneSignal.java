@@ -9,6 +9,9 @@ import Source.Manager.TableManager;
 
 import java.util.ArrayList;
 
+/**
+ * Signal executed when user don't agree to given dead stones
+ */
 public class NoDeadStoneSignal extends Signal {
 
         private TableManager tableManager;

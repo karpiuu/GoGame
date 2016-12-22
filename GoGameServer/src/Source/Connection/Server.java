@@ -40,6 +40,10 @@ public class Server {
         }
     }
 
+    /**
+     * Add bot to server
+     * @return bot id
+     */
     public int addBot() {
         return userManager.addBot(this);
     }
