@@ -9,8 +9,10 @@ import Source.Manager.TableManager;
 
 public class CreateBotTableSignal extends Signal {
     private TableManager tableManager;
+    private Server server;
 
     public CreateBotTableSignal(Server server, int newId) {
+        this.server = server;
         setUserManager(server.getUserManager());
         tableManager = server.getTableManager();
         id = newId;
@@ -56,13 +58,28 @@ public class CreateBotTableSignal extends Signal {
                 return;
             }
 
+            int index = server.addBot();
+
             try {
-                table.sitDown(0);
-            } catch (FullTableException e) {
+                userManager.getUser(index).setGameEngine(table.getGameEngine());
+            } catch (UnknownUserIdException e) {
                 e.printStackTrace();
-                // Never enter here
             }
 
+            try {
+                userManager.getUser(index).setUserName("Bot");
+                userManager.getUser(index).sitDown(table.getId());
+            } catch (UnknownUserIdException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                table.sitDown(index);
+            } catch (FullTableException e) {
+                e.printStackTrace();
+            }
+
+            table.setBotGame(true);
             table.startGame();
         }
     }

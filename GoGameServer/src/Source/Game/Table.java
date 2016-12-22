@@ -12,6 +12,7 @@ public class Table {
     private Integer activePlayer;   // Id of current player making move
     private boolean gameStart;
     private boolean gameEnd;
+    private boolean botGame;
 
     private GameEngine gameEngine;  // Checks if move is correct, or give stones to delete, holds game table
 
@@ -168,5 +169,13 @@ public class Table {
             gameEngine.setGameEnd(true);
         }
         return gameEnd;
+    }
+
+    public void setBotGame(boolean state) {
+        botGame = state;
+    }
+
+    public boolean isBotGame() {
+        return botGame;
     }
 }

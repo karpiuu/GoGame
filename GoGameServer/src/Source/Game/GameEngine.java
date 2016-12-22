@@ -125,6 +125,10 @@ public class GameEngine {
         }
     }
 
+    public void placeBot(int value, StoneType type) {
+        gameField[convertMove(value)[0]][convertMove(value)[1]].setStoneType(type);
+    }
+
     private boolean checkFullArea(int x, int y, StoneType type) {
 
         if( x >= 0 && x < size && y >= 0 && y < size ) {

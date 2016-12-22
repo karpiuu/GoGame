@@ -32,14 +32,33 @@ public class StandUpSignal extends Signal {
                 return;
             }
 
-            try { table.standUp(id); }
-            catch (UnknownUserIdException e) {
-                // User don't sit in this table
-                System.out.println("[ERROR] User don't sit in this table");
-                return;
+            if( table.isBotGame() ) {
+
+                int opponentId = (table.getIdUserWhite() == id ? table.getIdUserBlack() : table.getIdUserWhite() );
+
+                try {
+                    userManager.getUser( opponentId ).standUp();
+                    userManager.deleteUser( opponentId );
+                } catch (UnknownUserIdException e) {
+                    // NEVER GET HERE
+                }
+
+                try {
+                    table.standUp( opponentId );
+                } catch (UnknownUserIdException e) {
+
+                    System.out.println("[ERROR] User don't sit in this table");
+                }
+
             }
 
             owner.standUp();
+
+            try {
+                table.standUp(id);
+            } catch (UnknownUserIdException e) {
+                System.out.println("[ERROR] User don't sit in this table");
+            }
 
             if(table.getUserCount() == 0) {
                 tableManager.deleteTable( table.getId() );

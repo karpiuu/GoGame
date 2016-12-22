@@ -30,8 +30,6 @@ public class Server {
 
         signalManager = new SignalManager(this);
 
-        userManager.addBot(this);
-
         while(true) {
             try { clientSocket = socketServer.getServer().accept(); }
             catch (IOException e) {
@@ -40,6 +38,10 @@ public class Server {
             }
             userManager.addUser(this, clientSocket);
         }
+    }
+
+    public int addBot() {
+        return userManager.addBot(this);
     }
 
     /**

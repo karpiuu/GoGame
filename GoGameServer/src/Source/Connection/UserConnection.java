@@ -8,18 +8,20 @@ import java.net.Socket;
 
 import Source.Exception.UnknownUserIdException;
 import Source.Exception.WrongSignalException;
+import Source.Game.GameEngine;
 
 public class UserConnection extends Thread {
 
-    private Integer userId;
-    private Server server;
-    private String userName;
-    private Integer tableId;
+    protected Integer userId;
+    protected Server server;
+    protected String userName;
+    protected Integer tableId;
 
-    private Socket client = null;
-    private BufferedReader in = null;
-    private PrintWriter out = null;
-    private String line = "";
+    protected Socket client = null;
+    protected BufferedReader in = null;
+    protected PrintWriter out = null;
+    protected String line = "";
+    protected GameEngine gameEngine;
 
     public UserConnection(Server newServer, Socket socket, Integer id) {
         server = newServer;
@@ -115,6 +117,10 @@ public class UserConnection extends Thread {
      * @param newName new name
      */
     public void setUserName(String newName) { userName = newName; }
+
+    public void setGameEngine(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
 
     /**
      * Delete user and clear his tables

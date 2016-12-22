@@ -51,10 +51,24 @@ public class UserManager {
         }
     }
 
-    public void addBot(Server server) {
-        user.add( new BotConnection(server, 0));
-        user.get(0).setUserName("Bot");
-        userCount++;
+    public int addBot(Server server) {
+        int index;
+
+        if(freeUserId.size() > 0) {
+            index = freeUserId.get(0);
+            freeUserId.remove(0);
+
+            user.set(index, new BotConnection(server, index));
+            user.get(index).start();
+
+            return index;
+        }
+        else {
+            user.add(new BotConnection(server, userCount));
+            user.get(userCount).start();
+            userCount++;
+            return user.size()-1;
+        }
     }
 
     public void initInvalidNames() {
