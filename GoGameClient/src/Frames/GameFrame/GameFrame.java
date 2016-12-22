@@ -178,6 +178,9 @@ public class GameFrame extends JFrame {
 
         gameEngine.setStartGame(true);
 
+        blackPoints.setText("0");
+        whitePoints.setText("0");
+
         if(line.contains("Black")) {
             gameEngine.setPlayerStone( Stone.BLACK );
             gameEngine.setTurn(true);

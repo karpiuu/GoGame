@@ -144,6 +144,8 @@ public class GameEngine {
         gameStart = state;
         lastMove[0] = -1;
         lastMove[1] = -1;
+        pointsWhite = 0;
+        pointsBlack = 0;
 
         clearStones();
         setReturnToGame();
