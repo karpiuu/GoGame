@@ -7,27 +7,27 @@ import java.util.ArrayList;
  */
 public class GameEngine {
 
-    private Stone gameField[][];    // Actual state of the game
-    private Stone gameEndField[][];    // GameEnd state of the game
-    private int size;
-    private String stoneMove;
-    private int lastMove;
-    private ArrayList<Integer> lastKilled;
-    private ArrayList<Integer> newKilled;
+    private Stone gameField[][];                // Actual state of the game
+    private Stone gameEndField[][];             // GameEnd state of the game
+    private int size;                           // Size of the board
+    private String stoneMove;                   // String of command returned to user (PLACED STONE; DELETED STONES)
+    private int lastMove;                       // Last stone move
+    private ArrayList<Integer> lastKilled;      // Last killed stones (USED FOR KO RULE)
+    private ArrayList<Integer> newKilled;       // New killed stones switched in lastKilled (USED FOR KO RULE)
 
-    private int nearStone[][];
+    private int nearStone[][];                  // Pattern of near stones
 
-    private int pointsBlack;
-    private int pointsWhite;
+    private int pointsBlack;                    // Killed slaves by black
+    private int pointsWhite;                    // Killed slaves by white
 
-    private boolean pointsTo;       // Describe who gets points after killing stones : False - Black, True - White
-    private int numKill;
+    private boolean pointsTo;                   // Describe who gets points after killing stones : False - Black, True - White
+    private int numKill;                        // How much stones where killed (USER FOR KO RULE)
 
-    private int pass;
-    private int territoryAccept;
+    private int pass;                           // How much user passed
+    private int territoryAccept;                // How much user accepted territory
 
-    private ArrayList<String> territoryValue;  // U - UNDEFINED, E - EMPTY, B - BLACK, W - WHITE
-    private int territoryField[][];
+    private ArrayList<String> territoryValue;   // Value of list of territory: U - UNDEFINED, E - EMPTY, B - BLACK, W - WHITE
+    private int territoryField[][];             // Position of all territories
 
     public GameEngine(int size) {
         this.size = size;
@@ -104,7 +104,7 @@ public class GameEngine {
     /**
      * @return How many user passed
      */
-    int getUserPass() {
+    public int getUserPass() {
         return pass;
     }
 
@@ -451,5 +451,18 @@ public class GameEngine {
     public void returnToGame() {
         pass = 0;
         territoryAccept = 0;
+    }
+
+    public ArrayList<Integer> getAllEmptyFields() {
+        ArrayList<Integer> empty = new ArrayList<>();
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if(gameField[i][j].getStoneType().equals(StoneType.EMPTY))
+                    empty.add(i+j*19);
+            }
+        }
+
+        return empty;
     }
 }

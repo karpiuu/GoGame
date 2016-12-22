@@ -2,6 +2,8 @@ package Source.Connection;
 
 import Source.Exception.WrongSignalException;
 import Source.Game.StoneType;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -9,9 +11,9 @@ import java.util.Random;
  */
 public class BotConnection extends UserConnection {
 
-    private volatile boolean haveAnswer;
-    private Random rnd;
-    private volatile String command;
+    private volatile boolean haveAnswer;        // If bot have answer
+    private Random rnd;                         // Random generator for fields
+    private volatile String command;            // Command given by bot
 
     public BotConnection(Server newServer, Integer id) {
         super(newServer, null, id);
@@ -50,7 +52,7 @@ public class BotConnection extends UserConnection {
     /**
      * @return command which bot provides
      */
-    private String readBot() {
+    public String readBot() {
         haveAnswer = false;
         return command;
     }
@@ -67,18 +69,47 @@ public class BotConnection extends UserConnection {
 
             if (serverCommand.equals("Stone")) {
 
-                int position;
+                boolean set = false;
+                ArrayList<Integer> empty = gameEngine.getAllEmptyFields();
+                ArrayList<Integer> emptyRandom = new ArrayList<>();
 
-                while (true) {
-                    position = rnd.nextInt(361);
-                    command = gameEngine.checkMove(position, StoneType.WHITE);
+                int n = empty.size();
+                int random;
 
-                    if (command.contains("YourMove")) break;
+                for(int i = 0; i < empty.size(); i++) {
+
+                    random = rnd.nextInt(n);
+                    emptyRandom.add( empty.get(random) );
+                    empty.set( random, empty.get(n-1) );
+                    n--;
                 }
 
-                gameEngine.placeBot(position, StoneType.EMPTY);
+                for(int position = 0; position < emptyRandom.size(); position++) {
+                    command = gameEngine.checkMove(emptyRandom.get(position), StoneType.WHITE);
+                    gameEngine.placeBot(emptyRandom.get(position), StoneType.EMPTY);
 
-                command = "Stone" + command.substring(command.indexOf(";"));
+                    if (command.contains("YourMove")) {
+                        set = true;
+                        break;
+                    }
+                }
+
+                if(set) {
+                    command = "Stone" + command.substring(command.indexOf(";"));
+                }
+                else {
+                    command = "Pass;";
+                }
+
+                // RANDOM PLACES
+//                int position;
+//
+//                while (true) {
+//                    position = rnd.nextInt(361);
+//                    command = gameEngine.checkMove(position, StoneType.WHITE);
+//
+//                    if (command.contains("YourMove")) break;
+//                }
 
                 haveAnswer = true;
             } else if (serverCommand.equals("Pass")) {

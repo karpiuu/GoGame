@@ -10,9 +10,9 @@ public class Table {
     private Integer idUserWhite;    // Id of user playing While
     private Integer id;             // Id of table
     private Integer activePlayer;   // Id of current player making move
-    private boolean gameStart;
-    private boolean gameEnd;
-    private boolean botGame;
+    private boolean gameStart;      // If game stats
+    private boolean gameEnd;        // If game end phase started
+    private boolean botGame;        // If this is bot game
 
     private GameEngine gameEngine;  // Checks if move is correct, or give stones to delete, holds game table
 

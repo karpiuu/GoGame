@@ -1,14 +1,14 @@
 package Source.Connection;
 
+import Source.Exception.UnknownUserIdException;
+import Source.Exception.WrongSignalException;
+import Source.Game.GameEngine;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
-import Source.Exception.UnknownUserIdException;
-import Source.Exception.WrongSignalException;
-import Source.Game.GameEngine;
 
 public class UserConnection extends Thread {
 

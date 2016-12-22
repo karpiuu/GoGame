@@ -1,6 +1,5 @@
 package Tests;
 
-import Frames.LobbyFrame.LobbyFrame;
 import GameEngine.SignalOperation;
 
 import java.util.ArrayList;
