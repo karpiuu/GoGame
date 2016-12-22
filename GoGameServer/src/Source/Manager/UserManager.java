@@ -159,6 +159,12 @@ public class UserManager {
             if(name.contains(text)) return false;
         }
 
+        for( UserConnection i : user ) {
+            if(i != null) {
+                if(name.equals(i.getUserName())) return false;
+            }
+        }
+
         return true;
     }
 }
