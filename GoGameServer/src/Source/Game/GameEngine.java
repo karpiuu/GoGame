@@ -68,7 +68,7 @@ public class GameEngine {
                     numKill = 0;
                     deleteArea(move[0] + nearStone[i][0], move[1] + nearStone[i][1]);
 
-                    if( numKill == 1 ) {
+                    if( numKill == 1 && nearStonesCheck(move[0], move[1], type) == 0) {
                         newKilled.add( convertMove( move[0] + nearStone[i][0], move[1] + nearStone[i][1] ) );
                     }
 
@@ -464,5 +464,24 @@ public class GameEngine {
         }
 
         return empty;
+    }
+
+    private int nearStonesCheck(int x, int y, StoneType type) {
+        int howMuch = 0;
+
+        if(nearCheck(x-1, y, type)) howMuch++;
+        if(nearCheck(x+1, y, type)) howMuch++;
+        if(nearCheck(x, y-1, type)) howMuch++;
+        if(nearCheck(x, y+1, type)) howMuch++;
+
+        return howMuch;
+
+    }
+
+    private boolean nearCheck(int x, int y, StoneType type) {
+        if( x < 0 || x >= size || y < 0 || y >= size ) return false;
+
+        if( gameField[x][y].getStoneType().equals(type) ) return true;
+        else return false;
     }
 }

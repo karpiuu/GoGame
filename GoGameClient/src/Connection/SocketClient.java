@@ -30,7 +30,7 @@ public class SocketClient extends Thread  {
     {
         String ip;
 
-        ip = (String)JOptionPane.showInputDialog( null, "Write server ip: ", "192.168.0.11" );
+        ip = (String)JOptionPane.showInputDialog( null, "Write server ip: ", "172.20.10.3" );
 
         try
         {
